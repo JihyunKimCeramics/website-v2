@@ -306,6 +306,10 @@ export default function App({ Component, pageProps }) {
     data: pageProps.data,
   });
 
+  if (!data?.home) {
+    return <div>Loading...</div>;
+  }
+
   // Theme
   const fontColor = data.home.theme.textColour;
   const backgroundColor = data.home.theme.backgroundColour;
