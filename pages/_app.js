@@ -256,7 +256,7 @@ function SiteFooter({
             onMouseLeave={(e) =>
               (e.currentTarget.style.backgroundColor = buttonColor)
             }
-            href={`mailto:${data.home.footer.contact.link}`}
+            href={`mailto:${data.home.footer.contact.email}`}
           >
             <div className="text-xs xl:text-sm font-medium">
               {data.home.footer.contact.text}
