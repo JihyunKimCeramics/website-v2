@@ -1,15 +1,31 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+module.exports = {
+  mode: "jit",
+  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  content: [],
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        // background: "#FEFAF5",
+        button: "#f0e3d1",
+        buttonHover: "#e2d0b2",
+        background: "#f8f2ea",
+      },
+      fontFamily: {
+        sans: ["Mulish", "sans-serif"],
+      },
+      spacing: {
+        68: "17rem",
+        200: "45rem",
+        300: "55rem",
+        400: "70rem",
+      },
+      fontSize: {
+        smmd: "0.95rem",
+      },
+      height: {
+        0.08: "0.08rem",
+        0.1: "0.1rem",
       },
     },
   },
