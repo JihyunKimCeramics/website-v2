@@ -9,3 +9,11 @@
     height: calc(100vh - 8rem);
   }
 }
+
+html,
+body {
+  background-color: var(--background-color, #ffffff); /* Default white */
+  margin: 0; /* Remove default margins */
+  padding: 0;
+  min-height: 100%;
+}
