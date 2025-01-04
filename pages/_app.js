@@ -246,7 +246,7 @@ function SiteFooter({
           </a>
         )}
         {data.home.footer.contact.toggle && (
-          <div
+          <a
             className="h-9 px-4 flex flex-col justify-center rounded-full cursor-pointer"
             data-tina-field={tinaField(data.home.footer, "contact")}
             style={{ backgroundColor: buttonColor }}
@@ -256,12 +256,12 @@ function SiteFooter({
             onMouseLeave={(e) =>
               (e.currentTarget.style.backgroundColor = buttonColor)
             }
-            onClick={() => showSignUpBox()}
+            href={`mailto:${data.home.footer.contact.link}`}
           >
             <div className="text-xs xl:text-sm font-medium">
               {data.home.footer.contact.text}
             </div>
-          </div>
+          </a>
         )}
         {data.home.footer.faqs.toggle && (
           <div
@@ -350,6 +350,11 @@ export default function App({ Component, pageProps }) {
         backgroundColor,
       }}
     >
+      <Head>
+        <title>Jihyun Kim Ceramic</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       {/* Mobile Menu */}
       <MobileMenu
         mobileMenuOpen={mobileMenuOpen}
@@ -359,10 +364,6 @@ export default function App({ Component, pageProps }) {
         buttonColor={buttonColor}
         buttonHoverColor={buttonHoverColor}
       />
-
-      <Head>
-        <title>Jihyun Kim Ceramic</title>
-      </Head>
 
       <div className="pt-10 xl:pt-14 pb-16 lg:pb-24">
         <SiteHeader
