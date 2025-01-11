@@ -520,6 +520,18 @@ export default function App({ Component, pageProps }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Set background color
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      "--background-color",
+      backgroundColor
+    );
+
+    return () => {
+      document.documentElement.style.removeProperty("--background-color");
+    };
+  }, [backgroundColor]);
+
   return (
     <div
       style={{
