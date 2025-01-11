@@ -10,6 +10,8 @@ import shop from "../public/images/shop.svg";
 import insta from "../public/images/insta.svg";
 import close from "../public/images/close.svg";
 import rightArrow from "../public/images/right_arrow.svg";
+import upArrow from "../public/images/up.svg";
+import downArrow from "../public/images/down.svg";
 
 function MobileMenu({
   mobileMenuOpen,
@@ -103,6 +105,142 @@ function MobileMenu({
   );
 }
 
+function Faqs({
+  data,
+  faqsOpen,
+  setFaqsOpen,
+  backgroundColor,
+  fontColor,
+  buttonColor,
+  buttonHoverColor,
+}) {
+  // get faq data from tina, and map each faq to a button and content, don't define hard coded questions and answers
+
+  const [openIndex, setOpenIndex] = useState(null);
+  const contentRefs = useRef([]);
+
+  // **ADD** a ref to the outer container
+  const popupRef = useRef(null);
+
+  // Expand/collapse logic
+  const toggleOpen = (index) => {
+    setOpenIndex((cur) => (cur === index ? null : index));
+  };
+
+  useEffect(() => {
+    contentRefs.current.forEach((content, i) => {
+      if (!content) return;
+      if (i === openIndex) {
+        content.style.height = content.scrollHeight + "px";
+      } else {
+        content.style.height = "0px";
+      }
+    });
+  }, [openIndex]);
+
+  // **Auto-scroll to top** of the popup container on open
+  useEffect(() => {
+    if (faqsOpen && popupRef.current) {
+      // If we want a smooth scroll, we can do:
+      popupRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [faqsOpen]);
+
+  return (
+    <div
+      ref={popupRef}
+      className={`
+        fixed 
+        top-0 left-0
+        w-full
+        h-full        /* or min-h-screen, up to you */
+        z-20
+        transition-opacity
+        duration-300
+        overflow-y-auto  /* so we can scroll FAQ content if it is tall */
+        ${faqsOpen ? "opacity-100" : "opacity-0 pointer-events-none"}
+      `}
+      style={{
+        backgroundColor,
+      }}
+    >
+      {/* Close Button Row */}
+      <div className="pt-10 xl:pt-14 flex flex-row justify-end mx-12 sm:mx-20">
+        <div
+          className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
+          onClick={() => setFaqsOpen(!faqsOpen)}
+        >
+          <DynamicSvg src={close.src} color={fontColor} />
+        </div>
+      </div>
+
+      {/* Accordion FAQs */}
+      <div className="flex flex-row justify-center mx-12 sm:mx-20">
+        <div className="flex flex-col justify-start gap-6 mt-4 pb-10 w-full max-w-150 xl:max-w-200">
+          <h2 className="text-center text-2xl mb-2">
+            Frequently Asked Questions
+          </h2>
+          {data.home.footer.faqs.faqs.map((faq, index) => (
+            <div
+              key={index}
+              className="rounded-xl"
+              style={{ backgroundColor: buttonColor }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = buttonHoverColor)
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = buttonColor)
+              }
+            >
+              <button
+                onClick={() => toggleOpen(index)}
+                className={`w-full text-left flex justify-between items-start p-4 transition-all duration-300 ${
+                  openIndex === index ? "pb-2.5" : "pb-4"
+                }`}
+                style={{ color: fontColor }}
+              >
+                <span className="text-base sm:text-lg">{faq.question}</span>
+                <div className="relative w-5 h-5 ml-2 flex-shrink-0">
+                  {/* Arrow #1: "Up" arrow, shown when closed */}
+                  <DynamicSvg
+                    src={upArrow.src}
+                    color={fontColor}
+                    className={`absolute inset-0 transition-opacity duration-300 ${
+                      openIndex === index ? "opacity-0" : "opacity-100"
+                    } mt-1.5`}
+                  />
+
+                  {/* Arrow #2: "Down" arrow, shown when open */}
+                  <DynamicSvg
+                    src={downArrow.src}
+                    color={fontColor}
+                    className={`absolute inset-0 w-4 h-4 transition-opacity duration-300 ${
+                      openIndex === index ? "opacity-100" : "opacity-0"
+                    } mt-1.5`}
+                  />
+                </div>
+              </button>
+
+              <div
+                ref={(el) => (contentRefs.current[index] = el)}
+                className="overflow-hidden transition-[height] duration-300 ease-out"
+                style={{ height: 0 }}
+              >
+                <p
+                  className="px-4 pb-4 text-sm sm:text-base font-light"
+                  style={{ color: fontColor }}
+                >
+                  {faq.answer}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SiteHeader({
   data,
   mobileMenuOpen,
@@ -175,8 +313,9 @@ function SiteFooter({
   fontColor,
   buttonColor,
   buttonHoverColor,
-  showSignUpBox,
   backgroundColor,
+  faqsOpen,
+  setFaqsOpen,
 }) {
   return (
     <div className="mt-16 lg:mt-24 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto flex flex-col justify-start gap-6">
@@ -274,9 +413,11 @@ function SiteFooter({
             onMouseLeave={(e) =>
               (e.currentTarget.style.backgroundColor = buttonColor)
             }
-            onClick={() => showSignUpBox()}
           >
-            <div className="text-xs xl:text-sm font-medium">
+            <div
+              className="text-xs xl:text-sm font-medium"
+              onClick={() => setFaqsOpen(!faqsOpen)}
+            >
               {data.home.footer.faqs.text}
             </div>
           </div>
@@ -296,8 +437,16 @@ function SiteFooter({
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const [opacity, setOpacity] = useState(1);
+
+  // States
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [faqsOpen, setFaqsOpen] = useState(false);
+
+  // If ANY popup is open, we lock scroll.
+  const isPopupOpen = mobileMenuOpen || faqsOpen;
+
+  // For preserving scroll position
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
 
   // Tina data
   const { data } = useTina({
@@ -306,6 +455,7 @@ export default function App({ Component, pageProps }) {
     data: pageProps.data,
   });
 
+  // Basic check
   if (!data?.home) {
     return <div>Loading...</div>;
   }
@@ -316,19 +466,8 @@ export default function App({ Component, pageProps }) {
   const buttonColor = data.home.theme.buttonColour;
   const buttonHoverColor = data.home.theme.buttonHoverColour;
 
-  // Set background color
-  useEffect(() => {
-    document.documentElement.style.setProperty(
-      "--background-color",
-      backgroundColor
-    );
-
-    return () => {
-      document.documentElement.style.removeProperty("--background-color");
-    };
-  }, [backgroundColor]);
-
-  // Fade in/out on route changes
+  // 1) Fade in/out on route changes (same as before)
+  const [opacity, setOpacity] = useState(1);
   useEffect(() => {
     const handleRouteChangeStart = () => setOpacity(0);
     const handleRouteChangeComplete = () => setOpacity(1);
@@ -344,23 +483,51 @@ export default function App({ Component, pageProps }) {
     };
   }, [router]);
 
-  // Lock scroll on mobile menu
+  // 2) Lock body scroll & preserve position if ANY popup is open
   useEffect(() => {
-    if (mobileMenuOpen) {
-      window.scrollTo(0, 0);
-      document.body.style.overflow = "hidden";
+    if (isPopupOpen) {
+      const scrollY = window.scrollY;
+      setPrevScrollPos(scrollY);
+
+      // Freeze body in place
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
     } else {
-      document.body.style.overflow = "auto";
+      // Unfreeze body
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+
+      // Restore scroll
+      window.scrollTo({ top: prevScrollPos, behavior: "auto" });
     }
-  }, [mobileMenuOpen]);
+  }, [isPopupOpen, prevScrollPos]);
+
+  // 3) Close mobile menu if resized beyond your breakpoint
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth >= 768) {
+        setMobileMenuOpen(false);
+      }
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize(); // call on mount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div
       style={{
-        opacity,
+        opacity, // route-change fade
         color: fontColor,
         backgroundColor,
       }}
+      className="relative" // so popups can stack over it
     >
       <Head>
         <title>Jihyun Kim Ceramic</title>
@@ -371,17 +538,8 @@ export default function App({ Component, pageProps }) {
         />
       </Head>
 
-      {/* Mobile Menu */}
-      <MobileMenu
-        mobileMenuOpen={mobileMenuOpen}
-        setMobileMenuOpen={setMobileMenuOpen}
-        backgroundColor={backgroundColor}
-        fontColor={fontColor}
-        buttonColor={buttonColor}
-        buttonHoverColor={buttonHoverColor}
-      />
-
-      <div className="pt-10 xl:pt-14 pb-16 lg:pb-24">
+      {/* MAIN CONTENT (always rendered, never hidden) */}
+      <div className="pt-10 xl:pt-14 pb-16 lg:pb-24 transition-opacity duration-300">
         <SiteHeader
           data={data}
           mobileMenuOpen={mobileMenuOpen}
@@ -399,8 +557,30 @@ export default function App({ Component, pageProps }) {
           buttonColor={buttonColor}
           buttonHoverColor={buttonHoverColor}
           backgroundColor={backgroundColor}
+          faqsOpen={faqsOpen}
+          setFaqsOpen={setFaqsOpen}
         />
       </div>
+
+      {/* POPUPS (stacked on top, typically using fixed + z-index) */}
+      <MobileMenu
+        mobileMenuOpen={mobileMenuOpen}
+        setMobileMenuOpen={setMobileMenuOpen}
+        backgroundColor={backgroundColor}
+        fontColor={fontColor}
+        buttonColor={buttonColor}
+        buttonHoverColor={buttonHoverColor}
+      />
+
+      <Faqs
+        data={data}
+        faqsOpen={faqsOpen}
+        setFaqsOpen={setFaqsOpen}
+        backgroundColor={backgroundColor}
+        fontColor={fontColor}
+        buttonColor={buttonColor}
+        buttonHoverColor={buttonHoverColor}
+      />
     </div>
   );
 }
