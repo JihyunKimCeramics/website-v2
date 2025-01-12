@@ -1,0 +1,87 @@
+import React from "react";
+import DynamicSvg from "./DynamicSvg";
+import { tinaField } from "tinacms/dist/react";
+import menu from "../public/images/menu.svg";
+import shop from "../public/images/shop.svg";
+import { TinaMarkdown } from "tinacms/dist/rich-text";
+
+export default function Header({
+  data,
+  mobileMenuOpen,
+  setMobileMenuOpen,
+  fontColor,
+  buttonColor,
+  buttonHoverColor,
+  bannerColor,
+}) {
+  return (
+    <>
+      {data.home.header.showBanner && (
+        <div
+          className="w-full flex flex-row justify-center items-center py-3 px-12 sm:px-20"
+          style={{ backgroundColor: bannerColor }}
+          data-tina-field={tinaField(data.home.header, "bannerText")}
+        >
+          <div className="text-sm lg:text-sm xl:text-base text-center">
+            <TinaMarkdown content={data.home.header.bannerText} />
+          </div>
+        </div>
+      )}
+      <div className="pt-10 xl:pt-14 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto flex flex-row justify-between">
+        <h1
+          className="font-light text-xl md:text-2xl my-auto"
+          data-tina-field={tinaField(data.home.header, "title")}
+        >
+          {data.home.header.title}
+        </h1>
+        <div
+          className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer md:hidden"
+          style={{ backgroundColor: buttonColor }}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.backgroundColor = buttonHoverColor)
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.backgroundColor = buttonColor)
+          }
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          <DynamicSvg
+            src={menu.src}
+            color={fontColor}
+            className="mx-auto my-auto"
+          />
+        </div>
+        <div className="hidden md:flex gap-6 lg:gap-7 xl:gap-8 text-sm lg:text-smmd xl:text-base">
+          <a className="my-auto hover:opacity-70" href="#">
+            Projects
+          </a>
+          <a className="my-auto hover:opacity-70" href="#">
+            About
+          </a>
+          <a className="my-auto hover:opacity-70" href="#">
+            Shop
+          </a>
+          <a className="my-auto hover:opacity-70" href="#">
+            Exhibitions
+          </a>
+          <div
+            className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
+            style={{ backgroundColor: buttonColor }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.backgroundColor = buttonHoverColor)
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.backgroundColor = buttonColor)
+            }
+          >
+            <DynamicSvg
+              src={shop.src}
+              color={fontColor}
+              className="mx-auto my-auto"
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
