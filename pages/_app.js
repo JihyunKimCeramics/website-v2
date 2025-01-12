@@ -32,7 +32,7 @@ function MobileMenu({
         top-0
         left-0
         z-20
-        transition-opacity
+        transition-all
         duration-300
         ${mobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"}
       `}
@@ -114,15 +114,10 @@ function Faqs({
   buttonColor,
   buttonHoverColor,
 }) {
-  // get faq data from tina, and map each faq to a button and content, don't define hard coded questions and answers
-
   const [openIndex, setOpenIndex] = useState(null);
   const contentRefs = useRef([]);
-
-  // **ADD** a ref to the outer container
   const popupRef = useRef(null);
 
-  // Expand/collapse logic
   const toggleOpen = (index) => {
     setOpenIndex((cur) => (cur === index ? null : index));
   };
@@ -138,11 +133,9 @@ function Faqs({
     });
   }, [openIndex]);
 
-  // **Auto-scroll to top** of the popup container on open
   useEffect(() => {
     if (faqsOpen && popupRef.current) {
-      // If we want a smooth scroll, we can do:
-      popupRef.current.scrollTo({ top: 0, behavior: "smooth" });
+      popupRef.current.scrollTop = 0;
     }
   }, [faqsOpen]);
 
@@ -150,18 +143,19 @@ function Faqs({
     <div
       ref={popupRef}
       className={`
-        fixed 
-        top-0 left-0
-        w-full
-        h-full        /* or min-h-screen, up to you */
-        z-20
-        transition-opacity
-        duration-300
-        overflow-y-auto  /* so we can scroll FAQ content if it is tall */
-        ${faqsOpen ? "opacity-100" : "opacity-0 pointer-events-none"}
-      `}
+          fixed 
+          top-0 left-0
+          w-full
+          h-full
+          z-20
+          transition-opacity
+          duration-300
+          overflow-y-auto
+          ${faqsOpen ? "opacity-100" : "opacity-0 pointer-events-none"}
+        `}
       style={{
         backgroundColor,
+        overflowY: faqsOpen ? "auto" : "hidden",
       }}
     >
       {/* Close Button Row */}
@@ -201,7 +195,6 @@ function Faqs({
               >
                 <span className="text-base sm:text-lg">{faq.question}</span>
                 <div className="relative w-5 h-5 ml-2 flex-shrink-0">
-                  {/* Arrow #1: "Up" arrow, shown when closed */}
                   <DynamicSvg
                     src={upArrow.src}
                     color={fontColor}
@@ -209,8 +202,6 @@ function Faqs({
                       openIndex === index ? "opacity-0" : "opacity-100"
                     } mt-1.5`}
                   />
-
-                  {/* Arrow #2: "Down" arrow, shown when open */}
                   <DynamicSvg
                     src={downArrow.src}
                     color={fontColor}
@@ -220,7 +211,6 @@ function Faqs({
                   />
                 </div>
               </button>
-
               <div
                 ref={(el) => (contentRefs.current[index] = el)}
                 className="overflow-hidden transition-[height] duration-300 ease-out"
@@ -486,25 +476,28 @@ export default function App({ Component, pageProps }) {
   // 2) Lock body scroll & preserve position if ANY popup is open
   useEffect(() => {
     if (isPopupOpen) {
+      // Store current scroll position
       const scrollY = window.scrollY;
       setPrevScrollPos(scrollY);
 
-      // Freeze body in place
+      // Apply fixed position BEFORE the modal appears
       document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = "0";
-      document.body.style.right = "0";
       document.body.style.width = "100%";
-    } else {
-      // Unfreeze body
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.width = "";
+      document.body.style.top = `-${scrollY}px`;
 
-      // Restore scroll
-      window.scrollTo({ top: prevScrollPos, behavior: "auto" });
+      return () => {
+        // Cleanup function to handle unexpected unmounts
+        document.body.style.position = "";
+        document.body.style.width = "";
+        document.body.style.top = "";
+        window.scrollTo(0, scrollY);
+      };
+    } else {
+      // Restore scroll position immediately
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+      window.scrollTo(0, prevScrollPos);
     }
   }, [isPopupOpen, prevScrollPos]);
 
@@ -551,7 +544,7 @@ export default function App({ Component, pageProps }) {
       </Head>
 
       {/* MAIN CONTENT (always rendered, never hidden) */}
-      <div className="pt-10 xl:pt-14 pb-16 lg:pb-24 transition-opacity duration-300">
+      <div className="pt-10 xl:pt-14 pb-16 lg:pb-24 transition-all duration-300">
         <SiteHeader
           data={data}
           mobileMenuOpen={mobileMenuOpen}
