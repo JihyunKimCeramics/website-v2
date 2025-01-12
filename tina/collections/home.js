@@ -357,6 +357,41 @@ const home = {
       fields: [
         {
           type: "object",
+          name: "signup",
+          label: "Signup",
+          fields: [
+            {
+              type: "boolean",
+              name: "toggle",
+              label: "Show / hide",
+              description: "Show or hide the signup form.",
+              required: true,
+            },
+            {
+              type: "string",
+              name: "text",
+              label: "Text",
+              description: "Choose the text for the signup form.",
+              required: true,
+            },
+            {
+              type: "string",
+              name: "placeholder",
+              label: "Placeholder",
+              description: "Choose the placeholder for the email input.",
+              required: true,
+            },
+            {
+              type: "string",
+              name: "thankYouMessage",
+              label: "Thank you message",
+              description: "Choose the message for the thank you message.",
+              required: true,
+            },
+          ],
+        },
+        {
+          type: "object",
           name: "insta",
           label: "Instagram",
           fields: [
