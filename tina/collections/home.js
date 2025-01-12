@@ -404,6 +404,13 @@ const home = {
               description: "Choose the text for the button.",
             },
             {
+              type: "string",
+              name: "title",
+              label: "Title",
+              description: "Title for the FAQs section.",
+              required: true,
+            },
+            {
               type: "object",
               name: "faqs",
               label: "FAQs",
@@ -421,7 +428,7 @@ const home = {
                   description: "Put the question here.",
                 },
                 {
-                  type: "string",
+                  type: "rich-text",
                   name: "answer",
                   label: "Answer",
                   description: "Put the answer here.",
