@@ -53,12 +53,12 @@ export default function Faqs({
               overflowY: faqsOpen ? "auto" : "hidden",
             }}
           >
-            <div className="pt-10 xl:pt-14 flex flex-row justify-end mx-12 sm:mx-20">
+            <div className="pt-10 xl:pt-14 flex flex-row justify-end mx-12 sm:mx-20 md:mx-auto md:w-200 lg:w-300 xl:w-400">
               <div
                 className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
                 onClick={() => {
                   setFaqsOpen(false);
-                  setOpenIndex(null);
+                  setTimeout(() => setOpenIndex(null), 300);
                 }}
               >
                 <DynamicSvg src={close.src} color={fontColor} />

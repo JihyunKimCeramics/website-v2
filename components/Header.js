@@ -18,11 +18,11 @@ export default function Header({
     <>
       {data.home.header.showBanner && (
         <div
-          className="w-full flex flex-row justify-center items-center py-3 px-12 sm:px-20"
+          className="w-full flex flex-row justify-center items-center py-3"
           style={{ backgroundColor: bannerColor }}
           data-tina-field={tinaField(data.home.header, "bannerText")}
         >
-          <div className="text-sm lg:text-sm xl:text-base text-center">
+          <div className="text-sm lg:text-sm xl:text-base text-center mx-12 sm:mx-20 md:mx-auto md:w-200 lg:w-300 xl:w-400">
             <TinaMarkdown content={data.home.header.bannerText} />
           </div>
         </div>
