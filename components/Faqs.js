@@ -67,7 +67,10 @@ export default function Faqs({
             </div>
             <div className="flex flex-row justify-center mx-12 -mt-2 sm:mx-20">
               <div className="flex flex-col justify-start gap-6 pb-10 w-full max-w-150 xl:max-w-200">
-                <h2 className="text-center text-2xl mb-2">
+                <h2
+                  className="text-center text-2xl mb-2"
+                  data-tina-field={tinaField(data.home.footer.faqs, "title")}
+                >
                   {data.home.footer.faqs.title}
                 </h2>
                 {data.home.footer.faqs.faqs.map((faq, index) => {
