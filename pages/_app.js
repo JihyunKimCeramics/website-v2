@@ -166,7 +166,10 @@ function Faqs({
             <div className="pt-10 xl:pt-14 flex flex-row justify-end mx-12 sm:mx-20">
               <div
                 className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
-                onClick={() => setFaqsOpen(!faqsOpen)}
+                onClick={() => {
+                  setFaqsOpen(false);
+                  setOpenIndex(null);
+                }}
               >
                 <DynamicSvg src={close.src} color={fontColor} />
               </div>
@@ -178,24 +181,16 @@ function Faqs({
                   {data.home.footer.faqs.title}
                 </h2>
                 {data.home.footer.faqs.faqs.map((faq, index) => {
-                  // Only render if both question & answer exist
                   if (!faq.question || !faq.answer) return null;
 
                   return (
                     <div
                       key={index}
-                      className="rounded-xl"
+                      className="rounded-xl cursor-pointer"
                       style={{ backgroundColor: buttonColor }}
-                      onMouseEnter={(e) =>
-                        (e.currentTarget.style.backgroundColor =
-                          buttonHoverColor)
-                      }
-                      onMouseLeave={(e) =>
-                        (e.currentTarget.style.backgroundColor = buttonColor)
-                      }
+                      onClick={() => toggleOpen(index)}
                     >
                       <button
-                        onClick={() => toggleOpen(index)}
                         className={`w-full text-left flex justify-between items-start p-4 transition-all duration-300 ${
                           openIndex === index ? "pb-2.5" : "pb-4"
                         }`}
@@ -206,14 +201,14 @@ function Faqs({
                         </span>
                         <div className="relative w-5 h-5 ml-2 flex-shrink-0">
                           <DynamicSvg
-                            src={upArrow.src}
+                            src={downArrow.src}
                             color={fontColor}
                             className={`absolute inset-0 transition-opacity duration-300 ${
                               openIndex === index ? "opacity-0" : "opacity-100"
                             } mt-1.5`}
                           />
                           <DynamicSvg
-                            src={downArrow.src}
+                            src={upArrow.src}
                             color={fontColor}
                             className={`absolute inset-0 w-4 h-4 transition-opacity duration-300 ${
                               openIndex === index ? "opacity-100" : "opacity-0"
@@ -230,7 +225,6 @@ function Faqs({
                           className="px-4 pb-4 text-sm sm:text-base font-light prose max-w-none"
                           style={{ color: fontColor }}
                         >
-                          {/* Add proper styling to TinaMarkdown wrapper */}
                           <div className="space-y-4">
                             <TinaMarkdown content={faq.answer} />
                           </div>
