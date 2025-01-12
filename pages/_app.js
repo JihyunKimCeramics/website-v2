@@ -227,10 +227,13 @@ function Faqs({
                         style={{ height: 0 }}
                       >
                         <div
-                          className="px-4 pb-4 text-sm sm:text-base font-light"
+                          className="px-4 pb-4 text-sm sm:text-base font-light prose max-w-none"
                           style={{ color: fontColor }}
                         >
-                          <TinaMarkdown content={faq.answer} />
+                          {/* Add proper styling to TinaMarkdown wrapper */}
+                          <div className="space-y-4">
+                            <TinaMarkdown content={faq.answer} />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -251,47 +254,30 @@ function SiteHeader({
   fontColor,
   buttonColor,
   buttonHoverColor,
+  bannerColor,
 }) {
   return (
-    <div className="md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto flex flex-row justify-between">
-      <h1
-        className="font-light text-xl md:text-2xl my-auto"
-        data-tina-field={tinaField(data.home.header, "title")}
-      >
-        {data.home.header.title}
-      </h1>
-      <div
-        className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer md:hidden"
-        style={{ backgroundColor: buttonColor }}
-        onMouseEnter={(e) =>
-          (e.currentTarget.style.backgroundColor = buttonHoverColor)
-        }
-        onMouseLeave={(e) =>
-          (e.currentTarget.style.backgroundColor = buttonColor)
-        }
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-      >
-        <DynamicSvg
-          src={menu.src}
-          color={fontColor}
-          className="mx-auto my-auto"
-        />
-      </div>
-      <div className="hidden md:flex gap-6 lg:gap-7 xl:gap-8 text-sm lg:text-smmd xl:text-base">
-        <a className="my-auto hover:opacity-70" href="#">
-          Projects
-        </a>
-        <a className="my-auto hover:opacity-70" href="#">
-          About
-        </a>
-        <a className="my-auto hover:opacity-70" href="#">
-          Shop
-        </a>
-        <a className="my-auto hover:opacity-70" href="#">
-          Exhibitions
-        </a>
+    <>
+      {data.home.header.showBanner && (
         <div
-          className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
+          className="w-full flex flex-row justify-center items-center py-3 px-12 sm:px-20"
+          style={{ backgroundColor: bannerColor }}
+          data-tina-field={tinaField(data.home.header, "bannerText")}
+        >
+          <div className="text-sm lg:text-sm xl:text-base text-center">
+            <TinaMarkdown content={data.home.header.bannerText} />
+          </div>
+        </div>
+      )}
+      <div className="pt-10 xl:pt-14 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto flex flex-row justify-between">
+        <h1
+          className="font-light text-xl md:text-2xl my-auto"
+          data-tina-field={tinaField(data.home.header, "title")}
+        >
+          {data.home.header.title}
+        </h1>
+        <div
+          className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer md:hidden"
           style={{ backgroundColor: buttonColor }}
           onMouseEnter={(e) =>
             (e.currentTarget.style.backgroundColor = buttonHoverColor)
@@ -299,15 +285,46 @@ function SiteHeader({
           onMouseLeave={(e) =>
             (e.currentTarget.style.backgroundColor = buttonColor)
           }
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           <DynamicSvg
-            src={shop.src}
+            src={menu.src}
             color={fontColor}
             className="mx-auto my-auto"
           />
         </div>
+        <div className="hidden md:flex gap-6 lg:gap-7 xl:gap-8 text-sm lg:text-smmd xl:text-base">
+          <a className="my-auto hover:opacity-70" href="#">
+            Projects
+          </a>
+          <a className="my-auto hover:opacity-70" href="#">
+            About
+          </a>
+          <a className="my-auto hover:opacity-70" href="#">
+            Shop
+          </a>
+          <a className="my-auto hover:opacity-70" href="#">
+            Exhibitions
+          </a>
+          <div
+            className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
+            style={{ backgroundColor: buttonColor }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.backgroundColor = buttonHoverColor)
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.backgroundColor = buttonColor)
+            }
+          >
+            <DynamicSvg
+              src={shop.src}
+              color={fontColor}
+              className="mx-auto my-auto"
+            />
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -468,6 +485,7 @@ export default function App({ Component, pageProps }) {
   const backgroundColor = data.home.theme.backgroundColour;
   const buttonColor = data.home.theme.buttonColour;
   const buttonHoverColor = data.home.theme.buttonHoverColour;
+  const BannerColor = data.home.theme.bannerColour;
 
   // 1) Fade in/out on route changes (same as before)
   const [opacity, setOpacity] = useState(1);
@@ -557,7 +575,7 @@ export default function App({ Component, pageProps }) {
       </Head>
 
       {/* MAIN CONTENT (always rendered, never hidden) */}
-      <div className="pt-10 xl:pt-14 pb-16 lg:pb-24 transition-all duration-300">
+      <div className="pb-16 lg:pb-24 transition-all duration-300">
         <SiteHeader
           data={data}
           mobileMenuOpen={mobileMenuOpen}
@@ -565,6 +583,7 @@ export default function App({ Component, pageProps }) {
           fontColor={fontColor}
           buttonColor={buttonColor}
           buttonHoverColor={buttonHoverColor}
+          bannerColor={BannerColor}
         />
 
         <Component {...pageProps} />

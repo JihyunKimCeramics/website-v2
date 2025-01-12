@@ -21,6 +21,19 @@ const home = {
           label: "Title",
           description: "The title of the website.",
         },
+        {
+          type: "boolean",
+          name: "showBanner",
+          label: "Show Banner",
+          description: "Show or hide the banner.",
+        },
+        {
+          type: "rich-text",
+          name: "bannerText",
+          label: "Banner Text",
+          description: "The text for the banner.",
+          toolbarOverride: ["bold", "italic"],
+        },
       ],
     },
     {
@@ -432,6 +445,7 @@ const home = {
                   name: "answer",
                   label: "Answer",
                   description: "Put the answer here.",
+                  toolbarOverride: ["bold", "italic"],
                 },
               ],
             },
@@ -504,6 +518,18 @@ const home = {
           name: "buttonHoverColour",
           label: "Button Hover Colour",
           description: "The colour of buttons when hovering on the website.",
+          required: true,
+          ui: {
+            component: "color",
+            colorFormat: "hex",
+            widget: "sketch",
+          },
+        },
+        {
+          type: "string",
+          name: "bannerColour",
+          label: "Banner Colour",
+          description: "The colour of the banner.",
           required: true,
           ui: {
             component: "color",
