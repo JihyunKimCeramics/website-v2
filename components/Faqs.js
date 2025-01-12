@@ -4,6 +4,7 @@ import { TinaMarkdown } from "tinacms/dist/rich-text";
 import close from "../public/images/close.svg";
 import downArrow from "../public/images/down.svg";
 import upArrow from "../public/images/up.svg";
+import { tinaField } from "tinacms/dist/react";
 
 export default function Faqs({
   data,
@@ -84,7 +85,10 @@ export default function Faqs({
                         }`}
                         style={{ color: fontColor }}
                       >
-                        <span className="text-base sm:text-lg">
+                        <span
+                          className="text-base sm:text-lg"
+                          data-tina-field={tinaField(faq, "question")}
+                        >
                           {faq.question}
                         </span>
                         <div className="relative w-5 h-5 ml-2 flex-shrink-0">
@@ -113,7 +117,10 @@ export default function Faqs({
                           className="px-4 pb-4 text-sm sm:text-base font-light prose max-w-none"
                           style={{ color: fontColor }}
                         >
-                          <div className="space-y-4">
+                          <div
+                            className="space-y-4"
+                            data-tina-field={tinaField(faq, "answer")}
+                          >
                             <TinaMarkdown content={faq.answer} />
                           </div>
                         </div>

@@ -51,7 +51,6 @@ export default function Footer({
                 backgroundColor,
                 boxShadow: "0px 3px 19.5px 3px rgba(0, 0, 0, 0.07",
               }}
-              data-tina-field={tinaField(data.home.footer, "signup")}
             >
               <div className="flex justify-between items-center">
                 <div
@@ -71,16 +70,16 @@ export default function Footer({
                     }}
                     type="email"
                     placeholder={data.home.footer.signup.placeholder}
-                    data-tina-field={tinaField(
-                      data.home.footer.signup,
-                      "placeholder"
-                    )}
+                    // data-tina-field={tinaField(
+                    //   data.home.footer.signup,
+                    //   "placeholder"
+                    // )}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   <div
                     className={`text-xs text-red-500 transition-all duration-300 overflow-hidden ${
-                      invalidEmail ? "h-auto pt-2" : "h-0 pt-0"
+                      invalidEmail ? "h-auto mt-2" : "h-0 pt-0"
                     }`}
                   >
                     Please enter a valid email
@@ -155,7 +154,6 @@ export default function Footer({
           {data.home.footer.faqs.toggle && (
             <div
               className="h-9 px-4 flex flex-col justify-center rounded-full cursor-pointer"
-              data-tina-field={tinaField(data.home.footer, "faqs")}
               style={{ backgroundColor: buttonColor }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.backgroundColor = buttonHoverColor)
@@ -167,6 +165,7 @@ export default function Footer({
               <div
                 className="text-xs xl:text-sm font-medium"
                 onClick={() => setFaqsOpen(!faqsOpen)}
+                // data-tina-field={tinaField(data.home.footer, "faqs")}
               >
                 {data.home.footer.faqs.text}
               </div>
