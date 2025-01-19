@@ -3,7 +3,6 @@ import DynamicSvg from "./DynamicSvg";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 import close from "../public/images/close.svg";
 import downArrow from "../public/images/down.svg";
-import upArrow from "../public/images/up.svg";
 import { tinaField } from "tinacms/dist/react";
 
 export default function Faqs({
@@ -13,7 +12,6 @@ export default function Faqs({
   backgroundColor,
   fontColor,
   buttonColor,
-  buttonHoverColor,
 }) {
   const [openIndex, setOpenIndex] = useState(null);
   const contentRefs = useRef([]);

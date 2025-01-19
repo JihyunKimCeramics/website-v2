@@ -114,7 +114,6 @@ export default function Layout({ data, children }) {
         backgroundColor={backgroundColor}
         fontColor={fontColor}
         buttonColor={buttonColor}
-        buttonHoverColor={buttonHoverColor}
       />
     </div>
   );

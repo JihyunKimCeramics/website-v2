@@ -165,7 +165,6 @@ export default function Footer({
               <div
                 className="text-xs xl:text-sm font-medium"
                 onClick={() => setFaqsOpen(!faqsOpen)}
-                // data-tina-field={tinaField(data.home.footer, "faqs")}
               >
                 {data.home.footer.faqs.text}
               </div>
