@@ -94,22 +94,16 @@ export default function Faqs({
                         >
                           {faq.question}
                         </span>
-                        <div className="relative w-5 h-5 ml-2 flex-shrink-0">
-                          <DynamicSvg
-                            src={downArrow.src}
-                            color={fontColor}
-                            className={`absolute inset-0 transition-opacity duration-300 ${
-                              openIndex === index ? "opacity-0" : "opacity-100"
-                            } mt-1.5`}
-                          />
-                          <DynamicSvg
-                            src={upArrow.src}
-                            color={fontColor}
-                            className={`absolute inset-0 w-4 h-4 transition-opacity duration-300 ${
-                              openIndex === index ? "opacity-100" : "opacity-0"
-                            } mt-1.5`}
-                          />
-                        </div>
+                        <DynamicSvg
+                          src={downArrow.src}
+                          color={fontColor}
+                          className={`transition-transform duration-300 my-auto
+              ${openIndex === index ? "rotate-180" : "rotate-0"}`}
+                          style={{
+                            transformOrigin: "center",
+                            transformBox: "fill-box",
+                          }}
+                        />
                       </button>
                       <div
                         ref={(el) => (contentRefs.current[index] = el)}
