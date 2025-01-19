@@ -14,7 +14,7 @@ export default function MobileMenu({
   return (
     <div
       id="Menu"
-      className={`md:hidden w-full h-screen absolute top-0 left-0 z-20 transition-all duration-300 ${
+      className={`md:hidden w-full h-full fixed top-0 left-0 z-20 transition-all duration-300 ${
         mobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
       style={{ backgroundColor }}
