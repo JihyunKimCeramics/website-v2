@@ -161,11 +161,9 @@ export default function Footer({
               onMouseLeave={(e) =>
                 (e.currentTarget.style.backgroundColor = buttonColor)
               }
+              onClick={() => setFaqsOpen(!faqsOpen)}
             >
-              <div
-                className="text-xs xl:text-sm font-medium"
-                onClick={() => setFaqsOpen(!faqsOpen)}
-              >
+              <div className="text-xs xl:text-sm font-medium">
                 {data.home.footer.faqs.text}
               </div>
             </div>
