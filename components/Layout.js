@@ -6,6 +6,7 @@ import MobileMenu from "./MobileMenu";
 import Faqs from "./Faqs";
 
 export default function Layout({ data, children }) {
+  console.log(data);
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [faqsOpen, setFaqsOpen] = useState(false);
@@ -14,8 +15,9 @@ export default function Layout({ data, children }) {
   const backgroundColor = data.home.theme.backgroundColour;
   const buttonColor = data.home.theme.buttonColour;
   const buttonHoverColor = data.home.theme.buttonHoverColour;
-  const bannerColor = data.home.theme.bannerColour;
+  const bannerColor = data.home.header.bannerColour;
   const isPopupOpen = mobileMenuOpen || faqsOpen;
+  const showProjectsPage = data.projects.header.showProjectsPage;
   const [opacity, setOpacity] = useState(1);
 
   useEffect(() => {
@@ -87,6 +89,7 @@ export default function Layout({ data, children }) {
           buttonColor={buttonColor}
           buttonHoverColor={buttonHoverColor}
           bannerColor={bannerColor}
+          showProjectsPage={showProjectsPage}
         />
         {children}
         <Footer

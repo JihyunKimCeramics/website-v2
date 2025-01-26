@@ -244,16 +244,37 @@ export default function HomePage(props) {
   );
 }
 
+// export const getStaticProps = async () => {
+//   const { data, query, variables } = await client.queries.home({
+//     relativePath: "index.mdx",
+//   });
+
+//   return {
+//     props: {
+//       data,
+//       query,
+//       variables,
+//     },
+//   };
+// };
+
 export const getStaticProps = async () => {
-  const { data, query, variables } = await client.queries.home({
+  const homeResult = await client.queries.home({
     relativePath: "index.mdx",
+  });
+
+  const projectsResult = await client.queries.projects({
+    relativePath: "projects.mdx",
   });
 
   return {
     props: {
-      data,
-      query,
-      variables,
+      data: {
+        home: homeResult.data.home,
+        projects: projectsResult.data.projects,
+      },
+      query: projectsResult.query,
+      variables: projectsResult.variables,
     },
   };
 };

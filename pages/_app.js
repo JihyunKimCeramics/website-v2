@@ -11,7 +11,10 @@ export default function App({ Component, pageProps }) {
     data: pageProps.data,
   });
 
-  if (!data?.home) {
+  console.log(data);
+  console.log("hi");
+
+  if (!data?.home && !data?.projects) {
     return <div>Loading...</div>;
   }
 

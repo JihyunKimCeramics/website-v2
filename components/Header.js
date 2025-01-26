@@ -13,6 +13,7 @@ export default function Header({
   buttonColor,
   buttonHoverColor,
   bannerColor,
+  showProjectsPage,
 }) {
   return (
     <>
@@ -52,9 +53,11 @@ export default function Header({
           />
         </div>
         <div className="hidden md:flex gap-6 lg:gap-7 xl:gap-8 text-sm lg:text-smmd xl:text-base">
-          <a className="my-auto hover:opacity-70" href="#">
-            Projects
-          </a>
+          {showProjectsPage && (
+            <a className="my-auto hover:opacity-70" href="/projects">
+              Projects
+            </a>
+          )}
           <a className="my-auto hover:opacity-70" href="#">
             About
           </a>
