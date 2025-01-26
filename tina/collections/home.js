@@ -34,6 +34,18 @@ const home = {
           description: "The text for the banner.",
           toolbarOverride: ["bold", "italic"],
         },
+        {
+          type: "string",
+          name: "bannerColour",
+          label: "Banner Colour",
+          description: "The colour of the banner.",
+          required: true,
+          ui: {
+            component: "color",
+            colorFormat: "hex",
+            widget: "sketch",
+          },
+        },
       ],
     },
     {
@@ -553,18 +565,6 @@ const home = {
           name: "buttonHoverColour",
           label: "Button Hover Colour",
           description: "The colour of buttons when hovering on the website.",
-          required: true,
-          ui: {
-            component: "color",
-            colorFormat: "hex",
-            widget: "sketch",
-          },
-        },
-        {
-          type: "string",
-          name: "bannerColour",
-          label: "Banner Colour",
-          description: "The colour of the banner.",
           required: true,
           ui: {
             component: "color",
