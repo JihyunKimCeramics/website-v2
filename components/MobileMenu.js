@@ -10,6 +10,7 @@ export default function MobileMenu({
   fontColor,
   buttonColor,
   buttonHoverColor,
+  showProjectsPage,
 }) {
   return (
     <div
@@ -52,13 +53,15 @@ export default function MobileMenu({
               className="mx-auto my-auto"
             />
           </div>
-          <a
-            className="my-auto hover:opacity-70"
-            href="#"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            Projects
-          </a>
+          {showProjectsPage && (
+            <a
+              className="my-auto hover:opacity-70"
+              href="/projects"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              Projects
+            </a>
+          )}
           <a
             className="my-auto hover:opacity-70"
             href="#"

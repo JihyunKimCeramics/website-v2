@@ -109,6 +109,7 @@ export default function Layout({ data, children }) {
         fontColor={fontColor}
         buttonColor={buttonColor}
         buttonHoverColor={buttonHoverColor}
+        showProjectsPage={showProjectsPage}
       />
       <Faqs
         data={data}

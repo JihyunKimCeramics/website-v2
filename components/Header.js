@@ -29,12 +29,13 @@ export default function Header({
         </div>
       )}
       <div className="pt-10 xl:pt-14 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto flex flex-row justify-between">
-        <h1
+        <a
           className="font-light text-xl md:text-2xl my-auto"
           data-tina-field={tinaField(data.home.header, "title")}
+          href="/"
         >
           {data.home.header.title}
-        </h1>
+        </a>
         <div
           className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer md:hidden"
           style={{ backgroundColor: buttonColor }}
