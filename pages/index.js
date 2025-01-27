@@ -10,7 +10,7 @@ export default function HomePage(props) {
 
   console.log(data);
 
-  const gap = data.data.imageGallery.imageSpacing || 0;
+  const gap = data.data.homePage.imageGallery.imageSpacing || 0;
 
   const lineColor = data.data.theme.lineColour;
 
@@ -40,7 +40,7 @@ export default function HomePage(props) {
         {/* print json of all data */}
         {/* <pre>
             {JSON.stringify(
-              data.data.imageGallery.desktopImageGallery,
+              data.data.homePage.imageGallery.desktopImageGallery,
               null,
               2
             )}
@@ -64,18 +64,18 @@ export default function HomePage(props) {
           </div>
         )}
 
-        {data.data.imageGallery.showGallery && (
+        {data.data.homePage.imageGallery.showGallery && (
           <div className="mt-16 lg:mt-24">
-            {data.data.imageGallery.mobileImageGallery && (
+            {data.data.homePage.imageGallery.mobileImageGallery && (
               <div
                 className="flex flex-col sm:hidden"
                 style={{ gap: `${gap}px` }}
               >
-                {data.data.imageGallery.mobileImageGallery.map(
+                {data.data.homePage.imageGallery.mobileImageGallery.map(
                   (item, index) => {
                     if (
                       item.__typename ===
-                      "DataImageGalleryMobileImageGalleryOneImage"
+                      "DataHomePageImageGalleryMobileImageGalleryOneImage"
                     ) {
                       return (
                         <Image
@@ -88,7 +88,7 @@ export default function HomePage(props) {
                       );
                     } else if (
                       item.__typename ===
-                      "DataImageGalleryMobileImageGalleryTwoImages"
+                      "DataHomePageImageGalleryMobileImageGalleryTwoImages"
                     ) {
                       return (
                         <div
@@ -116,16 +116,16 @@ export default function HomePage(props) {
                 )}
               </div>
             )}
-            {data.data.imageGallery.desktopImageGallery && (
+            {data.data.homePage.imageGallery.desktopImageGallery && (
               <div
                 className="sm:flex flex-col hidden"
                 style={{ gap: `${gap}px` }}
               >
-                {data.data.imageGallery.desktopImageGallery.map(
+                {data.data.homePage.imageGallery.desktopImageGallery.map(
                   (item, index) => {
                     if (
                       item.__typename ===
-                      "DataImageGalleryDesktopImageGalleryOneImage"
+                      "DataHomePageImageGalleryDesktopImageGalleryOneImage"
                     ) {
                       return (
                         <Image
@@ -138,7 +138,7 @@ export default function HomePage(props) {
                       );
                     } else if (
                       item.__typename ===
-                      "DataImageGalleryDesktopImageGalleryTwoImagesOneWide"
+                      "DataHomePageImageGalleryDesktopImageGalleryTwoImagesOneWide"
                     ) {
                       const isWideRight = item.wideImage === "right";
                       return (
@@ -173,7 +173,7 @@ export default function HomePage(props) {
                       );
                     } else if (
                       item.__typename ===
-                      "DataImageGalleryDesktopImageGalleryTwoImagesEqualWidth"
+                      "DataHomePageImageGalleryDesktopImageGalleryTwoImagesEqualWidth"
                     ) {
                       return (
                         <div
@@ -197,7 +197,7 @@ export default function HomePage(props) {
                       );
                     } else if (
                       item.__typename ===
-                      "DataImageGalleryDesktopImageGalleryThreeImages"
+                      "DataHomePageImageGalleryDesktopImageGalleryThreeImages"
                     ) {
                       return (
                         <div
