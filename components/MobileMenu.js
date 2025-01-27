@@ -11,6 +11,7 @@ export default function MobileMenu({
   buttonColor,
   buttonHoverColor,
   showProjectsPage,
+  projectsPageTitle,
 }) {
   return (
     <div
@@ -59,7 +60,7 @@ export default function MobileMenu({
               href="/projects"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              Projects
+              {projectsPageTitle}
             </a>
           )}
           <a

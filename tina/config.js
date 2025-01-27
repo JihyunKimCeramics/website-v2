@@ -594,6 +594,55 @@ export default defineConfig({
               },
             ],
           },
+          {
+            type: "object",
+            name: "projectsPage",
+            label: "Projects Page",
+            fields: [
+              {
+                type: "boolean",
+                name: "showProjectsPage",
+                label: "Show Projects Page",
+              },
+              {
+                type: "string",
+                name: "title",
+                label: "Title",
+                description: "The title of the projects page.",
+              },
+              {
+                type: "object",
+                name: "projects",
+                label: "Projects",
+                list: true,
+                fields: [
+                  {
+                    type: "string",
+                    name: "title",
+                    label: "Title",
+                    description: "The title of the project.",
+                  },
+                  {
+                    type: "string",
+                    name: "description",
+                    label: "Description",
+                    description: "A description of the project.",
+                  },
+                  {
+                    type: "image",
+                    name: "image",
+                    label: "Image",
+                  },
+                  {
+                    type: "string",
+                    name: "link",
+                    label: "Link",
+                    description: "A link to the project.",
+                  },
+                ],
+              },
+            ],
+          },
         ],
         ui: {
           router: () => "/",

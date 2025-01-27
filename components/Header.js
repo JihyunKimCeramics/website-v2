@@ -29,11 +29,7 @@ export default function Header({
         </div>
       )}
       <div className="pt-10 xl:pt-14 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto flex flex-row justify-between">
-        <a
-          className="font-light text-xl md:text-2xl my-auto"
-          data-tina-field={tinaField(data.data.header, "title")}
-          href="/"
-        >
+        <a className="font-light text-xl md:text-2xl my-auto" href="/">
           {data.data.header.title}
         </a>
         <div
@@ -56,7 +52,7 @@ export default function Header({
         <div className="hidden md:flex gap-6 lg:gap-7 xl:gap-8 text-sm lg:text-smmd xl:text-base">
           {showProjectsPage && (
             <a className="my-auto hover:opacity-70" href="/projects">
-              Projects
+              {data.data.projectsPage.title}
             </a>
           )}
           <a className="my-auto hover:opacity-70" href="#">

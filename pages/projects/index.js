@@ -18,22 +18,15 @@ export default function ProjectsPage(props) {
 }
 
 export const getStaticProps = async () => {
-  const homeResult = await client.queries.home({
+  const { data, query, variables } = await client.queries.data({
     relativePath: "index.mdx",
-  });
-
-  const projectsResult = await client.queries.projects({
-    relativePath: "projects.mdx",
   });
 
   return {
     props: {
-      data: {
-        home: homeResult.data.home,
-        projects: projectsResult.data.projects,
-      },
-      query: projectsResult.query,
-      variables: projectsResult.variables,
+      data,
+      query,
+      variables,
     },
   };
 };

@@ -16,7 +16,7 @@ export default function Layout({ data, children }) {
   const buttonHoverColor = data.data.theme.buttonHoverColour;
   const bannerColor = data.data.header.bannerColour;
   const isPopupOpen = mobileMenuOpen || faqsOpen;
-  //   const showProjectsPage = data.projects.header.showProjectsPage;
+  const showProjectsPage = data.data.projectsPage.showProjectsPage;
   const [opacity, setOpacity] = useState(1);
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export default function Layout({ data, children }) {
           buttonColor={buttonColor}
           buttonHoverColor={buttonHoverColor}
           bannerColor={bannerColor}
-          //   showProjectsPage={showProjectsPage}
+          showProjectsPage={showProjectsPage}
         />
         {children}
         <Footer
@@ -108,7 +108,8 @@ export default function Layout({ data, children }) {
         fontColor={fontColor}
         buttonColor={buttonColor}
         buttonHoverColor={buttonHoverColor}
-        // showProjectsPage={showProjectsPage}
+        showProjectsPage={showProjectsPage}
+        projectsPageTitle={data.data.projectsPage.title}
       />
       <Faqs
         data={data}
