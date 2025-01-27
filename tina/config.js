@@ -35,6 +35,74 @@ export default defineConfig({
         fields: [
           {
             type: "object",
+            name: "theme",
+            label: "Theme",
+            fields: [
+              {
+                type: "string",
+                name: "backgroundColour",
+                label: "Background Colour",
+                description: "The background colour of the website.",
+                required: true,
+                ui: {
+                  component: "color",
+                  colorFormat: "hex",
+                  widget: "sketch",
+                },
+              },
+              {
+                type: "string",
+                name: "textColour",
+                label: "Text Colour",
+                description: "The text colour of the website.",
+                required: true,
+                ui: {
+                  component: "color",
+                  colorFormat: "hex",
+                  widget: "sketch",
+                },
+              },
+              {
+                type: "string",
+                name: "buttonColour",
+                label: "Button Colour",
+                description: "The colour of buttons on the website.",
+                required: true,
+                ui: {
+                  component: "color",
+                  colorFormat: "hex",
+                  widget: "sketch",
+                },
+              },
+              {
+                type: "string",
+                name: "buttonHoverColour",
+                label: "Button Hover Colour",
+                description:
+                  "The colour of buttons when hovering on the website.",
+                required: true,
+                ui: {
+                  component: "color",
+                  colorFormat: "hex",
+                  widget: "sketch",
+                },
+              },
+              {
+                type: "string",
+                name: "lineColour",
+                label: "Line Colour",
+                description: "The line colour under the quote.",
+                required: true,
+                ui: {
+                  component: "color",
+                  colorFormat: "hex",
+                  widget: "sketch",
+                },
+              },
+            ],
+          },
+          {
+            type: "object",
             name: "header",
             label: "Header",
             fields: [
@@ -226,74 +294,6 @@ export default defineConfig({
                     description: "Put the text you want to display here.",
                   },
                 ],
-              },
-            ],
-          },
-          {
-            type: "object",
-            name: "theme",
-            label: "Theme",
-            fields: [
-              {
-                type: "string",
-                name: "backgroundColour",
-                label: "Background Colour",
-                description: "The background colour of the website.",
-                required: true,
-                ui: {
-                  component: "color",
-                  colorFormat: "hex",
-                  widget: "sketch",
-                },
-              },
-              {
-                type: "string",
-                name: "textColour",
-                label: "Text Colour",
-                description: "The text colour of the website.",
-                required: true,
-                ui: {
-                  component: "color",
-                  colorFormat: "hex",
-                  widget: "sketch",
-                },
-              },
-              {
-                type: "string",
-                name: "buttonColour",
-                label: "Button Colour",
-                description: "The colour of buttons on the website.",
-                required: true,
-                ui: {
-                  component: "color",
-                  colorFormat: "hex",
-                  widget: "sketch",
-                },
-              },
-              {
-                type: "string",
-                name: "buttonHoverColour",
-                label: "Button Hover Colour",
-                description:
-                  "The colour of buttons when hovering on the website.",
-                required: true,
-                ui: {
-                  component: "color",
-                  colorFormat: "hex",
-                  widget: "sketch",
-                },
-              },
-              {
-                type: "string",
-                name: "lineColour",
-                label: "Line Colour",
-                description: "The line colour under the quote.",
-                required: true,
-                ui: {
-                  component: "color",
-                  colorFormat: "hex",
-                  widget: "sketch",
-                },
               },
             ],
           },
