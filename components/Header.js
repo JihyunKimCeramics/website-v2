@@ -6,7 +6,6 @@ import shop from "../public/images/shop.svg";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 
 export default function Header({
-  data,
   mobileMenuOpen,
   setMobileMenuOpen,
   fontColor,
@@ -14,23 +13,28 @@ export default function Header({
   buttonHoverColor,
   bannerColor,
   showProjectsPage,
+  header,
+  showBanner,
+  bannerText,
+  title,
+  projectsPageTitle,
 }) {
   return (
     <>
-      {data.data.header.showBanner && (
+      {showBanner && (
         <div
           className="w-full flex flex-row justify-center items-center py-3"
           style={{ backgroundColor: bannerColor }}
-          data-tina-field={tinaField(data.data.header, "bannerText")}
+          data-tina-field={tinaField(header, "bannerText")}
         >
           <div className="text-sm lg:text-sm xl:text-base text-center mx-12 sm:mx-20 md:mx-auto md:w-200 lg:w-300 xl:w-400">
-            <TinaMarkdown content={data.data.header.bannerText} />
+            <TinaMarkdown content={bannerText} />
           </div>
         </div>
       )}
       <div className="pt-10 xl:pt-14 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto flex flex-row justify-between">
         <a className="font-light text-xl md:text-2xl my-auto" href="/">
-          {data.data.header.title}
+          {title}
         </a>
         <div
           className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer md:hidden"
@@ -52,7 +56,7 @@ export default function Header({
         <div className="hidden md:flex gap-6 lg:gap-7 xl:gap-8 text-sm lg:text-smmd xl:text-base">
           {showProjectsPage && (
             <a className="my-auto hover:opacity-70" href="/projects">
-              {data.data.projectsPage.title}
+              {projectsPageTitle}
             </a>
           )}
           <a className="my-auto hover:opacity-70" href="#">

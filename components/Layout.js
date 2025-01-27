@@ -81,7 +81,6 @@ export default function Layout({ data, children }) {
     >
       <div className="pb-16 lg:pb-24 transition-all duration-300">
         <Header
-          data={data}
           mobileMenuOpen={mobileMenuOpen}
           setMobileMenuOpen={setMobileMenuOpen}
           fontColor={fontColor}
@@ -89,6 +88,11 @@ export default function Layout({ data, children }) {
           buttonHoverColor={buttonHoverColor}
           bannerColor={bannerColor}
           showProjectsPage={showProjectsPage}
+          header={data.data.header}
+          showBanner={data.data.header.showBanner}
+          bannerText={data.data.header.bannerText}
+          title={data.data.header.title}
+          projectsPageTitle={data.data.projectsPage.title}
         />
         {children}
         <Footer
