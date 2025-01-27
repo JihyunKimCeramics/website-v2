@@ -73,41 +73,6 @@ export default defineConfig({
           },
           {
             type: "object",
-            name: "quote",
-            label: "Quote",
-            fields: [
-              {
-                type: "boolean",
-                name: "showQuote",
-                label: "Show Quote",
-              },
-              {
-                type: "string",
-                name: "text",
-                label: "Quote",
-                description: "A quote for the home page.",
-              },
-              {
-                type: "boolean",
-                name: "showLine",
-                label: "Show Line",
-              },
-              {
-                type: "string",
-                name: "lineColour",
-                label: "Line Colour",
-                description: "The line colour under the quote.",
-                required: true,
-                ui: {
-                  component: "color",
-                  colorFormat: "hex",
-                  widget: "sketch",
-                },
-              },
-            ],
-          },
-          {
-            type: "object",
             name: "imageGallery",
             label: "Image Gallery",
             fields: [
@@ -584,6 +549,48 @@ export default defineConfig({
                   colorFormat: "hex",
                   widget: "sketch",
                 },
+              },
+            ],
+          },
+          {
+            type: "object",
+            name: "homePage",
+            label: "Home Page",
+            fields: [
+              {
+                type: "object",
+                name: "quote",
+                label: "Quote",
+                fields: [
+                  {
+                    type: "boolean",
+                    name: "showQuote",
+                    label: "Show Quote",
+                  },
+                  {
+                    type: "string",
+                    name: "text",
+                    label: "Quote",
+                    description: "A quote for the home page.",
+                  },
+                  {
+                    type: "boolean",
+                    name: "showLine",
+                    label: "Show Line",
+                  },
+                  {
+                    type: "string",
+                    name: "lineColour",
+                    label: "Line Colour",
+                    description: "The line colour under the quote.",
+                    required: true,
+                    ui: {
+                      component: "color",
+                      colorFormat: "hex",
+                      widget: "sketch",
+                    },
+                  },
+                ],
               },
             ],
           },

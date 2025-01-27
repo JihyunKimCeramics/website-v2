@@ -8,9 +8,11 @@ export default function HomePage(props) {
     data: props.data,
   });
 
+  console.log(data);
+
   const gap = data.data.imageGallery.imageSpacing || 0;
 
-  const lineColor = data.data.quote.lineColour;
+  const lineColor = data.data.homePage.quote.lineColour;
 
   const Image = ({ height, image, item, tinaName, widthFraction = 1 }) => {
     const aspectRatio = height || 1; // Default aspect ratio
@@ -44,19 +46,22 @@ export default function HomePage(props) {
             )}
           </pre> */}
 
-        {data.data.quote.showQuote && (
+        {data.data.homePage.quote.showQuote && (
           <div className="mt-12 lg:mt-24">
             <div
               className="text-xl lg:text-2xl text-center italic font-thin w-auto mx-16 sm:mx-28 lg:mx-40 xl:mx-64 leading-normal lg:leading-relaxed"
-              data-tina-field={tinaField(data.data, "quote.text")}
+              data-tina-field={tinaField(data.data.homePage, "quote.text")}
             >
-              {data.data.quote.text}
+              {data.data.homePage.quote.text}
             </div>
-            {data.data.quote.showLine && (
+            {data.data.homePage.quote.showLine && (
               <div
                 className="h-0.08 md:h-0.1 w-20 sm:w-28 mx-auto mt-5 lg:mt-7"
                 style={{ backgroundColor: lineColor }}
-                data-tina-field={tinaField(data.data.quote, "lineColour")}
+                data-tina-field={tinaField(
+                  data.data.homePage.quote,
+                  "lineColour"
+                )}
               ></div>
             )}
           </div>
