@@ -96,7 +96,6 @@ export default function Layout({ data, children }) {
         />
         {children}
         <Footer
-          data={data}
           fontColor={fontColor}
           buttonColor={buttonColor}
           buttonHoverColor={buttonHoverColor}
