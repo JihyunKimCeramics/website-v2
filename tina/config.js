@@ -550,6 +550,18 @@ export default defineConfig({
                   widget: "sketch",
                 },
               },
+              {
+                type: "string",
+                name: "lineColour",
+                label: "Line Colour",
+                description: "The line colour under the quote.",
+                required: true,
+                ui: {
+                  component: "color",
+                  colorFormat: "hex",
+                  widget: "sketch",
+                },
+              },
             ],
           },
           {
@@ -577,18 +589,6 @@ export default defineConfig({
                     type: "boolean",
                     name: "showLine",
                     label: "Show Line",
-                  },
-                  {
-                    type: "string",
-                    name: "lineColour",
-                    label: "Line Colour",
-                    description: "The line colour under the quote.",
-                    required: true,
-                    ui: {
-                      component: "color",
-                      colorFormat: "hex",
-                      widget: "sketch",
-                    },
                   },
                 ],
               },

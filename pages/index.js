@@ -12,7 +12,7 @@ export default function HomePage(props) {
 
   const gap = data.data.imageGallery.imageSpacing || 0;
 
-  const lineColor = data.data.homePage.quote.lineColour;
+  const lineColor = data.data.theme.lineColour;
 
   const Image = ({ height, image, item, tinaName, widthFraction = 1 }) => {
     const aspectRatio = height || 1; // Default aspect ratio
@@ -58,10 +58,7 @@ export default function HomePage(props) {
               <div
                 className="h-0.08 md:h-0.1 w-20 sm:w-28 mx-auto mt-5 lg:mt-7"
                 style={{ backgroundColor: lineColor }}
-                data-tina-field={tinaField(
-                  data.data.homePage.quote,
-                  "lineColour"
-                )}
+                data-tina-field={tinaField(data.data.theme, "lineColour")}
               ></div>
             )}
           </div>
