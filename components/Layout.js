@@ -103,6 +103,21 @@ export default function Layout({ data, children }) {
           backgroundColor={backgroundColor}
           faqsOpen={faqsOpen}
           setFaqsOpen={setFaqsOpen}
+          signupToggle={data.data.footer.signup.toggle}
+          thankYouMessage={data.data.footer.signup.thankYouMessage}
+          signUp={data.data.footer.signup.signUp}
+          signupText={data.data.footer.signup.text}
+          signupPlaceholder={data.data.footer.signup.placeholder}
+          instaToggle={data.data.footer.insta.toggle}
+          instaLink={data.data.footer.insta.link}
+          contactToggle={data.data.footer.contact.toggle}
+          contactEmail={data.data.footer.contact.email}
+          contactText={data.data.footer.contact.text}
+          faqsToggle={data.data.footer.faqs.toggle}
+          faqsText={data.data.footer.faqs.text}
+          bottomTextToggle={data.data.footer.bottomText.toggle}
+          bottomTextText={data.data.footer.bottomText.text}
+          footer={data.data.footer}
         />
       </div>
       <MobileMenu
