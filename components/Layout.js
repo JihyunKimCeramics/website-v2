@@ -6,18 +6,17 @@ import MobileMenu from "./MobileMenu";
 import Faqs from "./Faqs";
 
 export default function Layout({ data, children }) {
-  console.log(data);
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [faqsOpen, setFaqsOpen] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const fontColor = data.home.theme.textColour;
-  const backgroundColor = data.home.theme.backgroundColour;
-  const buttonColor = data.home.theme.buttonColour;
-  const buttonHoverColor = data.home.theme.buttonHoverColour;
-  const bannerColor = data.home.header.bannerColour;
+  const fontColor = data.data.theme.textColour;
+  const backgroundColor = data.data.theme.backgroundColour;
+  const buttonColor = data.data.theme.buttonColour;
+  const buttonHoverColor = data.data.theme.buttonHoverColour;
+  const bannerColor = data.data.header.bannerColour;
   const isPopupOpen = mobileMenuOpen || faqsOpen;
-  const showProjectsPage = data.projects.header.showProjectsPage;
+  //   const showProjectsPage = data.projects.header.showProjectsPage;
   const [opacity, setOpacity] = useState(1);
 
   useEffect(() => {
@@ -89,7 +88,7 @@ export default function Layout({ data, children }) {
           buttonColor={buttonColor}
           buttonHoverColor={buttonHoverColor}
           bannerColor={bannerColor}
-          showProjectsPage={showProjectsPage}
+          //   showProjectsPage={showProjectsPage}
         />
         {children}
         <Footer
@@ -109,7 +108,7 @@ export default function Layout({ data, children }) {
         fontColor={fontColor}
         buttonColor={buttonColor}
         buttonHoverColor={buttonHoverColor}
-        showProjectsPage={showProjectsPage}
+        // showProjectsPage={showProjectsPage}
       />
       <Faqs
         data={data}

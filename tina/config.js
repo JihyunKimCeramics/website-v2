@@ -1,6 +1,5 @@
-import { defineConfig } from "tinacms";
-import home from "./collections/home";
-import projects from "./collections/projects";
+import { defineConfig, wrapFieldsWithMeta } from "tinacms";
+import React from "react";
 
 const branch =
   process.env.GITHUB_BRANCH ||
@@ -10,7 +9,6 @@ const branch =
 
 export default defineConfig({
   branch,
-
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
   token: process.env.TINA_TOKEN,
 
@@ -25,6 +23,575 @@ export default defineConfig({
     },
   },
   schema: {
-    collections: [home, projects],
+    collections: [
+      {
+        label: "Website Content",
+        name: "data",
+        path: "content",
+        format: "mdx",
+        match: {
+          include: "index",
+        },
+        fields: [
+          {
+            type: "object",
+            name: "header",
+            label: "Header",
+            fields: [
+              {
+                type: "string",
+                name: "title",
+                label: "Title",
+                description: "The title of the website.",
+              },
+              {
+                type: "boolean",
+                name: "showBanner",
+                label: "Show Banner",
+                description: "Show or hide the banner.",
+              },
+              {
+                type: "rich-text",
+                name: "bannerText",
+                label: "Banner Text",
+                description: "The text for the banner.",
+                toolbarOverride: ["bold", "italic"],
+              },
+              {
+                type: "string",
+                name: "bannerColour",
+                label: "Banner Colour",
+                description: "The colour of the banner.",
+                required: true,
+                ui: {
+                  component: "color",
+                  colorFormat: "hex",
+                  widget: "sketch",
+                },
+              },
+            ],
+          },
+          {
+            type: "object",
+            name: "quote",
+            label: "Quote",
+            fields: [
+              {
+                type: "boolean",
+                name: "showQuote",
+                label: "Show Quote",
+              },
+              {
+                type: "string",
+                name: "text",
+                label: "Quote",
+                description: "A quote for the home page.",
+              },
+              {
+                type: "boolean",
+                name: "showLine",
+                label: "Show Line",
+              },
+              {
+                type: "string",
+                name: "lineColour",
+                label: "Line Colour",
+                description: "The line colour under the quote.",
+                required: true,
+                ui: {
+                  component: "color",
+                  colorFormat: "hex",
+                  widget: "sketch",
+                },
+              },
+            ],
+          },
+          {
+            type: "object",
+            name: "imageGallery",
+            label: "Image Gallery",
+            fields: [
+              {
+                type: "boolean",
+                name: "showGallery",
+                label: "Show Gallery",
+              },
+              {
+                type: "object",
+                name: "mobileImageGallery",
+                label: "Mobile Image Gallery",
+                list: true,
+                templates: [
+                  {
+                    label: "One Image",
+                    name: "oneImage",
+                    fields: [
+                      {
+                        type: "image",
+                        name: "image",
+                        label: "Image",
+                      },
+                      {
+                        label: "Height",
+                        name: "height",
+                        type: "number",
+                        description: "Choose the height of the image.",
+                        defaultValue: 1,
+                        ui: {
+                          parse: (val) => Number(val),
+                          component: wrapFieldsWithMeta(({ input }) => {
+                            return (
+                              <input
+                                name="height"
+                                id="height"
+                                type="range"
+                                min="0"
+                                max="10"
+                                step=".1"
+                                {...input}
+                              />
+                            );
+                          }),
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    label: "Two Images",
+                    name: "twoImages",
+                    fields: [
+                      {
+                        type: "image",
+                        name: "image1",
+                        label: "Left Image",
+                      },
+                      {
+                        type: "image",
+                        name: "image2",
+                        label: "Right Image",
+                      },
+                      {
+                        label: "Height",
+                        name: "height",
+                        type: "number",
+                        description: "Choose the height of the images.",
+                        ui: {
+                          parse: (val) => Number(val),
+                          component: wrapFieldsWithMeta(({ input }) => {
+                            return (
+                              <input
+                                name="height"
+                                id="height"
+                                type="range"
+                                min="0"
+                                max="10"
+                                step=".1"
+                                {...input}
+                              />
+                            );
+                          }),
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "object",
+                name: "desktopImageGallery",
+                label: "Desktop Image Gallery",
+                list: true,
+                templates: [
+                  {
+                    label: "One Image",
+                    name: "oneImage",
+                    fields: [
+                      {
+                        type: "image",
+                        name: "image",
+                        label: "Image",
+                      },
+                      {
+                        label: "Height",
+                        name: "height",
+                        type: "number",
+                        description: "Choose the height of the image.",
+                        ui: {
+                          parse: (val) => Number(val),
+                          component: wrapFieldsWithMeta(({ input }) => {
+                            return (
+                              <input
+                                name="height"
+                                id="height"
+                                type="range"
+                                min="0"
+                                max="10"
+                                step=".1"
+                                {...input}
+                              />
+                            );
+                          }),
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    label: "Two Images (equal width)",
+                    name: "twoImagesEqualWidth",
+                    fields: [
+                      {
+                        type: "image",
+                        name: "image1",
+                        label: "Left Image",
+                      },
+                      {
+                        type: "image",
+                        name: "image2",
+                        label: "Right Image",
+                      },
+                      {
+                        label: "Height",
+                        name: "height",
+                        type: "number",
+                        description: "Choose the height of the images.",
+                        ui: {
+                          parse: (val) => Number(val),
+                          component: wrapFieldsWithMeta(({ input }) => {
+                            return (
+                              <input
+                                name="height"
+                                id="height"
+                                type="range"
+                                min="0"
+                                max="10"
+                                step=".1"
+                                {...input}
+                              />
+                            );
+                          }),
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    label: "Two Images (one wide)",
+                    name: "twoImagesOneWide",
+                    fields: [
+                      {
+                        type: "image",
+                        name: "image1",
+                        label: "Left Image",
+                      },
+                      {
+                        type: "image",
+                        name: "image2",
+                        label: "Right Image",
+                      },
+                      {
+                        type: "string",
+                        name: "wideImage",
+                        label: "Wide Image",
+                        options: [
+                          { value: "left", label: "Left" },
+                          { value: "right", label: "Right" },
+                        ],
+                      },
+                      {
+                        label: "Height",
+                        name: "height",
+                        type: "number",
+                        description: "Choose the height of the images.",
+                        ui: {
+                          parse: (val) => Number(val),
+                          component: wrapFieldsWithMeta(({ input }) => {
+                            return (
+                              <input
+                                name="height"
+                                id="height"
+                                type="range"
+                                min="0"
+                                max="10"
+                                step=".1"
+                                {...input}
+                              />
+                            );
+                          }),
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    label: "Three Images",
+                    name: "threeImages",
+                    fields: [
+                      {
+                        type: "image",
+                        name: "image1",
+                        label: "Left Image",
+                      },
+                      {
+                        type: "image",
+                        name: "image2",
+                        label: "Middle Image",
+                      },
+                      {
+                        type: "image",
+                        name: "image3",
+                        label: "Right Image",
+                      },
+                      {
+                        label: "Height",
+                        name: "height",
+                        type: "number",
+                        description: "Choose the height of the images.",
+                        ui: {
+                          parse: (val) => Number(val),
+                          component: wrapFieldsWithMeta(({ input }) => {
+                            return (
+                              <input
+                                name="height"
+                                id="height"
+                                type="range"
+                                min="0"
+                                max="10"
+                                step=".1"
+                                {...input}
+                              />
+                            );
+                          }),
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "number",
+                name: "imageSpacing",
+                label: "Image Spacing",
+                description: "The spacing between images.",
+              },
+            ],
+          },
+          {
+            type: "object",
+            name: "footer",
+            label: "Footer",
+            fields: [
+              {
+                type: "object",
+                name: "signup",
+                label: "Signup",
+                fields: [
+                  {
+                    type: "boolean",
+                    name: "toggle",
+                    label: "Show / hide",
+                    description: "Show or hide the signup form.",
+                    required: true,
+                  },
+                  {
+                    type: "string",
+                    name: "text",
+                    label: "Text",
+                    description: "Choose the text for the signup form.",
+                    required: true,
+                  },
+                  {
+                    type: "string",
+                    name: "placeholder",
+                    label: "Placeholder",
+                    description: "Choose the placeholder for the email input.",
+                    required: true,
+                  },
+                  {
+                    type: "string",
+                    name: "thankYouMessage",
+                    label: "Thank you message",
+                    description:
+                      "Choose the message for the thank you message.",
+                    required: true,
+                  },
+                ],
+              },
+              {
+                type: "object",
+                name: "insta",
+                label: "Instagram",
+                fields: [
+                  {
+                    type: "boolean",
+                    name: "toggle",
+                    label: "Show / hide",
+                    description: "Show or hide the Instagram button.",
+                  },
+                  {
+                    type: "string",
+                    name: "link",
+                    label: "Instagram link",
+                    description: "Put the link to the Instagram page here.",
+                  },
+                ],
+              },
+              {
+                type: "object",
+                name: "contact",
+                label: "Contact",
+                fields: [
+                  {
+                    type: "boolean",
+                    name: "toggle",
+                    label: "Show / hide",
+                    description: "Show or hide the Contact button.",
+                  },
+                  {
+                    type: "string",
+                    name: "email",
+                    label: "Email address",
+                    description: "Put the email address here.",
+                  },
+                  {
+                    type: "string",
+                    name: "text",
+                    label: "Text",
+                    description: "Choose the text for the button.",
+                  },
+                ],
+              },
+              {
+                type: "object",
+                name: "faqs",
+                label: "FAQs",
+                fields: [
+                  {
+                    type: "boolean",
+                    name: "toggle",
+                    label: "Show / hide",
+                    description: "Show or hide the FAQs button.",
+                  },
+                  {
+                    type: "string",
+                    name: "text",
+                    label: "Text",
+                    description: "Choose the text for the button.",
+                  },
+                  {
+                    type: "string",
+                    name: "title",
+                    label: "Title",
+                    description: "Title for the FAQs section.",
+                    required: true,
+                  },
+                  {
+                    type: "object",
+                    name: "faqs",
+                    label: "FAQs",
+                    list: true,
+                    ui: {
+                      itemProps: (item) => {
+                        return { label: item?.question };
+                      },
+                    },
+                    fields: [
+                      {
+                        type: "string",
+                        name: "question",
+                        label: "Question",
+                        description: "Put the question here.",
+                      },
+                      {
+                        type: "rich-text",
+                        name: "answer",
+                        label: "Answer",
+                        description: "Put the answer here.",
+                        toolbarOverride: ["bold", "italic"],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "object",
+                name: "bottomText",
+                label: "Bottom text",
+                fields: [
+                  {
+                    type: "boolean",
+                    name: "toggle",
+                    label: "Show / hide",
+                    description: "Show or hide the bottom text.",
+                  },
+                  {
+                    type: "string",
+                    name: "text",
+                    label: "Text",
+                    description: "Put the text you want to display here.",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "object",
+            name: "theme",
+            label: "Theme",
+            fields: [
+              {
+                type: "string",
+                name: "backgroundColour",
+                label: "Background Colour",
+                description: "The background colour of the website.",
+                required: true,
+                ui: {
+                  component: "color",
+                  colorFormat: "hex",
+                  widget: "sketch",
+                },
+              },
+              {
+                type: "string",
+                name: "textColour",
+                label: "Text Colour",
+                description: "The text colour of the website.",
+                required: true,
+                ui: {
+                  component: "color",
+                  colorFormat: "hex",
+                  widget: "sketch",
+                },
+              },
+              {
+                type: "string",
+                name: "buttonColour",
+                label: "Button Colour",
+                description: "The colour of buttons on the website.",
+                required: true,
+                ui: {
+                  component: "color",
+                  colorFormat: "hex",
+                  widget: "sketch",
+                },
+              },
+              {
+                type: "string",
+                name: "buttonHoverColour",
+                label: "Button Hover Colour",
+                description:
+                  "The colour of buttons when hovering on the website.",
+                required: true,
+                ui: {
+                  component: "color",
+                  colorFormat: "hex",
+                  widget: "sketch",
+                },
+              },
+            ],
+          },
+        ],
+        ui: {
+          router: () => "/",
+        },
+      },
+    ],
   },
 });

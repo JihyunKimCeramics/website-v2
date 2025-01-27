@@ -40,8 +40,8 @@ export default function Faqs({
 
   return (
     <>
-      {data.home.footer.faqs.toggle &&
-        data.home.footer.faqs.faqs.length > 0 && (
+      {data.data.footer.faqs.toggle &&
+        data.data.footer.faqs.faqs.length > 0 && (
           <div
             ref={popupRef}
             className={`fixed top-0 left-0 w-full h-full z-20 transition-opacity duration-300 overflow-y-auto ${
@@ -67,11 +67,11 @@ export default function Faqs({
               <div className="flex flex-col justify-start gap-6 pb-10 w-full max-w-150 xl:max-w-200">
                 <h2
                   className="text-center text-2xl mb-2"
-                  data-tina-field={tinaField(data.home.footer.faqs, "title")}
+                  data-tina-field={tinaField(data.data.footer.faqs, "title")}
                 >
-                  {data.home.footer.faqs.title}
+                  {data.data.footer.faqs.title}
                 </h2>
-                {data.home.footer.faqs.faqs.map((faq, index) => {
+                {data.data.footer.faqs.faqs.map((faq, index) => {
                   if (!faq.question || !faq.answer) return null;
                   return (
                     <div

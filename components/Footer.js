@@ -29,7 +29,7 @@ export default function Footer({
 
   return (
     <div className="mt-16 lg:mt-24 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto flex flex-col justify-start gap-6">
-      {data.home.footer.signup.toggle && (
+      {data.data.footer.signup.toggle && (
         <div className="relative w-full flex flex-col items-center mb-2 sm:mb-6">
           <div
             className={`absolute top-0 left-0 right-0 flex justify-center items-center transition-opacity duration-300 h-full ${
@@ -37,7 +37,7 @@ export default function Footer({
             }`}
           >
             <div className="text-center my-auto">
-              <div> {data.home.footer.signup.thankYouMessage} </div>
+              <div> {data.data.footer.signup.thankYouMessage} </div>
             </div>
           </div>
           <div
@@ -55,9 +55,9 @@ export default function Footer({
               <div className="flex justify-between items-center">
                 <div
                   className="text-base font-medium"
-                  data-tina-field={tinaField(data.home.footer.signup, "text")}
+                  data-tina-field={tinaField(data.data.footer.signup, "text")}
                 >
-                  {data.home.footer.signup.text}
+                  {data.data.footer.signup.text}
                 </div>
               </div>
               <div className="mt-3 flex flex-row justify-between gap-2">
@@ -69,9 +69,9 @@ export default function Footer({
                       outline: "none",
                     }}
                     type="email"
-                    placeholder={data.home.footer.signup.placeholder}
+                    placeholder={data.data.footer.signup.placeholder}
                     // data-tina-field={tinaField(
-                    //   data.home.footer.signup,
+                    //   data.data.footer.signup,
                     //   "placeholder"
                     // )}
                     value={email}
@@ -108,16 +108,16 @@ export default function Footer({
         </div>
       )}
 
-      {data.home.footer.insta.toggle ||
-      data.home.footer.contact.toggle ||
-      data.home.footer.faqs.toggle ? (
+      {data.data.footer.insta.toggle ||
+      data.data.footer.contact.toggle ||
+      data.data.footer.faqs.toggle ? (
         <div className="flex flex-row justify-center gap-4">
-          {data.home.footer.insta.toggle && (
+          {data.data.footer.insta.toggle && (
             <a
               className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
-              href={data.home.footer.insta.link}
+              href={data.data.footer.insta.link}
               target="_blank"
-              data-tina-field={tinaField(data.home.footer, "insta")}
+              data-tina-field={tinaField(data.data.footer, "insta")}
               style={{ backgroundColor: buttonColor }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.backgroundColor = buttonHoverColor)
@@ -133,10 +133,10 @@ export default function Footer({
               />
             </a>
           )}
-          {data.home.footer.contact.toggle && (
+          {data.data.footer.contact.toggle && (
             <a
               className="h-9 px-4 flex flex-col justify-center rounded-full cursor-pointer"
-              data-tina-field={tinaField(data.home.footer, "contact")}
+              data-tina-field={tinaField(data.data.footer, "contact")}
               style={{ backgroundColor: buttonColor }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.backgroundColor = buttonHoverColor)
@@ -144,14 +144,14 @@ export default function Footer({
               onMouseLeave={(e) =>
                 (e.currentTarget.style.backgroundColor = buttonColor)
               }
-              href={`mailto:${data.home.footer.contact.email}`}
+              href={`mailto:${data.data.footer.contact.email}`}
             >
               <div className="text-xs xl:text-sm font-medium">
-                {data.home.footer.contact.text}
+                {data.data.footer.contact.text}
               </div>
             </a>
           )}
-          {data.home.footer.faqs.toggle && (
+          {data.data.footer.faqs.toggle && (
             <div
               className="h-9 px-4 flex flex-col justify-center rounded-full cursor-pointer"
               style={{ backgroundColor: buttonColor }}
@@ -164,18 +164,18 @@ export default function Footer({
               onClick={() => setFaqsOpen(!faqsOpen)}
             >
               <div className="text-xs xl:text-sm font-medium">
-                {data.home.footer.faqs.text}
+                {data.data.footer.faqs.text}
               </div>
             </div>
           )}
         </div>
       ) : null}
-      {data.home.footer.bottomText.toggle && (
+      {data.data.footer.bottomText.toggle && (
         <div
           className="mx-auto text-xs xl:text-sm text-center"
-          data-tina-field={tinaField(data.home.footer, "bottomText")}
+          data-tina-field={tinaField(data.data.footer, "bottomText")}
         >
-          {data.home.footer.bottomText.text}
+          {data.data.footer.bottomText.text}
         </div>
       )}
     </div>

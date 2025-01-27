@@ -17,24 +17,24 @@ export default function Header({
 }) {
   return (
     <>
-      {data.home.header.showBanner && (
+      {data.data.header.showBanner && (
         <div
           className="w-full flex flex-row justify-center items-center py-3"
           style={{ backgroundColor: bannerColor }}
-          data-tina-field={tinaField(data.home.header, "bannerText")}
+          data-tina-field={tinaField(data.data.header, "bannerText")}
         >
           <div className="text-sm lg:text-sm xl:text-base text-center mx-12 sm:mx-20 md:mx-auto md:w-200 lg:w-300 xl:w-400">
-            <TinaMarkdown content={data.home.header.bannerText} />
+            <TinaMarkdown content={data.data.header.bannerText} />
           </div>
         </div>
       )}
       <div className="pt-10 xl:pt-14 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto flex flex-row justify-between">
         <a
           className="font-light text-xl md:text-2xl my-auto"
-          data-tina-field={tinaField(data.home.header, "title")}
+          data-tina-field={tinaField(data.data.header, "title")}
           href="/"
         >
-          {data.home.header.title}
+          {data.data.header.title}
         </a>
         <div
           className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer md:hidden"
