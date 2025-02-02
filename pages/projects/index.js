@@ -14,10 +14,10 @@ export default function ProjectsPage(props) {
         {data.data.homePage.quote.showQuote && (
           <div className="mt-12 lg:mt-24">
             <div
-              className="text-xl lg:text-2xl text-center italic font-thin w-auto mx-16 sm:mx-28 lg:mx-40 xl:mx-64 leading-normal lg:leading-relaxed"
+              className="text-2xl lg:text-3xl text-center font-normal w-auto mx-16 sm:mx-28 lg:mx-40 xl:mx-64 leading-normal lg:leading-relaxed"
               data-tina-field={tinaField(data.data.homePage, "quote.text")}
             >
-              {data.data.homePage.quote.text}
+              Projects
             </div>
             {data.data.homePage.quote.showLine && (
               <div

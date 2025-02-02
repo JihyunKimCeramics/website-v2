@@ -9,7 +9,7 @@ export default function HomePage(props) {
     data: props.data,
   });
 
-  const gap = data.data.homePage.imageGallery.imageSpacing || 0;
+  const gap = data?.data?.homePage?.imageGallery?.imageSpacing || 0;
 
   return (
     <div>
@@ -47,7 +47,7 @@ export default function HomePage(props) {
                     ) {
                       return (
                         <Image
-                          key={index}
+                          key={item.id}
                           item={item}
                           height={item.height}
                           image={item.image}
@@ -64,14 +64,14 @@ export default function HomePage(props) {
                           style={{ gap: `${gap}px` }}
                         >
                           <Image
-                            key={index}
+                            key={item.id}
                             item={item}
                             height={item.height}
                             image={item.image1}
                             tinaName={"image1"}
                           />
                           <Image
-                            key={index}
+                            key={item.id}
                             item={item}
                             height={item.height}
                             image={item.image2}
@@ -97,7 +97,7 @@ export default function HomePage(props) {
                     ) {
                       return (
                         <Image
-                          key={index}
+                          key={item.id}
                           item={item}
                           height={item.height}
                           image={item.image}
@@ -111,7 +111,7 @@ export default function HomePage(props) {
                       const isWideRight = item.wideImage === "right";
                       return (
                         <div
-                          key={index}
+                          key={item.id}
                           className="flex" // Changed from grid grid-cols-12 to flex
                           style={{ gap: `${gap}px` }}
                         >
@@ -145,7 +145,7 @@ export default function HomePage(props) {
                     ) {
                       return (
                         <div
-                          key={index}
+                          key={item.id}
                           className="flex flex-row"
                           style={{ gap: `${gap}px` }}
                         >
@@ -169,7 +169,7 @@ export default function HomePage(props) {
                     ) {
                       return (
                         <div
-                          key={index}
+                          key={item.id}
                           className="grid grid-cols-12"
                           style={{ gap: `${gap}px` }}
                         >
