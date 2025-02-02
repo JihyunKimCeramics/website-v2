@@ -35,17 +35,8 @@ export default function HomePage(props) {
   };
 
   return (
-    <div className="">
+    <div>
       <ul className="flex flex-col md:w-200 lg:w-300 xl:w-400 md:mx-auto">
-        {/* print json of all data */}
-        {/* <pre>
-            {JSON.stringify(
-              data.data.homePage.imageGallery.desktopImageGallery,
-              null,
-              2
-            )}
-          </pre> */}
-
         {data.data.homePage.quote.showQuote && (
           <div className="mt-12 lg:mt-24">
             <div
