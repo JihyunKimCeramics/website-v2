@@ -1,5 +1,6 @@
 import { tinaField, useTina } from "tinacms/dist/react";
 import { client } from "../tina/__generated__/client";
+import Image from "../components/Image";
 
 export default function HomePage(props) {
   const { data } = useTina({
@@ -8,31 +9,7 @@ export default function HomePage(props) {
     data: props.data,
   });
 
-  console.log(data);
-
   const gap = data.data.homePage.imageGallery.imageSpacing || 0;
-
-  const lineColor = data.data.theme.lineColour;
-
-  const Image = ({ height, image, item, tinaName, widthFraction = 1 }) => {
-    const aspectRatio = height || 1; // Default aspect ratio
-    const adjustedHeight = aspectRatio / widthFraction; // Adjust aspect ratio based on width fraction
-
-    return (
-      <div
-        className="w-full overflow-hidden relative"
-        style={{ paddingBottom: `${adjustedHeight * 20}%` }} // Adjust padding-bottom for correct aspect ratio
-        data-tina-field={tinaField(item, tinaName)}
-      >
-        <img
-          src={image}
-          alt=""
-          className="object-cover absolute top-0 left-0 w-full h-full"
-          draggable="false"
-        />
-      </div>
-    );
-  };
 
   return (
     <div>
@@ -48,7 +25,7 @@ export default function HomePage(props) {
             {data.data.homePage.quote.showLine && (
               <div
                 className="h-0.08 md:h-0.1 w-20 sm:w-28 mx-auto mt-5 lg:mt-7"
-                style={{ backgroundColor: lineColor }}
+                style={{ backgroundColor: data.data.theme.lineColour }}
                 data-tina-field={tinaField(data.data.theme, "lineColour")}
               ></div>
             )}
