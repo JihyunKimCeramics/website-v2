@@ -55,10 +55,7 @@ export default function ProjectsPage(props) {
                       index={index}
                     />
                     <div className="w-full flex flex-row justify-center">
-                      <div
-                        className="mb-5 py-3.5 w-auto rounded-full flex flex-row justify-center gap-3 cursor-pointer"
-                        style={{ backdropFilter: "blur(20.299999237060547px)" }}
-                      >
+                      <div className="mb-5 py-3.5 w-auto rounded-full flex flex-row justify-center gap-3 cursor-pointer">
                         <div className="text-center">{item.title}</div>
                         <DynamicSvg
                           src={right_arrow.src}
