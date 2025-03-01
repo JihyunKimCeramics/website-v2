@@ -46,7 +46,7 @@ export default function ProjectsPage(props) {
             >
               {data.data.projectsPage.projects.map((item, index) => {
                 return (
-                  <div key={item.id} className="relative">
+                  <div key={item.id} className="relative cursor-pointer mb-8">
                     <Image
                       item={item}
                       height={5}
@@ -55,13 +55,15 @@ export default function ProjectsPage(props) {
                       index={index}
                     />
                     <div className="w-full flex flex-row justify-center">
-                      <div className="mb-5 py-3.5 w-auto rounded-full flex flex-row justify-center gap-3 cursor-pointer">
-                        <div className="text-center">{item.title}</div>
-                        <DynamicSvg
+                      <div className="pt-4 pb-1 w-auto rounded-full flex flex-row justify-center gap-3">
+                        <div className="text-center text-lg sm:text-base font-medium sm:font-normal">
+                          {item.title}
+                        </div>
+                        {/* <DynamicSvg
                           src={right_arrow.src}
                           color={data.data.theme.textColour}
                           className="mx-auto my-auto"
-                        />
+                        /> */}
                       </div>
                     </div>
                   </div>
