@@ -652,6 +652,7 @@ export default defineConfig({
                     name: "description",
                     label: "Description",
                     description: "Description of the project.",
+                    toolbarOverride: ["bold", "italic"],
                   },
 
                   {
