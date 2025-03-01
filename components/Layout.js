@@ -76,7 +76,7 @@ export default function Layout({ data, children }) {
 
   return (
     <div
-      style={{ opacity, color: fontColor, backgroundColor }}
+      style={{ opacity, color: fontColor, backgroundColor, minWidth: "315px" }}
       className="relative"
     >
       <div className="pb-16 lg:pb-24 transition-all duration-300">

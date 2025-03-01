@@ -304,6 +304,29 @@ export default defineConfig({
             fields: [
               {
                 type: "object",
+                name: "quote",
+                label: "Quote",
+                fields: [
+                  {
+                    type: "boolean",
+                    name: "showQuote",
+                    label: "Show Quote",
+                  },
+                  {
+                    type: "string",
+                    name: "text",
+                    label: "Quote",
+                    description: "A quote for the home page.",
+                  },
+                  {
+                    type: "boolean",
+                    name: "showLine",
+                    label: "Show Line",
+                  },
+                ],
+              },
+              {
+                type: "object",
                 name: "imageGallery",
                 label: "Image Gallery",
                 fields: [
@@ -569,29 +592,6 @@ export default defineConfig({
                   },
                 ],
               },
-              {
-                type: "object",
-                name: "quote",
-                label: "Quote",
-                fields: [
-                  {
-                    type: "boolean",
-                    name: "showQuote",
-                    label: "Show Quote",
-                  },
-                  {
-                    type: "string",
-                    name: "text",
-                    label: "Quote",
-                    description: "A quote for the home page.",
-                  },
-                  {
-                    type: "boolean",
-                    name: "showLine",
-                    label: "Show Line",
-                  },
-                ],
-              },
             ],
           },
           {
@@ -611,10 +611,24 @@ export default defineConfig({
                 description: "The title of the projects page.",
               },
               {
+                type: "boolean",
+                name: "showLine",
+                label: "Show Line",
+              },
+              {
+                type: "number",
+                name: "spacing",
+                label: "Spacing",
+                description: "The spacing between projects.",
+              },
+              {
                 type: "object",
                 name: "projects",
                 label: "Projects",
                 list: true,
+                itemProps: (item) => ({
+                  label: item?.title || "New Project",
+                }),
                 fields: [
                   {
                     type: "string",
@@ -623,21 +637,9 @@ export default defineConfig({
                     description: "The title of the project.",
                   },
                   {
-                    type: "string",
-                    name: "description",
-                    label: "Description",
-                    description: "A description of the project.",
-                  },
-                  {
                     type: "image",
                     name: "image",
                     label: "Image",
-                  },
-                  {
-                    type: "string",
-                    name: "link",
-                    label: "Link",
-                    description: "A link to the project.",
                   },
                 ],
               },
