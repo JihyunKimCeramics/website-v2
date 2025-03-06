@@ -12,6 +12,8 @@ export default function MobileMenu({
   buttonHoverColor,
   showProjectsPage,
   projectsPageTitle,
+  showExhibitionsPage,
+  exhibitionsPageTitle,
 }) {
   return (
     <div
@@ -77,13 +79,15 @@ export default function MobileMenu({
           >
             Shop
           </a>
-          <a
-            className="my-auto hover:opacity-70"
-            href="#"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            Exhibitions
-          </a>
+          {showExhibitionsPage && (
+            <a
+              className="my-auto hover:opacity-70"
+              href="/exhibitions"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {exhibitionsPageTitle}
+            </a>
+          )}
         </div>
       </div>
     </div>

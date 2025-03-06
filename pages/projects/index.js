@@ -1,8 +1,6 @@
 import { tinaField, useTina } from "tinacms/dist/react";
 import { client } from "../../tina/__generated__/client";
 import Image from "../../components/Image";
-import DynamicSvg from "../../components/DynamicSvg";
-import right_arrow from "../../public/images/right_arrow.svg";
 
 export default function ProjectsPage(props) {
   const { data } = useTina({
@@ -55,15 +53,10 @@ export default function ProjectsPage(props) {
                       index={index}
                     />
                     <div className="w-full flex flex-row justify-center">
-                      <div className="pt-4 pb-1 w-auto rounded-full flex flex-row justify-center gap-3">
-                        <div className="text-center text-lg sm:text-base font-medium sm:font-normal">
+                      <div className="pt-3 px-auto w-full flex flex-row justify-center gap-2">
+                        <div className="text-center text-base font-semibold hover:opacity-70">
                           {item.title}
                         </div>
-                        {/* <DynamicSvg
-                          src={right_arrow.src}
-                          color={data.data.theme.textColour}
-                          className="mx-auto my-auto"
-                        /> */}
                       </div>
                     </div>
                   </div>

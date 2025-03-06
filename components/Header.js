@@ -13,11 +13,13 @@ export default function Header({
   buttonHoverColor,
   bannerColor,
   showProjectsPage,
+  showExhibitionsPage,
   header,
   showBanner,
   bannerText,
   title,
   projectsPageTitle,
+  exhibitionsPageTitle,
 }) {
   return (
     <>
@@ -65,9 +67,11 @@ export default function Header({
           <a className="my-auto hover:opacity-70" href="#">
             Shop
           </a>
-          <a className="my-auto hover:opacity-70" href="#">
-            Exhibitions
-          </a>
+          {showExhibitionsPage && (
+            <a className="my-auto hover:opacity-70" href="/exhibitions">
+              {exhibitionsPageTitle}
+            </a>
+          )}
           <div
             className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
             style={{ backgroundColor: buttonColor }}

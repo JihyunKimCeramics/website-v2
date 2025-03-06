@@ -913,6 +913,78 @@ export default defineConfig({
               },
             ],
           },
+          {
+            type: "object",
+            name: "exhibitionsPage",
+            label: "Exhibitions Page",
+            fields: [
+              {
+                type: "boolean",
+                name: "showExhibitionsPage",
+                label: "Show Exhibitions Page",
+              },
+              {
+                type: "string",
+                name: "title",
+                label: "Title",
+                description: "The title of the exhibitions page.",
+              },
+              {
+                type: "boolean",
+                name: "showLine",
+                label: "Show Line",
+              },
+              {
+                type: "number",
+                name: "spacing",
+                label: "Spacing",
+                description: "The spacing between exhibitions.",
+              },
+              {
+                type: "object",
+                name: "exhibitions",
+                label: "Exhibitions",
+                list: true,
+                itemProps: (item) => ({
+                  label: item?.title || "New Exhibition",
+                }),
+                fields: [
+                  {
+                    type: "string",
+                    name: "title",
+                    label: "Title",
+                    description: "The title of the exhibition.",
+                    required: true,
+                  },
+                  {
+                    type: "image",
+                    name: "image",
+                    label: "Main Image",
+                    required: true,
+                  },
+                  {
+                    type: "string",
+                    name: "dates",
+                    label: "Dates",
+                    description: "Exhibition dates.",
+                  },
+                  {
+                    type: "string",
+                    name: "location",
+                    label: "Location",
+                    description: "Exhibition location.",
+                  },
+                  {
+                    type: "rich-text",
+                    name: "description",
+                    label: "Description",
+                    description: "Description of the exhibition.",
+                    toolbarOverride: ["bold", "italic"],
+                  },
+                ],
+              },
+            ],
+          },
         ],
         ui: {
           router: () => "/",

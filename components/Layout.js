@@ -17,6 +17,7 @@ export default function Layout({ data, children }) {
   const bannerColor = data.data.header.bannerColour;
   const isPopupOpen = mobileMenuOpen || faqsOpen;
   const showProjectsPage = data.data.projectsPage.showProjectsPage;
+  const showExhibitionsPage = data.data.exhibitionsPage.showExhibitionsPage;
   const [opacity, setOpacity] = useState(1);
 
   useEffect(() => {
@@ -88,11 +89,13 @@ export default function Layout({ data, children }) {
           buttonHoverColor={buttonHoverColor}
           bannerColor={bannerColor}
           showProjectsPage={showProjectsPage}
+          showExhibitionsPage={showExhibitionsPage}
           header={data.data.header}
           showBanner={data.data.header.showBanner}
           bannerText={data.data.header.bannerText}
           title={data.data.header.title}
           projectsPageTitle={data.data.projectsPage.title}
+          exhibitionsPageTitle={data.data.exhibitionsPage.title}
         />
         {children}
         <Footer
@@ -104,7 +107,7 @@ export default function Layout({ data, children }) {
           setFaqsOpen={setFaqsOpen}
           signupToggle={data.data.footer.signup.toggle}
           thankYouMessage={data.data.footer.signup.thankYouMessage}
-          signUp={data.data.footer.signup.signUp}
+          signUp={data.data.footer.signup}
           signupText={data.data.footer.signup.text}
           signupPlaceholder={data.data.footer.signup.placeholder}
           instaToggle={data.data.footer.insta.toggle}
@@ -128,6 +131,8 @@ export default function Layout({ data, children }) {
         buttonHoverColor={buttonHoverColor}
         showProjectsPage={showProjectsPage}
         projectsPageTitle={data.data.projectsPage.title}
+        showExhibitionsPage={showExhibitionsPage}
+        exhibitionsPageTitle={data.data.exhibitionsPage.title}
       />
       <Faqs
         data={data}
