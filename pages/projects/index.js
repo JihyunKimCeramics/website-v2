@@ -1,6 +1,15 @@
 import { tinaField, useTina } from "tinacms/dist/react";
 import { client } from "../../tina/__generated__/client";
 import Image from "../../components/Image";
+import Link from "next/link";
+
+// Utility function to generate a slug from a title
+function generateSlug(title) {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
 
 export default function ProjectsPage(props) {
   const { data } = useTina({
@@ -9,7 +18,7 @@ export default function ProjectsPage(props) {
     data: props.data,
   });
 
-  const gap = data?.data?.projectsPage?.spacing || 0;
+  const gap = data.data.projectsPage.spacing || 0;
   const minWidth = 270;
 
   return (
@@ -43,23 +52,26 @@ export default function ProjectsPage(props) {
               }}
             >
               {data.data.projectsPage.projects.map((item, index) => {
+                const slug = item.slug || generateSlug(item.title);
                 return (
-                  <div key={item.id} className="relative cursor-pointer mb-8">
-                    <Image
-                      item={item}
-                      height={5}
-                      image={item.image}
-                      tinaName="image"
-                      index={index}
-                    />
-                    <div className="w-full flex flex-row justify-center">
-                      <div className="pt-3 px-auto w-full flex flex-row justify-center gap-2">
-                        <div className="text-center text-base font-semibold hover:opacity-70">
-                          {item.title}
+                  <Link key={index} href={`/projects/${slug}`}>
+                    <div className="relative cursor-pointer mb-8">
+                      <Image
+                        item={item}
+                        height={5}
+                        image={item.image}
+                        tinaName="image"
+                        index={index}
+                      />
+                      <div className="w-full flex flex-row justify-center">
+                        <div className="pt-3 px-auto w-full flex flex-row justify-center gap-2">
+                          <div className="text-center text-base font-semibold hover:opacity-70">
+                            {item.title}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
