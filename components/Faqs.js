@@ -112,11 +112,15 @@ export default function Faqs({
                           className="px-4 pb-4 text-sm sm:text-base font-light prose max-w-none"
                           style={{ color: fontColor }}
                         >
-                          <div
-                            className="space-y-4"
-                            data-tina-field={tinaField(faq, "answer")}
-                          >
-                            <TinaMarkdown content={faq.answer} />
+                          <div data-tina-field={tinaField(faq, "answer")}>
+                            <TinaMarkdown
+                              content={faq.answer}
+                              components={{
+                                p: ({ children }) => (
+                                  <p className="mb-2">{children}</p>
+                                ),
+                              }}
+                            />
                           </div>
                         </div>
                       </div>

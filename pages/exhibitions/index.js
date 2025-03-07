@@ -87,7 +87,14 @@ export default function ExhibitionsPage(props) {
                             className="text-left text-sm font-extralight leading-relaxed"
                             data-tina-field={tinaField(item, "location")}
                           >
-                            <TinaMarkdown content={item.description} />
+                            <TinaMarkdown
+                              content={item.description}
+                              components={{
+                                p: ({ children }) => (
+                                  <p className="mb-2">{children}</p>
+                                ),
+                              }}
+                            />
                           </div>
                         )}
                       </div>
