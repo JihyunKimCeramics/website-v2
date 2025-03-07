@@ -3,7 +3,6 @@ import { client } from "../../tina/__generated__/client";
 import Image from "../../components/Image";
 import Link from "next/link";
 
-// Utility function to generate a slug from a title
 function generateSlug(title) {
   return title
     .toLowerCase()
@@ -39,6 +38,7 @@ export default function ProjectsPage(props) {
             ></div>
           )}
         </div>
+
         <div className="mt-16 lg:mt-24">
           {data.data.homePage.imageGallery.mobileImageGallery && (
             <div

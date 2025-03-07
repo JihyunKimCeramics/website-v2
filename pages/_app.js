@@ -5,15 +5,13 @@ import Head from "next/head";
 import Layout from "../components/Layout";
 
 export default function App({ Component, pageProps }) {
-  const { data } = useTina({
+  const tinaResult = useTina({
     query: pageProps.query,
     variables: pageProps.variables,
     data: pageProps.data,
   });
 
-  if (!data?.data) {
-    return <div>Loading...</div>;
-  }
+  const data = tinaResult.data?.data || pageProps.data.data;
 
   return (
     <>
@@ -25,7 +23,7 @@ export default function App({ Component, pageProps }) {
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         />
       </Head>
-      <Layout data={data}>
+      <Layout data={{ data }}>
         <Component {...pageProps} />
       </Layout>
     </>

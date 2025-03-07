@@ -3,7 +3,6 @@ import { TinaMarkdown } from "tinacms/dist/rich-text";
 import { client } from "../../tina/__generated__/client";
 import Image from "../../components/Image";
 
-// Utility function to generate a slug from a title
 function generateSlug(title) {
   return title
     .toLowerCase()
@@ -16,9 +15,9 @@ export default function ProjectPage(props) {
     query: props.query,
     variables: props.variables,
     data: props.data,
+    skip: true,
   });
 
-  // NOTE: The global data is nested under "data.data"
   const project = data.data.project;
 
   return (
@@ -40,12 +39,10 @@ export default function ProjectPage(props) {
 }
 
 export async function getStaticPaths() {
-  // Fetch the full global data from index.mdx.
   const { data } = await client.queries.data({
     relativePath: "index.mdx",
   });
 
-  // Data is nested under data.data
   const projects = data.data.projectsPage.projects;
 
   const paths = projects.map((project) => {
@@ -60,15 +57,12 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  // Fetch the full global data from index.mdx.
   const { data, query, variables } = await client.queries.data({
     relativePath: "index.mdx",
   });
 
-  // Global data (includes theme, header, etc.)
   const globalData = data.data;
 
-  // Find the project matching the slug.
   const project = globalData.projectsPage.projects.find((p) => {
     const slug = p.slug || generateSlug(p.title);
     return slug === params.slug;
@@ -80,8 +74,6 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  // Merge the global data with the specific project data.
-  // This way, _app.js and Layout receive the expected shape.
   return {
     props: {
       data: { data: { ...globalData, project } },
