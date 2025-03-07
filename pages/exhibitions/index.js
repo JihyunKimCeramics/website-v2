@@ -54,7 +54,7 @@ export default function ExhibitionsPage(props) {
                       index={index}
                     />
                     <div className="w-full flex flex-row justify-center">
-                      <div className="pt-3 px-12 sm:px-8 md:px-0 w-full flex flex-col justify-start gap-3">
+                      <div className="pt-4 px-12 sm:px-8 md:px-0 w-full flex flex-col justify-start gap-3">
                         <div
                           className="text-left text-base font-semibold"
                           data-tina-field={tinaField(item, "title")}
