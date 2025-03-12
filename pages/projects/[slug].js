@@ -2,6 +2,7 @@ import { tinaField, useTina } from "tinacms/dist/react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 import { client } from "../../tina/__generated__/client";
 import Image from "../../components/Image";
+import React, { useEffect, useState } from "react";
 
 function generateSlug(title) {
   return title
@@ -18,22 +19,35 @@ export default function ProjectPage(props) {
     skip: true,
   });
 
-  const project = data.data.project;
+  const [project, setProject] = useState("");
+
+  useEffect(() => {
+    if (data.data.project != project && data.data.project != null) {
+      setProject(data.data.project);
+    }
+  });
 
   return (
-    <div className="container mx-auto py-8">
-      <h1
-        className="text-3xl font-bold mb-4"
-        data-tina-field={tinaField(project, "title")}
-      >
-        {project.title}
-      </h1>
-      {project.image && (
-        <Image item={project} image={project.image} tinaName="image" />
+    <div>
+      {project && (
+        <div className="container mx-auto py-8">
+          <h1
+            className="text-3xl font-bold mb-4"
+            data-tina-field={tinaField(project, "title")}
+          >
+            {project.title}
+          </h1>
+          {project.image && (
+            <Image item={project} image={project.image} tinaName="image" />
+          )}
+          <div
+            className="mt-4"
+            data-tina-field={tinaField(project, "description")}
+          >
+            <TinaMarkdown content={project.description} />
+          </div>
+        </div>
       )}
-      <div className="mt-4" data-tina-field={tinaField(project, "description")}>
-        <TinaMarkdown content={project.description} />
-      </div>
     </div>
   );
 }
