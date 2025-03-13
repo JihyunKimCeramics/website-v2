@@ -634,7 +634,8 @@ export default defineConfig({
                     type: "string",
                     name: "title",
                     label: "Title",
-                    description: "The title of the project.",
+                    description:
+                      "WARNING: Changing the title will change the URL so you will need to update the URL in the browser after saving.",
                   },
                   {
                     type: "image",
@@ -659,6 +660,12 @@ export default defineConfig({
                     type: "boolean",
                     name: "showGallery",
                     label: "Show Gallery",
+                  },
+                  {
+                    type: "number",
+                    name: "imageSpacing",
+                    label: "Image Spacing",
+                    description: "The spacing between images.",
                   },
                   {
                     type: "object",

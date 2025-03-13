@@ -40,7 +40,7 @@ export default function ProjectsPage(props) {
         </div>
 
         <div className="mt-16 lg:mt-24">
-          {data.data.homePage.imageGallery.mobileImageGallery && (
+          {data.data.projectsPage.projects && (
             <div
               className="grid w-full mx-auto"
               style={{
