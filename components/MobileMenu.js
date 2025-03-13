@@ -39,7 +39,7 @@ export default function MobileMenu({
       </div>
       <div className="flex flex-row justify-center -mt-2">
         <div className="flex flex-col gap-8 text-center text-lg">
-          <div
+          {/* <div
             className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer mx-auto"
             style={{ backgroundColor: buttonColor }}
             onMouseEnter={(e) =>
@@ -55,7 +55,7 @@ export default function MobileMenu({
               color={fontColor}
               className="mx-auto my-auto"
             />
-          </div>
+          </div> */}
           {showProjectsPage && (
             <a
               className="my-auto hover:opacity-70"

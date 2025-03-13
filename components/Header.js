@@ -72,7 +72,7 @@ export default function Header({
               {exhibitionsPageTitle}
             </a>
           )}
-          <div
+          {/* <div
             className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
             style={{ backgroundColor: buttonColor }}
             onMouseEnter={(e) =>
@@ -87,7 +87,7 @@ export default function Header({
               color={fontColor}
               className="mx-auto my-auto"
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </>
