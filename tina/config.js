@@ -995,6 +995,30 @@ export default defineConfig({
               },
             ],
           },
+          {
+            type: "object",
+            name: "shopPage",
+            label: "Shop",
+            fields: [
+              {
+                type: "boolean",
+                name: "showShopPage",
+                label: "Show Shop Link",
+              },
+              {
+                type: "string",
+                name: "title",
+                label: "Title",
+                description: "The title of the shop link.",
+              },
+              {
+                type: "string",
+                name: "link",
+                label: "Link",
+                description: "The link to the shop.",
+              },
+            ],
+          },
         ],
         ui: {
           router: () => "/",

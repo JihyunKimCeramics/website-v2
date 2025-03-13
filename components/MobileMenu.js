@@ -14,6 +14,9 @@ export default function MobileMenu({
   projectsPageTitle,
   showExhibitionsPage,
   exhibitionsPageTitle,
+  showShopPage,
+  shopPageTitle,
+  shopPageLink,
 }) {
   return (
     <div
@@ -72,13 +75,15 @@ export default function MobileMenu({
           >
             About
           </a>
-          {/* <a
-            className="my-auto hover:opacity-70"
-            href="#"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            Shop
-          </a> */}
+          {showShopPage && (
+            <a
+              className="my-auto hover:opacity-70"
+              href={shopPageLink}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {shopPageTitle}
+            </a>
+          )}
           {showExhibitionsPage && (
             <a
               className="my-auto hover:opacity-70"

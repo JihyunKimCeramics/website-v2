@@ -18,6 +18,7 @@ export default function Layout({ data, children }) {
   const isPopupOpen = mobileMenuOpen || faqsOpen;
   const showProjectsPage = data.data.projectsPage.showProjectsPage;
   const showExhibitionsPage = data.data.exhibitionsPage.showExhibitionsPage;
+  const showShopPage = data.data.shopPage.showShopPage;
   const [opacity, setOpacity] = useState(1);
 
   useEffect(() => {
@@ -90,12 +91,15 @@ export default function Layout({ data, children }) {
           bannerColor={bannerColor}
           showProjectsPage={showProjectsPage}
           showExhibitionsPage={showExhibitionsPage}
+          showShopPage={showShopPage}
           header={data.data.header}
           showBanner={data.data.header.showBanner}
           bannerText={data.data.header.bannerText}
           title={data.data.header.title}
           projectsPageTitle={data.data.projectsPage.title}
           exhibitionsPageTitle={data.data.exhibitionsPage.title}
+          shopPageTitle={data.data.shopPage.title}
+          shopPageLink={data.data.shopPage.link}
         />
         {children}
         <Footer
@@ -133,6 +137,9 @@ export default function Layout({ data, children }) {
         projectsPageTitle={data.data.projectsPage.title}
         showExhibitionsPage={showExhibitionsPage}
         exhibitionsPageTitle={data.data.exhibitionsPage.title}
+        showShopPage={showShopPage}
+        shopPageTitle={data.data.shopPage.title}
+        shopPageLink={data.data.shopPage.link}
       />
       <Faqs
         data={data}
