@@ -159,7 +159,7 @@ export default function ProjectPage(props) {
           {data.data.projectsPage.projects[projectIndex]
             .desktopImageGallery && (
             <div
-              className="sm:flex flex-col hidden md:w-200 lg:w-300 xl:w-400 mx-12 md:mx-auto"
+              className="sm:flex flex-col hidden md:w-200 lg:w-300 xl:w-400 md:mx-auto"
               style={{ gap: `${gap}px` }}
             >
               {data.data.projectsPage.projects[
