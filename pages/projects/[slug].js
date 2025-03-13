@@ -98,7 +98,7 @@ export default function ProjectPage(props) {
           </div>
         )} */}
       </div>
-      <div className="md:w-200 lg:w-300 xl:w-400 mx-12 md:mx-auto mt-16 lg:mt-24">
+      <div className="w-full md:w-200 lg:w-300 xl:w-400 md:mx-auto mt-16 lg:mt-24">
         <Image
           item={data.data.projectsPage.projects[projectIndex]}
           height={5}
