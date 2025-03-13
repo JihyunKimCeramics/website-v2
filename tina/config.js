@@ -618,8 +618,16 @@ export default defineConfig({
               {
                 type: "number",
                 name: "spacing",
-                label: "Spacing",
-                description: "The spacing between projects.",
+                label: "Project main page spacing",
+                description:
+                  "The spacing between projects in the main projects page.",
+              },
+              {
+                type: "number",
+                name: "imageSpacing",
+                label: "Image gallery spacing",
+                description:
+                  "The spacing between images in the image gallery of a specific project.",
               },
               {
                 type: "object",
@@ -660,12 +668,6 @@ export default defineConfig({
                     type: "boolean",
                     name: "showGallery",
                     label: "Show Gallery",
-                  },
-                  {
-                    type: "number",
-                    name: "imageSpacing",
-                    label: "Image Spacing",
-                    description: "The spacing between images.",
                   },
                   {
                     type: "object",
