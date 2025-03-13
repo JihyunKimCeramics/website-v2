@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }) {
     data: pageProps.data,
   });
 
-  const data = tinaResult.data?.data || pageProps.data.data;
+  const data = tinaResult.data?.data || pageProps.data.data || {};
 
   return (
     <>
