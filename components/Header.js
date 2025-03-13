@@ -64,9 +64,9 @@ export default function Header({
           <a className="my-auto hover:opacity-70" href="#">
             About
           </a>
-          <a className="my-auto hover:opacity-70" href="#">
+          {/* <a className="my-auto hover:opacity-70" href="#">
             Shop
-          </a>
+          </a> */}
           {showExhibitionsPage && (
             <a className="my-auto hover:opacity-70" href="/exhibitions">
               {exhibitionsPageTitle}

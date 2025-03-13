@@ -72,13 +72,13 @@ export default function MobileMenu({
           >
             About
           </a>
-          <a
+          {/* <a
             className="my-auto hover:opacity-70"
             href="#"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             Shop
-          </a>
+          </a> */}
           {showExhibitionsPage && (
             <a
               className="my-auto hover:opacity-70"
