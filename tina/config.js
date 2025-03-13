@@ -609,6 +609,7 @@ export default defineConfig({
                 name: "title",
                 label: "Title",
                 description: "The title of the projects page.",
+                required: true,
               },
               {
                 type: "boolean",

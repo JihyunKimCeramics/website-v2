@@ -293,8 +293,10 @@ export async function getStaticPaths() {
   const projects = data.data.projectsPage.projects;
 
   const paths = projects.map((project) => {
-    const slug = project.slug || generateSlug(project.title);
-    return { params: { slug } };
+    if (project.title != null) {
+      const slug = project.slug || generateSlug(project.title);
+      return { params: { slug } };
+    }
   });
 
   return {
@@ -311,8 +313,10 @@ export async function getStaticProps({ params }) {
   const globalData = data.data;
 
   const project = globalData.projectsPage.projects.find((p) => {
-    const slug = p.slug || generateSlug(p.title);
-    return slug === params.slug;
+    if (p.title != null) {
+      const slug = p.slug || generateSlug(p.title);
+      return slug === params.slug;
+    }
   });
 
   if (!project) {

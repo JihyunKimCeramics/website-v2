@@ -4,10 +4,12 @@ import Image from "../../components/Image";
 import Link from "next/link";
 
 function generateSlug(title) {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
+  if (title != null) {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
 }
 
 export default function ProjectsPage(props) {
