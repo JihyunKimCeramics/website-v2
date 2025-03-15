@@ -765,8 +765,16 @@ export default defineConfig({
                             type: "image",
                             name: "image3",
                             label: "Right Image",
-                            description:
-                              "Note: For mobile view this image will be separated.",
+                          },
+                          {
+                            label: "Image to separate for Mobile view",
+                            name: "separateImage",
+                            type: "string",
+                            options: [
+                              { value: "0", label: "Left" },
+                              { value: "1", label: "Middle" },
+                              { value: "2", label: "Right" },
+                            ],
                           },
                           {
                             label: "Height",

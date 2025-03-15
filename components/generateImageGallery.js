@@ -13,15 +13,18 @@ const useImageGallery = (galleryItems) => {
         const key = `item-${index}`;
         const images = [];
 
-        if (item.image1) images.push({ image: item.image1, name: "image1" });
-        if (item.image2) images.push({ image: item.image2, name: "image2" });
-        if (item.image3) images.push({ image: item.image3, name: "image3" });
+        Object.keys(item)
+          .filter((key) => key.startsWith("image"))
+          .forEach((imgKey, idx) => {
+            images.push({ image: item[imgKey], name: `image${idx + 1}` });
+          });
 
         structuredGallery[key] = {
           images,
           height: item.height,
           index: index,
-          item: item, // Preserve full item
+          item: item,
+          separateImage: item.separateImage ?? 2,
         };
       });
 
@@ -30,16 +33,20 @@ const useImageGallery = (galleryItems) => {
       const galleryItemsProcessed = Object.values(structuredGallery).flatMap(
         (item) => {
           if (item.images.length === 3) {
+            const values = [0, 1, 2].filter(
+              (value) => value != item.separateImage
+            );
+            console.log("hi", values, item.separateImage);
             return [
               {
-                images: [item.images[0], item.images[1]],
+                images: [item.images[values[0]], item.images[values[1]]],
                 height: item.height * 2,
                 index: item.index,
                 item: item.item,
               },
               {
-                images: [item.images[2]],
-                height: item.height * 3,
+                images: [item.images[item.separateImage]],
+                height: 5,
                 index: item.index,
                 item: item.item,
               },

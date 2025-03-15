@@ -1,6 +1,6 @@
 import { tinaField, useTina } from "tinacms/dist/react";
 import { client } from "../tina/__generated__/client";
-import Image from "../components/Image";
+import { ImageGallery } from "../components/generateImageGallery";
 
 export default function HomePage(props) {
   const { data } = useTina({
@@ -10,6 +10,9 @@ export default function HomePage(props) {
   });
 
   const gap = data?.data?.homePage?.imageGallery?.imageSpacing || 0;
+
+  const galleryItems =
+    data?.data?.homePage?.imageGallery?.desktopImageGallery || [];
 
   return (
     <div>
@@ -34,7 +37,7 @@ export default function HomePage(props) {
 
         {data.data.homePage.imageGallery.showGallery && (
           <div className="mt-16 lg:mt-24">
-            {data.data.homePage.imageGallery.mobileImageGallery && (
+            {/* {data.data.homePage.imageGallery.mobileImageGallery && (
               <div
                 className="flex flex-col sm:hidden"
                 style={{ gap: `${gap}px` }}
@@ -206,6 +209,9 @@ export default function HomePage(props) {
                   }
                 )}
               </div>
+            )} */}
+            {data.data.homePage.imageGallery.desktopImageGallery && (
+              <ImageGallery galleryItems={galleryItems} gap={gap} />
             )}
           </div>
         )}

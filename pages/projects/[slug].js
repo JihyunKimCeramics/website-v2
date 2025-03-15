@@ -2,7 +2,6 @@ import { tinaField, useTina } from "tinacms/dist/react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 import { client } from "../../tina/__generated__/client";
 import React, { useEffect, useState } from "react";
-import arrow from "../../public/images/right_arrow.svg";
 import Image from "../../components/Image";
 import { ImageGallery } from "../../components/generateImageGallery";
 
