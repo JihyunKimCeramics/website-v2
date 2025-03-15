@@ -15,6 +15,7 @@ export default function Header({
   showProjectsPage,
   showExhibitionsPage,
   showShopPage,
+  showAboutPage,
   header,
   showBanner,
   bannerText,
@@ -23,6 +24,7 @@ export default function Header({
   exhibitionsPageTitle,
   shopPageTitle,
   shopPageLink,
+  aboutPageTitle,
 }) {
   return (
     <>
@@ -64,9 +66,11 @@ export default function Header({
               {projectsPageTitle}
             </a>
           )}
-          <a className="my-auto hover:opacity-70" href="#">
-            About
-          </a>
+          {showAboutPage && (
+            <a className="my-auto hover:opacity-70" href="/about">
+              {aboutPageTitle}
+            </a>
+          )}
           {showShopPage && (
             <a className="my-auto hover:opacity-70" href={shopPageLink}>
               {shopPageTitle}

@@ -677,6 +677,48 @@ export default defineConfig({
           },
           {
             type: "object",
+            name: "aboutPage",
+            label: "About",
+            fields: [
+              {
+                type: "boolean",
+                name: "showAboutPage",
+                label: "Show About Page",
+              },
+              {
+                type: "string",
+                name: "title",
+                label: "Title",
+                description: "The title of the about page.",
+              },
+            ],
+          },
+          {
+            type: "object",
+            name: "shopPage",
+            label: "Shop",
+            fields: [
+              {
+                type: "boolean",
+                name: "showShopPage",
+                label: "Show Shop Link",
+              },
+              {
+                type: "string",
+                name: "title",
+                label: "Title",
+                description: "The title of the shop link.",
+              },
+              {
+                type: "string",
+                name: "link",
+                label: "Link",
+                description: "The link to the shop.",
+              },
+            ],
+          },
+          {
+            type: "object",
             name: "exhibitionsPage",
             label: "Exhibitions Page",
             fields: [
@@ -744,30 +786,6 @@ export default defineConfig({
                     toolbarOverride: ["bold", "italic"],
                   },
                 ],
-              },
-            ],
-          },
-          {
-            type: "object",
-            name: "shopPage",
-            label: "Shop",
-            fields: [
-              {
-                type: "boolean",
-                name: "showShopPage",
-                label: "Show Shop Link",
-              },
-              {
-                type: "string",
-                name: "title",
-                label: "Title",
-                description: "The title of the shop link.",
-              },
-              {
-                type: "string",
-                name: "link",
-                label: "Link",
-                description: "The link to the shop.",
               },
             ],
           },

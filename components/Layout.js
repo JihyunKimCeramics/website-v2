@@ -19,6 +19,7 @@ export default function Layout({ data, children }) {
   const showProjectsPage = data.data.projectsPage.showProjectsPage;
   const showExhibitionsPage = data.data.exhibitionsPage.showExhibitionsPage;
   const showShopPage = data.data.shopPage.showShopPage;
+  const showAboutPage = data.data.aboutPage.showAboutPage;
   const [opacity, setOpacity] = useState(1);
 
   useEffect(() => {
@@ -92,6 +93,7 @@ export default function Layout({ data, children }) {
           showProjectsPage={showProjectsPage}
           showExhibitionsPage={showExhibitionsPage}
           showShopPage={showShopPage}
+          showAboutPage={showAboutPage}
           header={data.data.header}
           showBanner={data.data.header.showBanner}
           bannerText={data.data.header.bannerText}
@@ -100,6 +102,7 @@ export default function Layout({ data, children }) {
           exhibitionsPageTitle={data.data.exhibitionsPage.title}
           shopPageTitle={data.data.shopPage.title}
           shopPageLink={data.data.shopPage.link}
+          aboutPageTitle={data.data.aboutPage.title}
         />
         {children}
         <Footer
@@ -140,6 +143,8 @@ export default function Layout({ data, children }) {
         showShopPage={showShopPage}
         shopPageTitle={data.data.shopPage.title}
         shopPageLink={data.data.shopPage.link}
+        showAboutPage={showAboutPage}
+        aboutPageTitle={data.data.aboutPage.title}
       />
       <Faqs
         data={data}
