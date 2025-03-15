@@ -303,292 +303,161 @@ export default defineConfig({
             label: "Home Page",
             fields: [
               {
-                type: "object",
-                name: "quote",
+                type: "boolean",
+                name: "showQuote",
+                label: "Show Quote",
+              },
+              {
+                type: "string",
+                name: "text",
                 label: "Quote",
-                fields: [
-                  {
-                    type: "boolean",
-                    name: "showQuote",
-                    label: "Show Quote",
-                  },
-                  {
-                    type: "string",
-                    name: "text",
-                    label: "Quote",
-                    description: "A quote for the home page.",
-                  },
-                  {
-                    type: "boolean",
-                    name: "showLine",
-                    label: "Show Line",
-                  },
-                ],
+                description: "A quote for the home page.",
+              },
+              {
+                type: "boolean",
+                name: "showLine",
+                label: "Show Line",
+              },
+              {
+                type: "boolean",
+                name: "showGallery",
+                label: "Show Gallery",
+              },
+              {
+                type: "number",
+                name: "imageSpacing",
+                label: "Image Spacing",
+                description: "The spacing between images.",
               },
               {
                 type: "object",
                 name: "imageGallery",
                 label: "Image Gallery",
-                fields: [
+                list: true,
+                templates: [
                   {
-                    type: "boolean",
-                    name: "showGallery",
-                    label: "Show Gallery",
-                  },
-                  {
-                    type: "object",
-                    name: "mobileImageGallery",
-                    label: "Mobile Image Gallery",
-                    list: true,
-                    templates: [
+                    label: "One Image",
+                    name: "oneImage",
+                    fields: [
                       {
-                        label: "One Image",
-                        name: "oneImage",
-                        fields: [
-                          {
-                            type: "image",
-                            name: "image",
-                            label: "Image",
-                          },
-                          {
-                            label: "Height",
-                            name: "height",
-                            type: "number",
-                            description: "Choose the height of the image.",
-                            defaultValue: 1,
-                            ui: {
-                              parse: (val) => Number(val),
-                              component: wrapFieldsWithMeta(({ input }) => {
-                                return (
-                                  <input
-                                    name="height"
-                                    id="height"
-                                    type="range"
-                                    min="0"
-                                    max="10"
-                                    step=".1"
-                                    {...input}
-                                  />
-                                );
-                              }),
-                            },
-                          },
-                        ],
+                        type: "image",
+                        name: "image1",
+                        label: "Image",
                       },
                       {
-                        label: "Two Images",
-                        name: "twoImages",
-                        fields: [
-                          {
-                            type: "image",
-                            name: "image1",
-                            label: "Left Image",
-                          },
-                          {
-                            type: "image",
-                            name: "image2",
-                            label: "Right Image",
-                          },
-                          {
-                            label: "Height",
-                            name: "height",
-                            type: "number",
-                            description: "Choose the height of the images.",
-                            ui: {
-                              parse: (val) => Number(val),
-                              component: wrapFieldsWithMeta(({ input }) => {
-                                return (
-                                  <input
-                                    name="height"
-                                    id="height"
-                                    type="range"
-                                    min="0"
-                                    max="10"
-                                    step=".1"
-                                    {...input}
-                                  />
-                                );
-                              }),
-                            },
-                          },
-                        ],
+                        label: "Height",
+                        name: "height",
+                        type: "number",
+                        description: "Choose the height of the image.",
+                        ui: {
+                          parse: (val) => Number(val),
+                          component: wrapFieldsWithMeta(({ input }) => {
+                            return (
+                              <input
+                                name="height"
+                                id="height"
+                                type="range"
+                                min="0"
+                                max="10"
+                                step=".1"
+                                {...input}
+                              />
+                            );
+                          }),
+                        },
                       },
                     ],
                   },
                   {
-                    type: "object",
-                    name: "desktopImageGallery",
-                    label: "Desktop Image Gallery",
-                    list: true,
-                    templates: [
+                    label: "Two Images",
+                    name: "twoImages",
+                    fields: [
                       {
-                        label: "One Image",
-                        name: "oneImage",
-                        fields: [
-                          {
-                            type: "image",
-                            name: "image",
-                            label: "Image",
-                          },
-                          {
-                            label: "Height",
-                            name: "height",
-                            type: "number",
-                            description: "Choose the height of the image.",
-                            ui: {
-                              parse: (val) => Number(val),
-                              component: wrapFieldsWithMeta(({ input }) => {
-                                return (
-                                  <input
-                                    name="height"
-                                    id="height"
-                                    type="range"
-                                    min="0"
-                                    max="10"
-                                    step=".1"
-                                    {...input}
-                                  />
-                                );
-                              }),
-                            },
-                          },
-                        ],
+                        type: "image",
+                        name: "image1",
+                        label: "Left Image",
                       },
                       {
-                        label: "Two Images (equal width)",
-                        name: "twoImagesEqualWidth",
-                        fields: [
-                          {
-                            type: "image",
-                            name: "image1",
-                            label: "Left Image",
-                          },
-                          {
-                            type: "image",
-                            name: "image2",
-                            label: "Right Image",
-                          },
-                          {
-                            label: "Height",
-                            name: "height",
-                            type: "number",
-                            description: "Choose the height of the images.",
-                            ui: {
-                              parse: (val) => Number(val),
-                              component: wrapFieldsWithMeta(({ input }) => {
-                                return (
-                                  <input
-                                    name="height"
-                                    id="height"
-                                    type="range"
-                                    min="0"
-                                    max="10"
-                                    step=".1"
-                                    {...input}
-                                  />
-                                );
-                              }),
-                            },
-                          },
-                        ],
+                        type: "image",
+                        name: "image2",
+                        label: "Right Image",
                       },
                       {
-                        label: "Two Images (one wide)",
-                        name: "twoImagesOneWide",
-                        fields: [
-                          {
-                            type: "image",
-                            name: "image1",
-                            label: "Left Image",
-                          },
-                          {
-                            type: "image",
-                            name: "image2",
-                            label: "Right Image",
-                          },
-                          {
-                            type: "string",
-                            name: "wideImage",
-                            label: "Wide Image",
-                            options: [
-                              { value: "left", label: "Left" },
-                              { value: "right", label: "Right" },
-                            ],
-                          },
-                          {
-                            label: "Height",
-                            name: "height",
-                            type: "number",
-                            description: "Choose the height of the images.",
-                            ui: {
-                              parse: (val) => Number(val),
-                              component: wrapFieldsWithMeta(({ input }) => {
-                                return (
-                                  <input
-                                    name="height"
-                                    id="height"
-                                    type="range"
-                                    min="0"
-                                    max="10"
-                                    step=".1"
-                                    {...input}
-                                  />
-                                );
-                              }),
-                            },
-                          },
-                        ],
-                      },
-                      {
-                        label: "Three Images",
-                        name: "threeImages",
-                        fields: [
-                          {
-                            type: "image",
-                            name: "image1",
-                            label: "Left Image",
-                          },
-                          {
-                            type: "image",
-                            name: "image2",
-                            label: "Middle Image",
-                          },
-                          {
-                            type: "image",
-                            name: "image3",
-                            label: "Right Image",
-                          },
-                          {
-                            label: "Height",
-                            name: "height",
-                            type: "number",
-                            description: "Choose the height of the images.",
-                            ui: {
-                              parse: (val) => Number(val),
-                              component: wrapFieldsWithMeta(({ input }) => {
-                                return (
-                                  <input
-                                    name="height"
-                                    id="height"
-                                    type="range"
-                                    min="0"
-                                    max="10"
-                                    step=".1"
-                                    {...input}
-                                  />
-                                );
-                              }),
-                            },
-                          },
-                        ],
+                        label: "Height",
+                        name: "height",
+                        type: "number",
+                        description: "Choose the height of the images.",
+                        ui: {
+                          parse: (val) => Number(val),
+                          component: wrapFieldsWithMeta(({ input }) => {
+                            return (
+                              <input
+                                name="height"
+                                id="height"
+                                type="range"
+                                min="0"
+                                max="10"
+                                step=".1"
+                                {...input}
+                              />
+                            );
+                          }),
+                        },
                       },
                     ],
                   },
                   {
-                    type: "number",
-                    name: "imageSpacing",
-                    label: "Image Spacing",
-                    description: "The spacing between images.",
+                    label: "Three Images",
+                    name: "threeImages",
+                    fields: [
+                      {
+                        type: "image",
+                        name: "image1",
+                        label: "Left Image",
+                      },
+                      {
+                        type: "image",
+                        name: "image2",
+                        label: "Middle Image",
+                      },
+                      {
+                        type: "image",
+                        name: "image3",
+                        label: "Right Image",
+                      },
+                      {
+                        label: "Image to separate for Mobile view",
+                        name: "separateImage",
+                        type: "string",
+                        options: [
+                          { value: "0", label: "Left" },
+                          { value: "1", label: "Middle" },
+                          { value: "2", label: "Right" },
+                        ],
+                      },
+                      {
+                        label: "Height",
+                        name: "height",
+                        type: "number",
+                        description: "Choose the height of the images.",
+                        ui: {
+                          parse: (val) => Number(val),
+                          component: wrapFieldsWithMeta(({ input }) => {
+                            return (
+                              <input
+                                name="height"
+                                id="height"
+                                type="range"
+                                min="0"
+                                max="10"
+                                step=".1"
+                                {...input}
+                              />
+                            );
+                          }),
+                        },
+                      },
+                    ],
                   },
                 ],
               },

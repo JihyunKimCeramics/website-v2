@@ -39,7 +39,7 @@ const useImageGallery = (galleryItems) => {
             return [
               {
                 images: [item.images[values[0]], item.images[values[1]]],
-                height: item.height * 2,
+                height: item.height * 1.5,
                 index: item.index,
                 item: item.item,
               },
