@@ -4,6 +4,7 @@ import { client } from "../../tina/__generated__/client";
 import React, { useEffect, useState } from "react";
 import arrow from "../../public/images/right_arrow.svg";
 import Image from "../../components/Image";
+import { ImageGallery } from "../../components/generateImageGallery";
 
 function generateSlug(title) {
   return title
@@ -33,6 +34,9 @@ export default function ProjectPage(props) {
   );
 
   const gap = data?.data?.projectsPage?.imageSpacing || 0;
+
+  const galleryItems =
+    data?.data?.projectsPage?.projects[projectIndex]?.imageGallery || [];
 
   return (
     <div>
@@ -85,17 +89,6 @@ export default function ProjectPage(props) {
             ></div>
           )}
         </div>
-        {/* {data.data.projectsPage.projects[projectIndex]?.details && (
-          <div
-            className="mt-16 lg:mt-24"
-            data-tina-field={tinaField(
-              data.data.projectsPage.projects[projectIndex],
-              "details"
-            )}
-          >
-            {data.data.projectsPage.projects[projectIndex].details}
-          </div>
-        )} */}
       </div>
       <div className="w-full md:w-200 lg:w-300 xl:w-400 md:mx-auto mt-16 lg:mt-24">
         <Image
@@ -106,177 +99,12 @@ export default function ProjectPage(props) {
           index={data.data.projectsPage.projects[projectIndex]}
         />
       </div>
+
       {data.data.projectsPage.projects[projectIndex]?.showGallery && (
         <div className="mt-16 lg:mt-24" style={{ marginTop: `${gap}px` }}>
-          {data.data.projectsPage.projects[projectIndex].mobileImageGallery && (
-            <div
-              className="flex flex-col sm:hidden"
-              style={{ gap: `${gap}px` }}
-            >
-              {data.data.projectsPage.projects[
-                projectIndex
-              ].mobileImageGallery.map((item) => {
-                if (
-                  item.__typename ===
-                  "DataProjectsPageProjectsMobileImageGalleryOneImage"
-                ) {
-                  return (
-                    <Image
-                      key={item.id}
-                      item={item}
-                      height={item.height}
-                      image={item.image}
-                      tinaName={"image"}
-                    />
-                  );
-                } else if (
-                  item.__typename ===
-                  "DataHomePageImageGalleryMobileImageGalleryTwoImages"
-                ) {
-                  return (
-                    <div className="flex flex-row" style={{ gap: `${gap}px` }}>
-                      <Image
-                        key={item.id}
-                        item={item}
-                        height={item.height}
-                        image={item.image1}
-                        tinaName={"image1"}
-                      />
-                      <Image
-                        key={item.id}
-                        item={item}
-                        height={item.height}
-                        image={item.image2}
-                        tinaName={"image2"}
-                      />
-                    </div>
-                  );
-                }
-              })}
-            </div>
-          )}
-          {data.data.projectsPage.projects[projectIndex]
-            .desktopImageGallery && (
-            <div
-              className="sm:flex flex-col hidden md:w-200 lg:w-300 xl:w-400 md:mx-auto"
-              style={{ gap: `${gap}px` }}
-            >
-              {data.data.projectsPage.projects[
-                projectIndex
-              ].desktopImageGallery.map((item, index) => {
-                if (
-                  item.__typename ===
-                  "DataProjectsPageProjectsDesktopImageGalleryOneImage"
-                ) {
-                  return (
-                    <Image
-                      key={item.id}
-                      item={item}
-                      height={item.height}
-                      image={item.image}
-                      tinaName={"image"}
-                    />
-                  );
-                } else if (
-                  item.__typename ===
-                  "DataProjectsPageProjectsDesktopImageGalleryTwoImagesOneWide"
-                ) {
-                  const isWideRight = item.wideImage === "right";
-                  return (
-                    <div
-                      key={item.id}
-                      className="flex" // Changed from grid grid-cols-12 to flex
-                      style={{ gap: `${gap}px` }}
-                    >
-                      <div
-                        className={`${isWideRight ? "w-1/3" : "w-2/3"}`} // Changed from col-span to w-1/3 or w-2/3
-                      >
-                        <Image
-                          item={item}
-                          height={item.height}
-                          image={item.image1}
-                          tinaName="image1"
-                          widthFraction={isWideRight ? 1 / 3 : 2 / 3}
-                        />
-                      </div>
-                      <div
-                        className={`${isWideRight ? "w-2/3" : "w-1/3"}`} // Changed from col-span to w-2/3 or w-1/3
-                      >
-                        <Image
-                          item={item}
-                          height={item.height}
-                          image={item.image2}
-                          tinaName="image2"
-                          widthFraction={isWideRight ? 2 / 3 : 1 / 3}
-                        />
-                      </div>
-                    </div>
-                  );
-                } else if (
-                  item.__typename ===
-                  "DataProjectsPageProjectsDesktopImageGalleryTwoImagesEqualWidth"
-                ) {
-                  return (
-                    <div
-                      key={item.id}
-                      className="flex flex-row"
-                      style={{ gap: `${gap}px` }}
-                    >
-                      <Image
-                        item={item}
-                        height={item.height}
-                        image={item.image1}
-                        tinaName="image1"
-                      />
-                      <Image
-                        item={item}
-                        height={item.height}
-                        image={item.image2}
-                        tinaName="image2"
-                      />
-                    </div>
-                  );
-                } else if (
-                  item.__typename ===
-                  "DataProjectsPageProjectsDesktopImageGalleryThreeImages"
-                ) {
-                  return (
-                    <div
-                      key={item.id}
-                      className="grid grid-cols-12"
-                      style={{ gap: `${gap}px` }}
-                    >
-                      <div className="col-span-4">
-                        <Image
-                          item={item}
-                          height={item.height}
-                          image={item.image1}
-                          tinaName="image1"
-                          widthFraction={1 / 3}
-                        />
-                      </div>
-                      <div className="col-span-4">
-                        <Image
-                          item={item}
-                          height={item.height}
-                          image={item.image2}
-                          tinaName="image2"
-                          widthFraction={1 / 3}
-                        />
-                      </div>
-                      <div className="col-span-4">
-                        <Image
-                          item={item}
-                          height={item.height}
-                          image={item.image3}
-                          tinaName="image3"
-                          widthFraction={1 / 3}
-                        />
-                      </div>
-                    </div>
-                  );
-                }
-              })}
+          {data.data.projectsPage.projects[projectIndex].imageGallery && (
+            <div>
+              <ImageGallery galleryItems={galleryItems} gap={gap} />
             </div>
           )}
         </div>
