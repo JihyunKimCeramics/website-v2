@@ -103,9 +103,7 @@ export default function ProjectPage(props) {
       {data.data.projectsPage.projects[projectIndex]?.showGallery && (
         <div className="mt-16 lg:mt-24" style={{ marginTop: `${gap}px` }}>
           {data.data.projectsPage.projects[projectIndex].imageGallery && (
-            <div>
-              <ImageGallery galleryItems={galleryItems} gap={gap} />
-            </div>
+            <ImageGallery galleryItems={galleryItems} gap={gap} />
           )}
         </div>
       )}
