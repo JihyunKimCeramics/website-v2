@@ -36,7 +36,6 @@ const useImageGallery = (galleryItems) => {
             const values = [0, 1, 2].filter(
               (value) => value != item.separateImage
             );
-            console.log("hi", values, item.separateImage);
             return [
               {
                 images: [item.images[values[0]], item.images[values[1]]],
