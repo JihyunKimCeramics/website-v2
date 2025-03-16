@@ -113,6 +113,33 @@ export default defineConfig({
                 description: "The title of the website.",
               },
               {
+                type: "string",
+                name: "titleFont",
+                label: "Title Font",
+                list: false,
+                options: [
+                  { value: "Mulish", label: "Mulish" },
+                  { value: "Montserrat", label: "Montserrat" },
+                ],
+              },
+              {
+                type: "string",
+                name: "titleFontWeight",
+                label: "Title Font Weight",
+                list: false,
+                options: [
+                  { value: "100", label: "Thin" },
+                  { value: "200", label: "Extra Light" },
+                  { value: "300", label: "Light" },
+                  { value: "400", label: "Normal" },
+                  { value: "500", label: "Medium" },
+                  { value: "600", label: "Semi Bold" },
+                  { value: "700", label: "Bold" },
+                  { value: "800", label: "Extra Bold" },
+                  { value: "900", label: "Black" },
+                ],
+              },
+              {
                 type: "boolean",
                 name: "showBanner",
                 label: "Show Banner",

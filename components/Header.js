@@ -25,6 +25,8 @@ export default function Header({
   shopPageTitle,
   shopPageLink,
   aboutPageTitle,
+  titleFont,
+  titleFontWeight,
 }) {
   return (
     <>
@@ -40,7 +42,11 @@ export default function Header({
         </div>
       )}
       <div className="pt-10 xl:pt-14 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto flex flex-row justify-between">
-        <a className="font-light text-xl md:text-2xl my-auto" href="/">
+        <a
+          className="text-xl md:text-2xl my-auto"
+          style={{ fontFamily: titleFont, fontWeight: titleFontWeight }}
+          href="/"
+        >
           {title}
         </a>
         <div

@@ -20,6 +20,8 @@ export default function Layout({ data, children }) {
   const showExhibitionsPage = data.data.exhibitionsPage.showExhibitionsPage;
   const showShopPage = data.data.shopPage.showShopPage;
   const showAboutPage = data.data.aboutPage.showAboutPage;
+  const titleFont = data.data.header.titleFont;
+  const titleFontWeight = data.data.header.titleFontWeight;
   const [opacity, setOpacity] = useState(1);
 
   useEffect(() => {
@@ -103,6 +105,8 @@ export default function Layout({ data, children }) {
           shopPageTitle={data.data.shopPage.title}
           shopPageLink={data.data.shopPage.link}
           aboutPageTitle={data.data.aboutPage.title}
+          titleFont={titleFont}
+          titleFontWeight={titleFontWeight}
         />
         {children}
         <Footer

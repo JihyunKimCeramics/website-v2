@@ -13,6 +13,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["Mulish", "sans-serif"],
+        serif: ["Montserrat", "serif"],
       },
       spacing: {
         68: "17rem",
