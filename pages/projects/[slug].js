@@ -32,6 +32,8 @@ export default function ProjectPage(props) {
     (p) => p.title === project.title
   );
 
+  console.log(data.data.projectsPage.projects[projectIndex]?.description);
+
   const gap = data?.data?.projectsPage?.imageSpacing || 0;
 
   const galleryItems =
@@ -63,7 +65,8 @@ export default function ProjectPage(props) {
               {data.data.projectsPage.projects[projectIndex].details}
             </div>
           )}
-          {data.data.projectsPage.projects[projectIndex]?.description && (
+          {data.data.projectsPage.projects[projectIndex]?.description?.children
+            ?.length > 0 && (
             <div
               className="mt-12 md:mx-20 text-center text-sm font-light"
               data-tina-field={tinaField(
