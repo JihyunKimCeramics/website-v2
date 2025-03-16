@@ -691,6 +691,132 @@ export default defineConfig({
                 label: "Title",
                 description: "The title of the about page.",
               },
+              {
+                type: "number",
+                name: "imageSpacing",
+                label: "Image spacing",
+                description: "The spacing between images.",
+              },
+              {
+                type: "object",
+                name: "header",
+                label: "Header",
+                fields: [
+                  {
+                    type: "boolean",
+                    name: "showHeader",
+                    label: "Show Header",
+                  },
+                  {
+                    type: "string",
+                    name: "header",
+                    label: "Header",
+                    description: "The header of the about page.",
+                  },
+                ],
+              },
+              {
+                type: "object",
+                name: "cv",
+                label: "CV",
+                fields: [
+                  {
+                    type: "boolean",
+                    name: "showCV",
+                    label: "Show CV",
+                  },
+                  {
+                    type: "string",
+                    name: "text",
+                    label: "Text",
+                    description: "The text for the CV button.",
+                  },
+                  {
+                    type: "image",
+                    name: "cv",
+                    label: "CV",
+                    description: "Upload the CV here.",
+                  },
+                ],
+              },
+              {
+                type: "object",
+                name: "content",
+                label: "Content",
+                list: true,
+                templates: [
+                  {
+                    label: "Paragraph",
+                    name: "paragraph",
+                    fields: [
+                      {
+                        type: "rich-text",
+                        name: "text",
+                        label: "Text",
+                        description: "The paragraph text.",
+                        toolbarOverride: ["bold", "italic"],
+                      },
+                    ],
+                  },
+                  {
+                    label: "Image",
+                    name: "image",
+                    fields: [
+                      {
+                        type: "image",
+                        name: "image1",
+                        label: "Image 1",
+                      },
+                      {
+                        type: "image",
+                        name: "image2",
+                        label: "Image 2",
+                        description: "The second image is optional.",
+                      },
+                      {
+                        label: "Height",
+                        name: "height",
+                        type: "number",
+                        description: "Choose the height of the image.",
+                        ui: {
+                          parse: (val) => Number(val),
+                          component: wrapFieldsWithMeta(({ input }) => {
+                            return (
+                              <input
+                                name="height"
+                                id="height"
+                                type="range"
+                                min="0"
+                                max="10"
+                                step=".1"
+                                {...input}
+                              />
+                            );
+                          }),
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    label: "Video",
+                    name: "video",
+                    fields: [
+                      {
+                        type: "string",
+                        name: "url",
+                        label: "URL",
+                        description: "The URL of the video.",
+                      },
+                      {
+                        type: "string",
+                        name: "caption",
+                        label: "Caption",
+                        description: "The caption of the video.",
+                      },
+                    ],
+                  },
+                ],
+              },
             ],
           },
           {

@@ -39,11 +39,11 @@ export default function ProjectPage(props) {
 
   return (
     <div>
-      <div className="flex flex-col md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto ">
+      <div className="flex flex-col md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto">
         <div className="mt-12 lg:mt-24">
           {data.data.projectsPage.projects[projectIndex]?.title && (
             <div
-              className="text-2xl lg:text-3xl text-center font-normal leading-normal lg:leading-relaxed"
+              className="text-2xl lg:text-3xl text-center font-normal w-auto mx-8 sm:mx-28 lg:mx-40 xl:mx-64 leading-normal lg:leading-relaxed"
               data-tina-field={tinaField(
                 data.data.projectsPage.projects[projectIndex],
                 "title"
@@ -54,7 +54,7 @@ export default function ProjectPage(props) {
           )}
           {data.data.projectsPage.projects[projectIndex]?.details && (
             <div
-              className="mt-3 text-center text-xs font-extralight italic"
+              className="mt-3 text-center text-xs font-extralight italic mx-8 sm:mx-28 lg:mx-40 xl:mx-64"
               data-tina-field={tinaField(
                 data.data.projectsPage.projects[projectIndex],
                 "details"
