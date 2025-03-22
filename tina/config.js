@@ -536,6 +536,11 @@ export default defineConfig({
                 }),
                 fields: [
                   {
+                    type: "boolean",
+                    name: "showProject",
+                    label: "Show Project",
+                  },
+                  {
                     type: "string",
                     name: "title",
                     label: "Title",

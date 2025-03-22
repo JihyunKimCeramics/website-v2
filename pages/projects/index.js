@@ -54,6 +54,7 @@ export default function ProjectsPage(props) {
               }}
             >
               {data.data.projectsPage.projects.map((item, index) => {
+                if (!item.showProject) return null;
                 const slug = item.slug || generateSlug(item.title);
                 return (
                   <Link key={index} href={`/projects/${slug}`}>
