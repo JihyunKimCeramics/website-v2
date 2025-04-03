@@ -563,9 +563,8 @@ export default defineConfig({
                     name: "description",
                     label: "Description",
                     description: "Description of the project.",
-                    toolbarOverride: ["bold", "italic"],
+                    toolbarOverride: ["bold", "italic", "link"],
                   },
-
                   {
                     type: "boolean",
                     name: "showGallery",
