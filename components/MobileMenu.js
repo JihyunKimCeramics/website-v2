@@ -44,23 +44,25 @@ export default function MobileMenu({
       </div>
       <div className="flex flex-row justify-center -mt-2">
         <div className="flex flex-col gap-8 text-center text-lg">
-          {/* <div
-            className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer mx-auto"
-            style={{ backgroundColor: buttonColor }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.backgroundColor = buttonHoverColor)
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.backgroundColor = buttonColor)
-            }
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            <DynamicSvg
-              src={shop.src}
-              color={fontColor}
-              className="mx-auto my-auto"
-            />
-          </div> */}
+          {showShopPage && (
+            <div
+              className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer mx-auto"
+              style={{ backgroundColor: buttonColor }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = buttonHoverColor)
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = buttonColor)
+              }
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <DynamicSvg
+                src={shop.src}
+                color={fontColor}
+                className="mx-auto my-auto"
+              />
+            </div>
+          )}
           {showProjectsPage && (
             <a
               className="my-auto hover:opacity-70"
@@ -82,7 +84,7 @@ export default function MobileMenu({
           {showShopPage && (
             <a
               className="my-auto hover:opacity-70"
-              href={shopPageLink}
+              href="/shop"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {shopPageTitle}

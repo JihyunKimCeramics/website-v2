@@ -32,8 +32,6 @@ export default function ProjectPage(props) {
     (p) => p.title === project.title
   );
 
-  console.log(data.data.projectsPage.projects[projectIndex]?.description);
-
   const gap = data?.data?.projectsPage?.imageSpacing || 0;
 
   const galleryItems =

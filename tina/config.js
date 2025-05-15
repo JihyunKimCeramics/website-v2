@@ -709,7 +709,7 @@ export default defineConfig({
           {
             type: "object",
             name: "aboutPage",
-            label: "About",
+            label: "About Page",
             fields: [
               {
                 type: "boolean",
@@ -853,24 +853,131 @@ export default defineConfig({
           {
             type: "object",
             name: "shopPage",
-            label: "Shop",
+            label: "Shop Page",
             fields: [
               {
                 type: "boolean",
                 name: "showShopPage",
-                label: "Show Shop Link",
+                label: "Show Shop Page",
               },
               {
                 type: "string",
                 name: "title",
                 label: "Title",
-                description: "The title of the shop link.",
+                description: "The title of the shop page.",
               },
               {
-                type: "string",
-                name: "link",
-                label: "Link",
-                description: "The link to the shop.",
+                type: "boolean",
+                name: "showLine",
+                label: "Show Line",
+              },
+              {
+                type: "number",
+                name: "spacing",
+                label: "Shop main page spacing",
+                description: "The spacing between items in the main shop page.",
+              },
+              {
+                type: "number",
+                name: "imageSpacing",
+                label: "Image gallery spacing",
+                description:
+                  "The spacing between images in the image gallery of a specific shop item.",
+              },
+              {
+                type: "boolean",
+                name: "showFAQs",
+                label: "Show FAQs",
+                description: "Show FAQs on shop item pages.",
+              },
+              {
+                type: "object",
+                name: "shopItems",
+                label: "Shop Items",
+                list: true,
+                itemProps: (item) => ({
+                  label: item?.title + " - " + item?.name || "New Shop Item",
+                }),
+                fields: [
+                  {
+                    type: "boolean",
+                    name: "showItem",
+                    label: "Show Item",
+                  },
+                  {
+                    type: "string",
+                    name: "title",
+                    label: "Title",
+                    description:
+                      "WARNING: Changing the title will change the URL so you will need to update the URL in the browser after saving.",
+                  },
+                  {
+                    type: "string",
+                    name: "name",
+                    label: "Name",
+                    description: "Item name.",
+                  },
+                  {
+                    type: "number",
+                    name: "price",
+                    label: "Price",
+                    description: "Price of the item in £.",
+                  },
+                  {
+                    type: "string",
+                    name: "details",
+                    label: "Details",
+                    description: "Item details.",
+                  },
+                  {
+                    type: "rich-text",
+                    name: "description",
+                    label: "Description",
+                    description: "Description of the project.",
+                    toolbarOverride: ["bold", "italic", "link"],
+                  },
+                  {
+                    type: "object",
+                    name: "images",
+                    label: "Images",
+                    description:
+                      "The first image will be the main image. Note: minimum 1 image is required.",
+                    list: true,
+                    itemProps: (item) => ({
+                      label: item?.image || "New Image",
+                    }),
+                    fields: [
+                      {
+                        type: "image",
+                        name: "image",
+                        label: "Image",
+                      },
+                      {
+                        label: "Height",
+                        name: "height",
+                        type: "number",
+                        description:
+                          "Choose the height of the image. Note: height is fixed for the first image",
+                        ui: {
+                          parse: (val) => Number(val),
+                          component: wrapFieldsWithMeta(({ input }) => {
+                            return (
+                              <input
+                                name="height"
+                                id="height"
+                                type="range"
+                                min="0"
+                                max="10"
+                                step=".1"
+                                {...input}
+                              />
+                            );
+                          }),
+                        },
+                      },
+                    ],
+                  },
+                ],
               },
             ],
           },

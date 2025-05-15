@@ -78,7 +78,7 @@ export default function Header({
             </a>
           )}
           {showShopPage && (
-            <a className="my-auto hover:opacity-70" href={shopPageLink}>
+            <a className="my-auto hover:opacity-70" href="/shop">
               {shopPageTitle}
             </a>
           )}
@@ -87,22 +87,24 @@ export default function Header({
               {exhibitionsPageTitle}
             </a>
           )}
-          {/* <div
-            className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
-            style={{ backgroundColor: buttonColor }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.backgroundColor = buttonHoverColor)
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.backgroundColor = buttonColor)
-            }
-          >
-            <DynamicSvg
-              src={shop.src}
-              color={fontColor}
-              className="mx-auto my-auto"
-            />
-          </div> */}
+          {showShopPage && (
+            <div
+              className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
+              style={{ backgroundColor: buttonColor }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = buttonHoverColor)
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = buttonColor)
+              }
+            >
+              <DynamicSvg
+                src={shop.src}
+                color={fontColor}
+                className="mx-auto my-auto"
+              />
+            </div>
+          )}
         </div>
       </div>
     </>
