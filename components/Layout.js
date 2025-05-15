@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useCart } from "../pages/_app";
 import Header from "./Header";
 import Footer from "./Footer";
 import MobileMenu from "./MobileMenu";
@@ -7,6 +8,9 @@ import Faqs from "./Faqs";
 
 export default function Layout({ data, children }) {
   const router = useRouter();
+  const { cart } = useCart();
+  const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [faqsOpen, setFaqsOpen] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -107,6 +111,7 @@ export default function Layout({ data, children }) {
           aboutPageTitle={data.data.aboutPage.title}
           titleFont={titleFont}
           titleFontWeight={titleFontWeight}
+          cartCount={itemCount}
         />
         {children}
         <Footer
@@ -149,6 +154,7 @@ export default function Layout({ data, children }) {
         shopPageLink={data.data.shopPage.link}
         showAboutPage={showAboutPage}
         aboutPageTitle={data.data.aboutPage.title}
+        cartCount={itemCount}
       />
       <Faqs
         data={data}

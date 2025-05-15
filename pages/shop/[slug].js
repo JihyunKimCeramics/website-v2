@@ -5,6 +5,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Image from "../../components/Image";
 import DynamicSvg from "../../components/DynamicSvg";
 import downArrow from "../../public/images/down.svg";
+import { useCart } from "../_app";
 
 function generateSlug(title) {
   return title
@@ -19,6 +20,7 @@ export default function ShopItemPage(props) {
     variables: props.variables,
     data: props.data,
   });
+  const { addToCart } = useCart();
 
   const [shopItem, setShopItem] = useState("");
 
@@ -103,7 +105,17 @@ export default function ShopItemPage(props) {
                     data.data.theme.buttonColour)
                 }
               >
-                <div className="text-sm xl:text-base font-semibold">
+                <div
+                  className="text-sm xl:text-base font-semibold"
+                  onClick={() =>
+                    addToCart({
+                      title: shopItem.title,
+                      name: shopItem.name,
+                      image: shopItem.images[0]?.image,
+                      price: shopItem.price,
+                    })
+                  }
+                >
                   Add to cart
                 </div>
               </div>
@@ -320,7 +332,17 @@ export default function ShopItemPage(props) {
                   data.data.theme.buttonColour)
               }
             >
-              <div className="text-sm xl:text-base font-semibold">
+              <div
+                className="text-sm xl:text-base font-semibold"
+                onClick={() =>
+                  addToCart({
+                    title: shopItem.title,
+                    name: shopItem.name,
+                    image: shopItem.images[0]?.image,
+                    price: shopItem.price,
+                  })
+                }
+              >
                 Add to cart
               </div>
             </div>
