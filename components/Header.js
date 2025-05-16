@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import DynamicSvg from "./DynamicSvg";
 import { tinaField } from "tinacms/dist/react";
 import menu from "../public/images/menu.svg";
@@ -27,7 +27,14 @@ export default function Header({
   aboutPageTitle,
   titleFont,
   titleFontWeight,
+  cartCount,
 }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <>
       {showBanner && (
@@ -88,21 +95,31 @@ export default function Header({
             </a>
           )}
           {showShopPage && (
-            <div
-              className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
-              style={{ backgroundColor: buttonColor }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = buttonHoverColor)
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = buttonColor)
-              }
-            >
-              <DynamicSvg
-                src={shop.src}
-                color={fontColor}
-                className="mx-auto my-auto"
-              />
+            <div className="relative cursor-pointer">
+              <div
+                className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
+                style={{ backgroundColor: buttonColor }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.backgroundColor = buttonHoverColor)
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.backgroundColor = buttonColor)
+                }
+              >
+                <DynamicSvg
+                  src={shop.src}
+                  color={fontColor}
+                  className="mx-auto my-auto"
+                />
+              </div>
+              {mounted && cartCount > 0 && (
+                <div
+                  className="absolute -top-2 -right-2 w-5 h-5 rounded-full flex flex-row justify-center items-center"
+                  style={{ backgroundColor: fontColor, color: buttonColor }}
+                >
+                  <div className="text-xs font-semibold">{cartCount}</div>
+                </div>
+              )}
             </div>
           )}
         </div>

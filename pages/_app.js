@@ -30,7 +30,6 @@ export default function App({ Component, pageProps }) {
     return [];
   });
 
-  // Then add this effect below it (inside App):
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("cart", JSON.stringify(cart));

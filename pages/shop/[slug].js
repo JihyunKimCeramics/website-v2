@@ -4,7 +4,7 @@ import { client } from "../../tina/__generated__/client";
 import React, { useEffect, useState, useRef } from "react";
 import Image from "../../components/Image";
 import DynamicSvg from "../../components/DynamicSvg";
-import downArrow from "../../public/images/down.svg";
+import downArrow from "../../public/images/down_small.svg";
 import { useCart } from "../_app";
 
 function generateSlug(title) {
@@ -37,20 +37,19 @@ export default function ShopItemPage(props) {
   const gap = data?.data?.shopPage?.imageSpacing || 0;
 
   const [openIndex, setOpenIndex] = useState(null);
-  const contentRefs = useRef([]);
+  const mobileContentRefs = useRef([]);
+  const desktopContentRefs = useRef([]);
 
-  const toggleOpen = (index) => {
+  const toggleOpen = (index) =>
     setOpenIndex((cur) => (cur === index ? null : index));
-  };
 
+  // sync both mobile & desktop panels on openIndex change
   useEffect(() => {
-    contentRefs.current.forEach((content, i) => {
-      if (!content) return;
-      if (i === openIndex) {
-        content.style.height = content.scrollHeight + "px";
-      } else {
-        content.style.height = "0px";
-      }
+    [mobileContentRefs.current, desktopContentRefs.current].forEach((refs) => {
+      refs.forEach((el, i) => {
+        if (!el) return;
+        el.style.height = i === openIndex ? `${el.scrollHeight}px` : "0px";
+      });
     });
   }, [openIndex]);
 
@@ -208,13 +207,13 @@ export default function ShopItemPage(props) {
                     onClick={() => toggleOpen(index)}
                   >
                     <button
-                      className={`w-full text-left flex justify-between items-start p-4 transition-all duration-300 ${
-                        openIndex === index ? "pb-2.5" : "pb-4"
+                      className={`w-full text-left flex justify-between items-start px-5 pt-3 transition-all duration-300 ${
+                        openIndex === index ? "pb-2.5" : "pb-3"
                       }`}
                       style={{ color: data.data.theme.textColour }}
                     >
                       <span
-                        className="text-base sm:text-lg"
+                        className="text-sm sm:text-base"
                         data-tina-field={tinaField(faq, "question")}
                       >
                         {faq.question}
@@ -222,8 +221,9 @@ export default function ShopItemPage(props) {
                       <DynamicSvg
                         src={downArrow.src}
                         color={data.data.theme.textColour}
-                        className={`transition-transform duration-300 my-auto
-              ${openIndex === index ? "rotate-180" : "rotate-0"}`}
+                        className={`transition-transform duration-300 my-auto ${
+                          openIndex === index ? "rotate-180" : "rotate-0"
+                        }`}
                         style={{
                           transformOrigin: "center",
                           transformBox: "fill-box",
@@ -231,12 +231,12 @@ export default function ShopItemPage(props) {
                       />
                     </button>
                     <div
-                      ref={(el) => (contentRefs.current[index] = el)}
+                      ref={(el) => (mobileContentRefs.current[index] = el)}
                       className="overflow-hidden transition-[height] duration-300 ease-out"
                       style={{ height: 0 }}
                     >
                       <div
-                        className="px-4 pb-4 text-sm sm:text-base font-light prose max-w-none"
+                        className="px-5 pb-3 text-xs sm:text-sm font-light prose max-w-none"
                         style={{ color: data.data.theme.textColour }}
                       >
                         <div data-tina-field={tinaField(faq, "answer")}>
@@ -257,6 +257,7 @@ export default function ShopItemPage(props) {
             </div>
           )}
       </div>
+
       <div className="hidden md:flex flex-row md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto mt-12 lg:mt-24 gap-8 lg:gap-12 justify-between">
         <div className="w-full">
           <Image
@@ -404,13 +405,13 @@ export default function ShopItemPage(props) {
                       onClick={() => toggleOpen(index)}
                     >
                       <button
-                        className={`w-full text-left flex justify-between items-start p-4 transition-all duration-300 ${
-                          openIndex === index ? "pb-2.5" : "pb-4"
+                        className={`w-full text-left flex justify-between items-start px-5 pt-3 transition-all duration-300 ${
+                          openIndex === index ? "pb-2.5" : "pb-3"
                         }`}
                         style={{ color: data.data.theme.textColour }}
                       >
                         <span
-                          className="text-base sm:text-lg"
+                          className="text-sm xl:text-base"
                           data-tina-field={tinaField(faq, "question")}
                         >
                           {faq.question}
@@ -418,8 +419,9 @@ export default function ShopItemPage(props) {
                         <DynamicSvg
                           src={downArrow.src}
                           color={data.data.theme.textColour}
-                          className={`transition-transform duration-300 my-auto
-              ${openIndex === index ? "rotate-180" : "rotate-0"}`}
+                          className={`transition-transform duration-300 my-auto ${
+                            openIndex === index ? "rotate-180" : "rotate-0"
+                          }`}
                           style={{
                             transformOrigin: "center",
                             transformBox: "fill-box",
@@ -427,12 +429,12 @@ export default function ShopItemPage(props) {
                         />
                       </button>
                       <div
-                        ref={(el) => (contentRefs.current[index] = el)}
+                        ref={(el) => (desktopContentRefs.current[index] = el)}
                         className="overflow-hidden transition-[height] duration-300 ease-out"
                         style={{ height: 0 }}
                       >
                         <div
-                          className="px-4 pb-4 text-sm sm:text-base font-light prose max-w-none"
+                          className="px-5 pb-3 text-xs sm:text-sm font-light prose max-w-none"
                           style={{ color: data.data.theme.textColour }}
                         >
                           <div data-tina-field={tinaField(faq, "answer")}>
