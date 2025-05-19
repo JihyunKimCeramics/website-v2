@@ -95,7 +95,7 @@ export default function Header({
             </a>
           )}
           {showShopPage && (
-            <a className="relative cursor-pointer" href="/cart">
+            <a className="relative cursor-pointer" href="/basket">
               <div
                 className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
                 style={{ backgroundColor: buttonColor }}

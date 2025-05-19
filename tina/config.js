@@ -867,9 +867,15 @@ export default defineConfig({
                 description: "The title of the shop page.",
               },
               {
+                type: "string",
+                name: "basketTitle",
+                label: "Title of basket page",
+                description: "The title of the basket page.",
+              },
+              {
                 type: "boolean",
                 name: "showLine",
-                label: "Show Line",
+                label: "Show line on shop and basket pages",
               },
               {
                 type: "number",

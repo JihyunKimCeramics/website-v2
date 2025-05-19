@@ -1,8 +1,8 @@
 import { tinaField, useTina } from "tinacms/dist/react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
-import { client } from "../../tina/__generated__/client";
-import Image from "../../components/Image";
-import NoPageMessage from "../../components/noPageMessage";
+import { client } from "/tina/__generated__/client";
+import Image from "/components/Image";
+import NoPageMessage from "/components/noPageMessage";
 
 export default function ExhibitionsPage(props) {
   const { data } = useTina({

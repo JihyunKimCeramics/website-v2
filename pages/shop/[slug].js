@@ -43,7 +43,7 @@ export default function ShopItemPage(props) {
   return (
     <div>
       {data.data.shopPage?.showShopPage &&
-      data.data.shopPage.shopItems[shopItemIndex].showItem ? (
+      data.data.shopPage?.shopItems[shopItemIndex]?.showItem ? (
         <div>
           <div className="md:hidden">
             <div className="flex flex-col md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto">

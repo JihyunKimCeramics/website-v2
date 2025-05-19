@@ -35,7 +35,7 @@ export default function ProjectPage(props) {
   return (
     <div>
       {data.data.projectsPage?.showProjectsPage &&
-      data.data.projectsPage.projects[projectIndex].showProject ? (
+      data.data.projectsPage?.projects[projectIndex]?.showProject ? (
         <div>
           <div className="flex flex-col md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto">
             <div className="mt-12 lg:mt-24">

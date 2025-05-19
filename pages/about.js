@@ -1,11 +1,11 @@
 import { tinaField, useTina } from "tinacms/dist/react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
-import { client } from "../../tina/__generated__/client";
+import { client } from "/tina/__generated__/client";
 import React, { useEffect, useState } from "react";
-import download from "../../public/images/download.svg";
-import DynamicSvg from "../../components/DynamicSvg";
-import Image from "../../components/Image";
-import NoPageMessage from "../../components/noPageMessage";
+import download from "../public/images/download.svg";
+import DynamicSvg from "/components/DynamicSvg";
+import Image from "/components/Image";
+import NoPageMessage from "/components/noPageMessage";
 
 export default function AboutPage(props) {
   const { data } = useTina({
