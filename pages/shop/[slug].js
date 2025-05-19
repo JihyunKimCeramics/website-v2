@@ -467,12 +467,12 @@ export async function getStaticPaths() {
 
   const shopItems = data.data.shopPage.shopItems;
 
-  const paths = shopItems.map((shopItem) => {
-    if (shopItem.title != null) {
-      const slug = shopItem.slug || generateSlug(shopItem.title);
+  const paths = shopItems
+    .filter((p) => p.title && p.name)
+    .map((p) => {
+      const slug = `${generateSlug(p.title)}_${generateSlug(p.name)}`;
       return { params: { slug } };
-    }
-  });
+    });
 
   return {
     paths,
@@ -487,12 +487,13 @@ export async function getStaticProps({ params }) {
 
   const globalData = data.data;
 
-  const shopItem = globalData.shopPage.shopItems.find((p) => {
-    if (p.title != null) {
-      const slug = p.slug || generateSlug(p.title);
-      return slug === params.slug;
-    }
-  });
+  const shopItem = globalData.shopPage.shopItems.find(
+    (p) =>
+      p.title &&
+      (p.slug ?? generateSlug(p.title)) +
+        (p.name ? `_${generateSlug(p.name)}` : ``) ===
+        params.slug
+  );
 
   if (!shopItem) {
     return {

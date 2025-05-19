@@ -65,7 +65,9 @@ export default function ShopPage(props) {
                       item.images?.length === 0
                     )
                       return null;
-                    const slug = item.slug || generateSlug(item.title);
+                    const slug = `${generateSlug(item.title)}_${generateSlug(
+                      item.name
+                    )}`;
                     return (
                       <Link key={index} href={`/shop/${slug}`}>
                         <div className="relative cursor-pointer mb-8">
