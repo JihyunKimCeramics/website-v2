@@ -7,7 +7,7 @@ const NoPageMessage = ({ buttonColour, buttonHoverColour }) => {
       </p>
       <a
         href="/"
-        className="mt-8 px-5 py-2.5 rounded-full text-sm"
+        className="mt-8 h-10 px-6 flex flex-col justify-center rounded-full cursor-pointer"
         style={{ backgroundColor: buttonColour }}
         onMouseEnter={(e) =>
           (e.currentTarget.style.backgroundColor = buttonHoverColour)
@@ -16,7 +16,7 @@ const NoPageMessage = ({ buttonColour, buttonHoverColour }) => {
           (e.currentTarget.style.backgroundColor = buttonColour)
         }
       >
-        Go Back Home
+        <div className="text-sm xl:text-base font-semibold">Go Back Home</div>
       </a>
     </div>
   );
