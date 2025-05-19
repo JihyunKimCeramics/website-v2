@@ -3,16 +3,10 @@ import { TinaMarkdown } from "tinacms/dist/rich-text";
 import { client } from "../../tina/__generated__/client";
 import React, { useEffect, useState, useRef } from "react";
 import Image from "../../components/Image";
-import DynamicSvg from "../../components/DynamicSvg";
+import generateSlug from "../../components/generateSlug";
 import downArrow from "../../public/images/down_small.svg";
 import { useCart } from "../_app";
-
-function generateSlug(title) {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
+import FaqTree from "../../components/faqTree";
 
 export default function ShopItemPage(props) {
   const { data } = useTina({
@@ -36,22 +30,14 @@ export default function ShopItemPage(props) {
 
   const gap = data?.data?.shopPage?.imageSpacing || 0;
 
-  const [openIndex, setOpenIndex] = useState(null);
-  const mobileContentRefs = useRef([]);
-  const desktopContentRefs = useRef([]);
+  const [faqIndex, setFaqIndex] = useState(-1);
+  const [faqOpen, setFaqOpen] = useState(false);
 
-  const toggleOpen = (index) =>
-    setOpenIndex((cur) => (cur === index ? null : index));
-
-  // sync both mobile & desktop panels on openIndex change
-  useEffect(() => {
-    [mobileContentRefs.current, desktopContentRefs.current].forEach((refs) => {
-      refs.forEach((el, i) => {
-        if (!el) return;
-        el.style.height = i === openIndex ? `${el.scrollHeight}px` : "0px";
-      });
-    });
-  }, [openIndex]);
+  const handleFAQClick = (index) => {
+    const isSame = faqIndex === index;
+    setFaqIndex(index);
+    setFaqOpen(isSame ? !faqOpen : true);
+  };
 
   return (
     <div>
@@ -196,64 +182,19 @@ export default function ShopItemPage(props) {
         </div>
         {data.data.shopPage.showFAQs &&
           data.data.footer.faqs.faqs.length > 0 && (
-            <div className="mt-16 flex flex-col md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto gap-3">
-              {data.data.footer.faqs.faqs.map((faq, index) => {
-                if (!faq.question || !faq.answer) return null;
-                return (
-                  <div
-                    key={index}
-                    className="rounded-xl cursor-pointer"
-                    style={{ backgroundColor: data.data.theme.buttonColour }}
-                    onClick={() => toggleOpen(index)}
-                  >
-                    <button
-                      className={`w-full text-left flex justify-between items-start px-5 pt-3 transition-all duration-300 ${
-                        openIndex === index ? "pb-2.5" : "pb-3"
-                      }`}
-                      style={{ color: data.data.theme.textColour }}
-                    >
-                      <span
-                        className="text-sm sm:text-base"
-                        data-tina-field={tinaField(faq, "question")}
-                      >
-                        {faq.question}
-                      </span>
-                      <DynamicSvg
-                        src={downArrow.src}
-                        color={data.data.theme.textColour}
-                        className={`transition-transform duration-300 my-auto ${
-                          openIndex === index ? "rotate-180" : "rotate-0"
-                        }`}
-                        style={{
-                          transformOrigin: "center",
-                          transformBox: "fill-box",
-                        }}
-                      />
-                    </button>
-                    <div
-                      ref={(el) => (mobileContentRefs.current[index] = el)}
-                      className="overflow-hidden transition-[height] duration-300 ease-out"
-                      style={{ height: 0 }}
-                    >
-                      <div
-                        className="px-5 pb-3 text-xs sm:text-sm font-light prose max-w-none"
-                        style={{ color: data.data.theme.textColour }}
-                      >
-                        <div data-tina-field={tinaField(faq, "answer")}>
-                          <TinaMarkdown
-                            content={faq.answer}
-                            components={{
-                              p: ({ children }) => (
-                                <p className="mb-2">{children}</p>
-                              ),
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+            <div className="mt-16 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto">
+              <FaqTree
+                faqs={data.data.footer.faqs.faqs}
+                backgroundColour={data.data.theme.buttonColour}
+                textColour={data.data.theme.textColour}
+                downArrow={downArrow}
+                px="px-5"
+                pt="pt-3"
+                pbOpen="pb-2.5"
+                pbClosed="pb-3"
+                titleFont="text-sm xl:text-base"
+                answerFont="text-xs sm:text-sm"
+              />
             </div>
           )}
       </div>
@@ -394,64 +335,19 @@ export default function ShopItemPage(props) {
           )}
           {data.data.shopPage.showFAQs &&
             data.data.footer.faqs.faqs.length > 0 && (
-              <div className="mt-10 flex flex-col gap-3">
-                {data.data.footer.faqs.faqs.map((faq, index) => {
-                  if (!faq.question || !faq.answer) return null;
-                  return (
-                    <div
-                      key={index}
-                      className="rounded-xl cursor-pointer"
-                      style={{ backgroundColor: data.data.theme.buttonColour }}
-                      onClick={() => toggleOpen(index)}
-                    >
-                      <button
-                        className={`w-full text-left flex justify-between items-start px-5 pt-3 transition-all duration-300 ${
-                          openIndex === index ? "pb-2.5" : "pb-3"
-                        }`}
-                        style={{ color: data.data.theme.textColour }}
-                      >
-                        <span
-                          className="text-sm xl:text-base"
-                          data-tina-field={tinaField(faq, "question")}
-                        >
-                          {faq.question}
-                        </span>
-                        <DynamicSvg
-                          src={downArrow.src}
-                          color={data.data.theme.textColour}
-                          className={`transition-transform duration-300 my-auto ${
-                            openIndex === index ? "rotate-180" : "rotate-0"
-                          }`}
-                          style={{
-                            transformOrigin: "center",
-                            transformBox: "fill-box",
-                          }}
-                        />
-                      </button>
-                      <div
-                        ref={(el) => (desktopContentRefs.current[index] = el)}
-                        className="overflow-hidden transition-[height] duration-300 ease-out"
-                        style={{ height: 0 }}
-                      >
-                        <div
-                          className="px-5 pb-3 text-xs sm:text-sm font-light prose max-w-none"
-                          style={{ color: data.data.theme.textColour }}
-                        >
-                          <div data-tina-field={tinaField(faq, "answer")}>
-                            <TinaMarkdown
-                              content={faq.answer}
-                              components={{
-                                p: ({ children }) => (
-                                  <p className="mb-2">{children}</p>
-                                ),
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+              <div className="mt-10">
+                <FaqTree
+                  faqs={data.data.footer.faqs.faqs}
+                  backgroundColour={data.data.theme.buttonColour}
+                  textColour={data.data.theme.textColour}
+                  downArrow={downArrow}
+                  px="px-5"
+                  pt="pt-3"
+                  pbOpen="pb-2.5"
+                  pbClosed="pb-3"
+                  titleFont="text-sm xl:text-base"
+                  answerFont="text-xs sm:text-sm"
+                />
               </div>
             )}
         </div>

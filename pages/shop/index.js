@@ -2,16 +2,7 @@ import { tinaField, useTina } from "tinacms/dist/react";
 import { client } from "../../tina/__generated__/client";
 import Image from "../../components/Image";
 import Link from "next/link";
-import { useState } from "react";
-
-function generateSlug(title) {
-  if (title != null) {
-    return title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "");
-  }
-}
+import generateSlug from "../../components/generateSlug";
 
 export default function ShopPage(props) {
   const { data } = useTina({

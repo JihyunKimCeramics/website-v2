@@ -4,13 +4,7 @@ import { client } from "../../tina/__generated__/client";
 import React, { useEffect, useState } from "react";
 import Image from "../../components/Image";
 import { ImageGallery } from "../../components/generateImageGallery";
-
-function generateSlug(title) {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
+import generateSlug from "../../components/generateSlug";
 
 export default function ProjectPage(props) {
   const { data } = useTina({

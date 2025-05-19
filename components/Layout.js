@@ -157,12 +157,15 @@ export default function Layout({ data, children }) {
         cartCount={itemCount}
       />
       <Faqs
-        data={data}
         faqsOpen={faqsOpen}
         setFaqsOpen={setFaqsOpen}
         backgroundColor={backgroundColor}
         fontColor={fontColor}
         buttonColor={buttonColor}
+        faqs={data.data.footer.faqs.faqs}
+        faqsTitle={data.data.footer.faqs.title}
+        faqsTitleTinafield={data.data.footer.faqs}
+        faqsToggle={data.data.footer.faqs.toggle}
       />
     </div>
   );
