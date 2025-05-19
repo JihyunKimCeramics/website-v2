@@ -7,6 +7,10 @@ import MobileMenu from "./MobileMenu";
 import Faqs from "./Faqs";
 
 export default function Layout({ data, children }) {
+  if (!data.data) {
+    return <div>No data</div>;
+  }
+
   const router = useRouter();
   const { cart } = useCart();
   const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);

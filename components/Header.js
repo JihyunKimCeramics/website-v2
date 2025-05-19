@@ -95,7 +95,7 @@ export default function Header({
             </a>
           )}
           {showShopPage && (
-            <div className="relative cursor-pointer">
+            <a className="relative cursor-pointer" href="/cart">
               <div
                 className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
                 style={{ backgroundColor: buttonColor }}
@@ -120,7 +120,7 @@ export default function Header({
                   <div className="text-xs font-semibold">{cartCount}</div>
                 </div>
               )}
-            </div>
+            </a>
           )}
         </div>
       </div>

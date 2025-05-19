@@ -18,3 +18,7 @@ body {
   padding: 0;
   min-height: 100%;
 }
+
+.right-4\.5 {
+  right: 1.2rem
+}

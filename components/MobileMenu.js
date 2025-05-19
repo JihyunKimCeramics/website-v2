@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import DynamicSvg from "./DynamicSvg";
 import close from "../public/images/close.svg";
 import shop from "../public/images/shop.svg";
@@ -19,7 +19,14 @@ export default function MobileMenu({
   shopPageLink,
   showAboutPage,
   aboutPageTitle,
+  cartCount,
 }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div
       id="Menu"
@@ -45,24 +52,62 @@ export default function MobileMenu({
       <div className="flex flex-row justify-center -mt-2">
         <div className="flex flex-col gap-8 text-center text-lg">
           {showShopPage && (
-            <div
-              className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer mx-auto"
-              style={{ backgroundColor: buttonColor }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = buttonHoverColor)
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = buttonColor)
-              }
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              <DynamicSvg
-                src={shop.src}
-                color={fontColor}
-                className="mx-auto my-auto"
-              />
-            </div>
+            <a href="/cart" className="relative cursor-pointer">
+              <div
+                className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer mx-auto"
+                style={{ backgroundColor: buttonColor }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.backgroundColor = buttonHoverColor)
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.backgroundColor = buttonColor)
+                }
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                <DynamicSvg
+                  src={shop.src}
+                  color={fontColor}
+                  className="mx-auto my-auto"
+                />
+              </div>
+              {mounted && cartCount > 0 && (
+                <div
+                  className="absolute -top-2 right-4.5 w-5 h-5 rounded-full flex flex-row justify-center items-center"
+                  style={{ backgroundColor: fontColor, color: buttonColor }}
+                >
+                  <div className="text-xs font-semibold">{cartCount}</div>
+                </div>
+              )}
+            </a>
           )}
+          {/* {showShopPage && (
+            <a className="relative cursor-pointer" href="/cart">
+              <div
+                className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
+                style={{ backgroundColor: buttonColor }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.backgroundColor = buttonHoverColor)
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.backgroundColor = buttonColor)
+                }
+              >
+                <DynamicSvg
+                  src={shop.src}
+                  color={fontColor}
+                  className="mx-auto my-auto"
+                />
+              </div>
+              {mounted && cartCount > 0 && (
+                <div
+                  className="absolute -top-2 -right-2 w-5 h-5 rounded-full flex flex-row justify-center items-center"
+                  style={{ backgroundColor: fontColor, color: buttonColor }}
+                >
+                  <div className="text-xs font-semibold">{cartCount}</div>
+                </div>
+              )}
+            </a>
+          )} */}
           {showProjectsPage && (
             <a
               className="my-auto hover:opacity-70"

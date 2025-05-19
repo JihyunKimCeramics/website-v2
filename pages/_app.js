@@ -11,13 +11,17 @@ const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
 
 export default function App({ Component, pageProps }) {
+  // Destructure Tina props if provided
+  const { query, variables, data } = pageProps;
+  // Only call GraphQL if a query exists—avoid empty-query errors
   const tinaResult = useTina({
-    query: pageProps.query,
-    variables: pageProps.variables,
-    data: pageProps.data,
+    query, // undefined if not provided → no GraphQL request
+    variables,
+    data,
   });
 
-  const data = tinaResult.data?.data || pageProps.data?.data;
+  // Pull CMS data from Tina
+  const cmsData = tinaResult.data?.data;
 
   const [cart, setCart] = useState(() => {
     if (typeof window !== "undefined") {
@@ -36,8 +40,6 @@ export default function App({ Component, pageProps }) {
     }
   }, [cart]);
 
-  console.log("cart", cart);
-
   return (
     <CartContext.Provider
       value={{
@@ -55,13 +57,10 @@ export default function App({ Component, pageProps }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      {data ? (
-        <Layout data={{ data }}>
-          <Component {...pageProps} />
-        </Layout>
-      ) : (
+      {/* Always wrap in Layout; Layout will early-return empty div if no CMS data */}
+      <Layout data={{ data: cmsData }}>
         <Component {...pageProps} />
-      )}
+      </Layout>
     </CartContext.Provider>
   );
 }
