@@ -32,49 +32,37 @@
 //   );
 // }
 
-export default function Custom404() {
+import { tinaField, useTina } from "tinacms/dist/react";
+import { client } from "../tina/__generated__/client";
+import NoPageMessage from "../components/NoPageMessage";
+
+export default function Custom404(props) {
+  const { data } = useTina({
+    query: props.query,
+    variables: props.variables,
+    data: props.data,
+  });
+
   return (
-    <div className="container">
-      <h1>404 – Page Not Found</h1>
-      <p>Sorry, the page you’re looking for does not exist.</p>
+    <div>
+      <NoPageMessage
+        buttonColour={data.data.theme.buttonColour}
+        buttonHoverColour={data.data.theme.buttonHoverColour}
+      />
     </div>
   );
 }
 
-// import React from "react";
-// import { useTina } from "tinacms/dist/react";
-// import Head from "next/head";
-// import Layout from "../components/Layout";
-// import { client } from "../tina/__generated__/client";
+export const getStaticProps = async () => {
+  const { data, query, variables } = await client.queries.data({
+    relativePath: "index.mdx",
+  });
 
-// export default function Custom404({ query, variables, data }) {
-//   // Initialize Tina with the fetched props
-//   const tinaResult = useTina({ query, variables, data });
-//   const cmsData = tinaResult.data?.data || data?.data;
-
-//   return (
-//     <Layout data={{ data: cmsData }}>
-//       <Head>
-//         <title>404 – Page Not Found</title>
-//       </Head>
-//       <div className="container">
-//         <h1>404 – Page Not Found</h1>
-//         <p>Sorry, the page you're looking for does not exist.</p>
-//       </div>
-//     </Layout>
-//   );
-// }
-
-// export async function getStaticProps() {
-//   // Fetch your global CMS document so Layout has its site-wide data
-//   const tinaProps = await client.queries.globalDocument({
-//     relativePath: "global.json",
-//   });
-//   return {
-//     props: {
-//       query: tinaProps.query,
-//       variables: tinaProps.variables,
-//       data: tinaProps.data,
-//     },
-//   };
-// }
+  return {
+    props: {
+      data,
+      query,
+      variables,
+    },
+  };
+};

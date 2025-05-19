@@ -3,6 +3,7 @@ import { client } from "../../tina/__generated__/client";
 import Image from "../../components/Image";
 import Link from "next/link";
 import generateSlug from "../../components/generateSlug";
+import NoPageMessage from "../../components/noPageMessage";
 
 export default function ShopPage(props) {
   const { data } = useTina({
@@ -15,9 +16,9 @@ export default function ShopPage(props) {
   const minWidth = 270;
 
   return (
-    <>
-      {data.data.shopPage?.showShopPage && (
-        <>
+    <div>
+      {data.data.shopPage?.showShopPage ? (
+        <div>
           <ul className="flex flex-col md:w-200 lg:w-300 xl:w-400 md:mx-auto">
             <div className="mt-12 lg:mt-24">
               <div
@@ -86,9 +87,14 @@ export default function ShopPage(props) {
               )}
             </div>
           </ul>
-        </>
+        </div>
+      ) : (
+        <NoPageMessage
+          buttonColour={data.data.theme.buttonColour}
+          buttonHoverColour={data.data.theme.buttonHoverColour}
+        />
       )}
-    </>
+    </div>
   );
 }
 
