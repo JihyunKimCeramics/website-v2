@@ -60,7 +60,11 @@ export default function ProjectsPage(props) {
                     if (!item.showProject) return null;
                     const slug = item.slug || generateSlug(item.title);
                     return (
-                      <Link key={index} href={`/projects/${slug}`}>
+                      <Link
+                        key={index}
+                        href={`/projects/${slug}`}
+                        className="hover:opacity-85 transition-opacity duration-200 ease-in-out"
+                      >
                         <div className="relative cursor-pointer mb-8">
                           <Image
                             item={item}
@@ -71,7 +75,7 @@ export default function ProjectsPage(props) {
                           />
                           <div className="w-full flex flex-row justify-center">
                             <div className="pt-3 px-auto w-full flex flex-row justify-center gap-2">
-                              <div className="text-center text-base font-semibold hover:opacity-70">
+                              <div className="text-center text-base font-semibold">
                                 {item.title}
                               </div>
                             </div>

@@ -61,7 +61,11 @@ export default function ShopPage(props) {
                       item.name
                     )}`;
                     return (
-                      <Link key={index} href={`/shop/${slug}`}>
+                      <Link
+                        key={index}
+                        href={`/shop/${slug}`}
+                        className="hover:opacity-85 transition-opacity duration-200 ease-in-out"
+                      >
                         <div className="relative cursor-pointer mb-8">
                           <Image
                             item={item.images[0]}
@@ -70,7 +74,7 @@ export default function ShopPage(props) {
                             tinaName="image"
                             index={index}
                           />
-                          <div className="pt-3 px-auto w-full flex flex-col  px-12 sm:px-8 md:px-0 text-center sm:text-left hover:opacity-70">
+                          <div className="pt-3 px-auto w-full flex flex-col px-12 sm:px-8 md:px-0 text-center sm:text-left">
                             <div className="font-medium">{item.title}</div>
                             <div className="font-extralight">{item.name}</div>
                             {item.price && (

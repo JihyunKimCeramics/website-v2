@@ -1,6 +1,12 @@
 import { tinaField, useTina } from "tinacms/dist/react";
+import React, { useEffect, useState } from "react";
 import { client } from "../tina/__generated__/client";
 import NoPageMessage from "/components/noPageMessage";
+import { useCart } from "../pages/_app";
+import bin from "../public/images/bin.svg";
+import generateSlug from "/components/generateSlug";
+import Image from "/components/Image";
+import DynamicSvg from "/components/DynamicSvg";
 
 export default function CartPage(props) {
   const { data } = useTina({
@@ -8,6 +14,17 @@ export default function CartPage(props) {
     variables: props.variables,
     data: props.data,
   });
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const { cart } = useCart();
+  const { removeFromCart } = useCart();
+  const { checkout } = useCart();
+  const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
   return (
     <div>
@@ -27,6 +44,95 @@ export default function CartPage(props) {
                   style={{ backgroundColor: data.data.theme.lineColour }}
                   data-tina-field={tinaField(data.data.theme, "lineColour")}
                 ></div>
+              )}
+            </div>
+          </div>
+          {mounted && itemCount === 0 ? (
+            <div className="mt-16 mb-6 lg:mt-24 lg:mb-9 text-xl lg:text-2xl text-center font-thin w-auto mx-16 sm:mx-28 lg:mx-40 xl:mx-64 leading-normal lg:leading-relaxed">
+              Your basket is empty!
+            </div>
+          ) : (
+            <div className="text-center my-16 lg:my-24 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto flex flex-col gap-6 sm:gap-8">
+              {cart.map((item, index) => {
+                const slug = `${generateSlug(item.title)}_${generateSlug(
+                  item.name
+                )}`;
+                return (
+                  <div
+                    key={index}
+                    className="flex flex-row justify-between gap-4 sm:gap-20 text-left"
+                  >
+                    <a
+                      href={`/shop/${slug}`}
+                      className="hover:opacity-85 transition-opacity duration-200 ease-in-out flex flex-row gap-4 sm:gap-7"
+                    >
+                      <div className="min-w-20 sm:min-w-36">
+                        <Image
+                          item={item}
+                          height={5}
+                          image={item.image}
+                          tinaName="image"
+                          index={index}
+                        />
+                      </div>
+                      <div>
+                        <div className="font-medium">{item.title}</div>
+                        <div className="font-extralight">{item.name}</div>
+                        {item.price && (
+                          <div className="font-semibold pt-1.5">
+                            £{item.price}
+                          </div>
+                        )}
+                      </div>
+                    </a>
+                    <div
+                      className="min-w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
+                      style={{ backgroundColor: data.data.theme.buttonColour }}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.backgroundColor =
+                          data.data.theme.buttonHoverColour)
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.backgroundColor =
+                          data.data.theme.buttonColour)
+                      }
+                      onClick={() => removeFromCart(item, cart)}
+                    >
+                      <DynamicSvg
+                        src={bin.src}
+                        color={data.data.theme.fontColor}
+                        className="mx-auto my-auto"
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          <div className="flex flex-row justify-center">
+            <div
+              className="h-10 px-6 flex flex-col justify-center rounded-full cursor-pointer"
+              style={{ backgroundColor: data.data.theme.buttonColour }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor =
+                  data.data.theme.buttonHoverColour)
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor =
+                  data.data.theme.buttonColour)
+              }
+            >
+              {mounted && itemCount === 0 ? (
+                <a className="text-sm xl:text-base font-semibold" href="/shop">
+                  Visit shop
+                </a>
+              ) : (
+                <div
+                  className="text-sm xl:text-base font-semibold cursor-pointer"
+                  onClick={() => checkout(cart)}
+                >
+                  Checkout
+                </div>
               )}
             </div>
           </div>
