@@ -44,7 +44,7 @@ export default function ProjectsPage(props) {
               )}
             </div>
 
-            <div className="mt-16 lg:mt-24">
+            <div className="mt-16 lg:mt-24 -mb-8">
               {data.data.projectsPage.projects && (
                 <div
                   className="grid w-full mx-auto"

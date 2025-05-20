@@ -34,7 +34,7 @@ export default function ExhibitionsPage(props) {
                 ></div>
               )}
             </div>
-            <div className="mt-16 lg:mt-24">
+            <div className="mt-16 lg:mt-24 -mb-10">
               {data.data.exhibitionsPage.exhibitions && (
                 <div
                   className="grid w-full mx-auto"
@@ -88,21 +88,22 @@ export default function ExhibitionsPage(props) {
                                 )}
                               </div>
                             )}
-                            {item.description && (
-                              <div
-                                className="text-left text-sm font-extralight leading-relaxed"
-                                data-tina-field={tinaField(item, "location")}
-                              >
-                                <TinaMarkdown
-                                  content={item.description}
-                                  components={{
-                                    p: ({ children }) => (
-                                      <p className="mb-2">{children}</p>
-                                    ),
-                                  }}
-                                />
-                              </div>
-                            )}
+                            {item.description &&
+                              item.description?.children?.length > 0 && (
+                                <div
+                                  className="text-left text-sm font-extralight leading-relaxed"
+                                  data-tina-field={tinaField(item, "location")}
+                                >
+                                  <TinaMarkdown
+                                    content={item.description}
+                                    components={{
+                                      p: ({ children }) => (
+                                        <p className="mb-2">{children}</p>
+                                      ),
+                                    }}
+                                  />
+                                </div>
+                              )}
                           </div>
                         </div>
                       </div>
