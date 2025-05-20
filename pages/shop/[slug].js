@@ -110,8 +110,9 @@ export default function ShopItemPage(props) {
                       }
                     }}
                   >
-                    <div
+                    <a
                       className="text-sm xl:text-base font-semibold"
+                      href="/basket"
                       onClick={() =>
                         addToCart({
                           title: shopItem.title,
@@ -122,7 +123,7 @@ export default function ShopItemPage(props) {
                       }
                     >
                       {isInCart ? "In Cart" : "Add to cart"}
-                    </div>
+                    </a>
                   </div>
                 </div>
                 {((data.data.shopPage.shopItems[shopItemIndex]?.details &&
@@ -302,8 +303,9 @@ export default function ShopItemPage(props) {
                     }
                   }}
                 >
-                  <div
+                  <a
                     className="text-sm xl:text-base font-semibold"
+                    href="/basket"
                     onClick={() =>
                       addToCart({
                         title: shopItem.title,
@@ -314,7 +316,7 @@ export default function ShopItemPage(props) {
                     }
                   >
                     {isInCart ? "In Cart" : "Add to cart"}
-                  </div>
+                  </a>
                 </div>
               </div>
               {((data.data.shopPage.shopItems[shopItemIndex]?.details &&
