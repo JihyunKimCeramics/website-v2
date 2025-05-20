@@ -16,14 +16,16 @@ export default function CartPage(props) {
   });
 
   const [mounted, setMounted] = useState(false);
-
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const { cart } = useCart();
-  const { removeFromCart } = useCart();
-  const { checkout } = useCart();
+  const { cart, removeFromCart, checkout } = mounted
+    ? useCart()
+    : { cart: [], removeFromCart: () => {}, checkout: () => {} };
+
+  if (!mounted) return null;
+
   const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
   return (
@@ -47,7 +49,7 @@ export default function CartPage(props) {
               )}
             </div>
           </div>
-          {mounted && itemCount === 0 ? (
+          {itemCount === 0 ? (
             <div className="mt-16 mb-6 lg:mt-24 lg:mb-9 text-xl lg:text-2xl text-center font-thin w-auto mx-16 sm:mx-28 lg:mx-40 xl:mx-64 leading-normal lg:leading-relaxed">
               Your basket is empty!
             </div>
@@ -100,7 +102,7 @@ export default function CartPage(props) {
                     >
                       <DynamicSvg
                         src={bin.src}
-                        color={data.data.theme.fontColor}
+                        color={data.data.theme.textColour}
                         className="mx-auto my-auto"
                       />
                     </div>
@@ -122,7 +124,7 @@ export default function CartPage(props) {
                   data.data.theme.buttonColour)
               }
             >
-              {mounted && itemCount === 0 ? (
+              {itemCount === 0 ? (
                 <a className="text-sm xl:text-base font-semibold" href="/shop">
                   Visit shop
                 </a>
