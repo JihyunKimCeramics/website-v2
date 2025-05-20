@@ -1,6 +1,6 @@
 import { tinaField, useTina } from "tinacms/dist/react";
 import { client } from "../tina/__generated__/client";
-import NoPageMessage from "/components/NoPageMessage";
+import NoPageMessage from "/components/noPageMessage";
 
 export default function Custom404(props) {
   const { data } = useTina({
