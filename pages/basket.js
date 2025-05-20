@@ -54,7 +54,7 @@ export default function CartPage(props) {
               Your basket is empty!
             </div>
           ) : (
-            <div className="text-center my-16 lg:my-24 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto">
+            <div className="text-center mt-16 mb-16 lg:mt-24 lg:mb-12 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto">
               <div className="flex flex-row w-fit sm:min-w-[24rem] md:min-w-[34rem] lg:min-w-[38rem] 2xl:min-w-[44rem] justify-between gap-10 sm:gap-8 mx-auto">
                 <div className="flex flex-col gap-6 sm:gap-8">
                   {cart.map((item, index) => {
