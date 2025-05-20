@@ -54,41 +54,55 @@ export default function CartPage(props) {
               Your basket is empty!
             </div>
           ) : (
-            <div className="text-center my-16 lg:my-24 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto flex flex-col gap-6 sm:gap-8">
-              {cart.map((item, index) => {
-                const slug = `${generateSlug(item.title)}_${generateSlug(
-                  item.name
-                )}`;
-                return (
-                  <div
-                    key={index}
-                    className="flex flex-row justify-between gap-4 sm:gap-20 text-left"
-                  >
-                    <a
-                      href={`/shop/${slug}`}
-                      className="hover:opacity-85 transition-opacity duration-200 ease-in-out flex flex-row gap-4 sm:gap-7"
-                    >
-                      <div className="min-w-20 sm:min-w-36">
-                        <Image
-                          item={item}
-                          height={5}
-                          image={item.image}
-                          tinaName="image"
-                          index={index}
-                        />
-                      </div>
-                      <div>
-                        <div className="font-medium">{item.title}</div>
-                        <div className="font-extralight">{item.name}</div>
-                        {item.price && (
-                          <div className="font-semibold pt-1.5">
-                            £{item.price}
-                          </div>
-                        )}
-                      </div>
-                    </a>
+            <div className="text-center my-16 lg:my-24 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto">
+              {/* 
+    w-fit      → make the row only as wide as its children + gap  
+    min-w-[24rem] → never shrink below 24rem (adjust to whatever min you like)  
+    mx-auto    → center it when it’s wider than its natural content  
+    justify-between → spread the two columns to the edges of that width  
+  */}
+              <div className="flex flex-row w-fit sm:min-w-[24rem] md:min-w-[34rem] lg:min-w-[38rem] 2xl:min-w-[44rem] justify-between gap-10 sm:gap-8 mx-auto">
+                {/* Image + text column */}
+                <div className="flex flex-col gap-6 sm:gap-8">
+                  {cart.map((item, index) => {
+                    const slug = `${generateSlug(item.title)}_${generateSlug(
+                      item.name
+                    )}`;
+                    return (
+                      <a
+                        key={index}
+                        href={`/shop/${slug}`}
+                        className="flex items-start gap-4 sm:gap-7 hover:opacity-85 transition-opacity duration-200 ease-in-out text-left"
+                      >
+                        <div className="min-w-20 sm:min-w-36">
+                          <Image
+                            item={item}
+                            height={5}
+                            image={item.image}
+                            tinaName="image"
+                            index={index}
+                          />
+                        </div>
+                        <div>
+                          <div className="font-medium">{item.title}</div>
+                          <div className="font-extralight">{item.name}</div>
+                          {item.price && (
+                            <div className="font-semibold pt-1.5">
+                              £{item.price}
+                            </div>
+                          )}
+                        </div>
+                      </a>
+                    );
+                  })}
+                </div>
+
+                {/* Bin-button column */}
+                <div className="flex flex-col gap-16 sm:gap-34">
+                  {cart.map((item, index) => (
                     <div
-                      className="min-w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
+                      key={index}
+                      className="min-w-9 h-9 rounded-full flex items-center justify-center cursor-pointer"
                       style={{ backgroundColor: data.data.theme.buttonColour }}
                       onMouseEnter={(e) =>
                         (e.currentTarget.style.backgroundColor =
@@ -106,9 +120,9 @@ export default function CartPage(props) {
                         className="mx-auto my-auto"
                       />
                     </div>
-                  </div>
-                );
-              })}
+                  ))}
+                </div>
+              </div>
             </div>
           )}
           <div className="flex flex-row justify-center">

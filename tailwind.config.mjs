@@ -16,6 +16,7 @@ module.exports = {
         serif: ["Montserrat", "serif"],
       },
       spacing: {
+        34: "8.5rem",
         68: "17rem",
         150: "37.5rem",
         200: "45rem",
