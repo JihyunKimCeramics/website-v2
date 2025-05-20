@@ -15,9 +15,17 @@ export default function ShopItemPage(props) {
     variables: props.variables,
     data: props.data,
   });
-  const { addToCart } = useCart();
+  const { addToCart, cart } = useCart();
 
   const [shopItem, setShopItem] = useState("");
+
+  const isInCart = Boolean(
+    shopItem &&
+      cart.some((c) => c.title === shopItem.title && c.name === shopItem.name)
+  );
+
+  console.log("cart", cart);
+  console.log("in cart", isInCart);
 
   useEffect(() => {
     if (data.data.shopItem != shopItem && data.data.shopItem != null) {
@@ -83,16 +91,24 @@ export default function ShopItemPage(props) {
                 )}
                 <div className="flex flex-row justify-center mt-5">
                   <div
-                    className="h-10 px-6 flex flex-col justify-center rounded-full cursor-pointer"
-                    style={{ backgroundColor: data.data.theme.buttonColour }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.backgroundColor =
-                        data.data.theme.buttonHoverColour)
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.backgroundColor =
-                        data.data.theme.buttonColour)
-                    }
+                    className="h-10 px-6 flex flex-col justify-center rounded-full"
+                    style={{
+                      backgroundColor: data.data.theme.buttonColour,
+                      opacity: isInCart ? 0.5 : 1,
+                      cursor: isInCart ? "default" : "pointer",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isInCart) {
+                        e.currentTarget.style.backgroundColor =
+                          data.data.theme.buttonHoverColour;
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isInCart) {
+                        e.currentTarget.style.backgroundColor =
+                          data.data.theme.buttonColour;
+                      }
+                    }}
                   >
                     <div
                       className="text-sm xl:text-base font-semibold"
@@ -105,7 +121,7 @@ export default function ShopItemPage(props) {
                         })
                       }
                     >
-                      Add to cart
+                      {isInCart ? "In Cart" : "Add to cart"}
                     </div>
                   </div>
                 </div>
@@ -267,16 +283,24 @@ export default function ShopItemPage(props) {
               )}
               <div className="flex flex-row justify-start mt-5">
                 <div
-                  className="h-10 px-6 flex flex-col justify-center rounded-full cursor-pointer"
-                  style={{ backgroundColor: data.data.theme.buttonColour }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.backgroundColor =
-                      data.data.theme.buttonHoverColour)
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.backgroundColor =
-                      data.data.theme.buttonColour)
-                  }
+                  className="h-10 px-6 flex flex-col justify-center rounded-full"
+                  style={{
+                    backgroundColor: data.data.theme.buttonColour,
+                    opacity: isInCart ? 0.5 : 1,
+                    cursor: isInCart ? "default" : "pointer",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isInCart) {
+                      e.currentTarget.style.backgroundColor =
+                        data.data.theme.buttonHoverColour;
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isInCart) {
+                      e.currentTarget.style.backgroundColor =
+                        data.data.theme.buttonColour;
+                    }
+                  }}
                 >
                   <div
                     className="text-sm xl:text-base font-semibold"
@@ -289,7 +313,7 @@ export default function ShopItemPage(props) {
                       })
                     }
                   >
-                    Add to cart
+                    {isInCart ? "In Cart" : "Add to cart"}
                   </div>
                 </div>
               </div>

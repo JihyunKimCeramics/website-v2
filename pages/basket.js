@@ -55,14 +55,7 @@ export default function CartPage(props) {
             </div>
           ) : (
             <div className="text-center my-16 lg:my-24 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto">
-              {/* 
-    w-fit      → make the row only as wide as its children + gap  
-    min-w-[24rem] → never shrink below 24rem (adjust to whatever min you like)  
-    mx-auto    → center it when it’s wider than its natural content  
-    justify-between → spread the two columns to the edges of that width  
-  */}
               <div className="flex flex-row w-fit sm:min-w-[24rem] md:min-w-[34rem] lg:min-w-[38rem] 2xl:min-w-[44rem] justify-between gap-10 sm:gap-8 mx-auto">
-                {/* Image + text column */}
                 <div className="flex flex-col gap-6 sm:gap-8">
                   {cart.map((item, index) => {
                     const slug = `${generateSlug(item.title)}_${generateSlug(
@@ -96,8 +89,6 @@ export default function CartPage(props) {
                     );
                   })}
                 </div>
-
-                {/* Bin-button column */}
                 <div className="flex flex-col gap-16 sm:gap-34">
                   {cart.map((item, index) => (
                     <div
