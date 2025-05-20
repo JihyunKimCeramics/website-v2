@@ -36,7 +36,7 @@ export default function ShopPage(props) {
               )}
             </div>
 
-            <div className="mt-16 lg:mt-24">
+            <div className="mt-16 lg:mt-24 -mb-8">
               {data.data.shopPage.shopItems && (
                 <div
                   className="grid w-full mx-auto"
