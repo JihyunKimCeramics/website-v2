@@ -1,0 +1,57 @@
+# .github/workflows/generate-shopdata.yml
+name: Generate Shop Data JSON
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install gray-matter yaml fs-extra
+
+      - name: Generate shopData.json
+        run: node scripts/generateShopData.js
+
+      - name: Commit and push shopData.json
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'chore: update generated shopData.json'
+          file_pattern: 'public/shopData.json'
+          branch: main
+
+
+# scripts/generateShopData.js
+const fs = require('fs-extra');
+const matter = require('gray-matter');
+
+async function generate() {
+  // 1. Read MDX
+  const mdx = await fs.readFile('content/index.mdx', 'utf8');
+  // 2. Parse front-matter
+  const { data } = matter(mdx);
+  const rawItems = data.shopPage?.shopItems || [];
+  // 3. Normalize items
+  const items = rawItems.map(i => ({
+    title: i.title,
+    name: i.name,
+    price: i.price
+  }));
+  // 4. Write JSON
+  await fs.ensureDir('public');
+  await fs.writeJson('public/shopData.json', items, { spaces: 2 });
+  console.log(`✅ Wrote ${items.length} items to public/shopData.json`);
+}
+
+generate().catch(err => {
+  console.error(err);
+  process.exit(1);
+});
