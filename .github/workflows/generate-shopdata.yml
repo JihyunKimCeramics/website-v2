@@ -3,6 +3,7 @@ name: Generate Shop Data JSON
 on:
   push:
     branches: [main]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,10 +17,15 @@ jobs:
           node-version: "18"
 
       - name: Install dependencies
-        run: npm install gray-matter yaml fs-extra
+        run: npm install gray-matter fs-extra
 
       - name: Generate shopData.json
         run: node scripts/generateShopData.js
+
+      - name: **Debug contents of public/**
+        run: |
+          echo "👀 Listing public/:"
+          ls -R public
 
       - name: Commit and push shopData.json
         uses: stefanzweifel/git-auto-commit-action@v4
