@@ -7,29 +7,33 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-      - name: Set up Node.js
+      - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: "18"
 
-      - name: Install dependencies
+      - name: Install deps
         run: npm install gray-matter fs-extra
 
       - name: Generate shopData.json
         run: node scripts/generateShopData.js
 
-      - name: **Debug contents of public/**
+      - name: List public dir
         run: |
-          echo "👀 Listing public/:"
-          ls -R public
+          echo '👀 Contents of public/:'
+          ls -lah public
 
       - name: Commit and push shopData.json
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore: update generated shopData.json"
-          file_pattern: "public/shopData.json"
-          branch: main
+          file_pattern: public/shopData.json
