@@ -1,39 +1,56 @@
-# .github/workflows/generate-shopdata.yml
 name: Generate Shop Data JSON
+
 on:
   push:
-    branches: [main]
+    branches:
+      - main # run only on commits to main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write # allow the action to push a commit
 
     steps:
+      # 1️⃣  Checkout full history so we can commit back
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # important for commit-back actions
 
-      - name: Set up Node
+      # 2️⃣  Node toolchain
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
 
+      # 3️⃣  Install only the two deps we actually use
       - name: Install deps
-        run: npm install gray-matter fs-extra
+        run: |
+          npm install --no-audit --no-fund gray-matter fs-extra
 
+      # 4️⃣  Run the generator script
       - name: Generate shopData.json
         run: node scripts/generateShopData.js
 
-      - name: List public dir
-        run: |
-          echo '👀 Contents of public/:'
-          ls -lah public
+      # 5️⃣  (Optional) Show what got created
+      - name: Debug list public/
+        run: ls -lah public
 
+      # 6️⃣  Commit the updated JSON back to main
       - name: Commit and push shopData.json
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore: update generated shopData.json"
           file_pattern: public/shopData.json
+
+      # 7️⃣  Call your Cloudflare Worker *after* the commit lands
+      - name: Trigger Cloudflare Worker sync
+        env:
+          WORKER_URL: https://tina-firebase-inventory-sync.lcutner5274.workers.dev/github-webhook
+          AUTH: ${{ secrets.WORKER_CALL_SECRET }} # ← create this repo secret
+        run: |
+          curl -X POST "$WORKER_URL" \
+               -H "X-Auth-Token: $AUTH" \
+               -H "Content-Type: application/json" \
+               -d '{}'
