@@ -1,22 +1,37 @@
 [
   {
+    "id": "f52321a7-6164-4625-927c-6d576497a480",
+    "title": "test2",
+    "name": "test2",
+    "price": 1256,
+    "showItem": true
+  },
+  {
+    "id": "564E3225-3D4E-4F1F-9EFB-BC649ACA349C",
     "title": "Salty Fairy Ring",
     "name": "Orange",
-    "price": 641
+    "price": 641,
+    "showItem": true
   },
   {
+    "id": "F0B80C6B-5EFA-4E41-9161-B6AA4101AF16",
     "title": "abc",
     "name": "efg",
-    "price": 123
+    "price": 123,
+    "showItem": true
   },
   {
+    "id": "0659839E-0AC4-4E78-A440-D1A346240408",
     "title": "piece 2 has a very very very very very very very very very very long title",
     "name": "piece 2 has a very very very very very very very very very long name",
-    "price": 1000000
+    "price": 1000000,
+    "showItem": true
   },
   {
+    "id": "3799C2F8-4A54-4D6F-ACB6-C558DF98A3B0",
     "title": "piece 3",
     "name": "piece 3 name",
-    "price": 10
+    "price": 10,
+    "showItem": true
   }
 ]
