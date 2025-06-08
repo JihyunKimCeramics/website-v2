@@ -1,4 +1,6 @@
 import { defineConfig, wrapFieldsWithMeta } from "tinacms";
+import { v4 as uuidv4 } from "uuid";
+
 import React from "react";
 
 const branch =
@@ -901,10 +903,23 @@ export default defineConfig({
                 name: "shopItems",
                 label: "Shop Items",
                 list: true,
+                defaultItem: () => ({
+                  id: uuidv4(),
+                }),
                 itemProps: (item) => ({
                   label: item?.title + " - " + item?.name || "New Shop Item",
                 }),
                 fields: [
+                  {
+                    type: "string",
+                    name: "id",
+                    label: "ID",
+                    description: "A unique identifier (read-only)",
+                    ui: {
+                      // Hide the raw string input…
+                      component: "hidden", // …but still register it so Tina writes it to the front-matter.
+                    },
+                  },
                   {
                     type: "boolean",
                     name: "showItem",

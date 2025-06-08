@@ -10,9 +10,11 @@ async function generate() {
   const rawItems = data.shopPage?.shopItems || [];
   // 3. Normalize items
   const items = rawItems.map((i) => ({
+    id: i.id,
     title: i.title,
     name: i.name,
     price: i.price,
+    showItem: i.showItem,
   }));
   // 4. Write JSON
   await fs.ensureDir("public");
