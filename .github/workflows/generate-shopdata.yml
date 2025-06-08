@@ -1,56 +1,49 @@
 name: Generate Shop Data JSON
-
 on:
   push:
-    branches:
-      - main # run only on commits to main
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # allow the action to push a commit
+      contents: write # let the action push back to the repo
 
     steps:
-      # 1️⃣  Checkout full history so we can commit back
+      # 1) Full checkout so auto-commit works
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0 # important for commit-back actions
+          fetch-depth: 0
 
-      # 2️⃣  Node toolchain
-      - name: Set up Node.js
+      # 2) Node 18
+      - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: "18"
 
-      # 3️⃣  Install only the two deps we actually use
+      # 3) Install the two deps we use
       - name: Install deps
-        run: |
-          npm install --no-audit --no-fund gray-matter fs-extra
+        run: npm install --no-audit --no-fund gray-matter fs-extra
 
-      # 4️⃣  Run the generator script
+      # 4) Generate public/shopData.json
       - name: Generate shopData.json
         run: node scripts/generateShopData.js
 
-      # 5️⃣  (Optional) Show what got created
-      - name: Debug list public/
-        run: ls -lah public
-
-      # 6️⃣  Commit the updated JSON back to main
+      # 5) Commit and push the new JSON (if it changed)
       - name: Commit and push shopData.json
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore: update generated shopData.json"
           file_pattern: public/shopData.json
 
-      # 7️⃣  Call your Cloudflare Worker *after* the commit lands
+      # 6) NOW call the Cloudflare Worker with the secret
       - name: Trigger Cloudflare Worker sync
         env:
           WORKER_URL: https://tina-firebase-inventory-sync.lcutner5274.workers.dev/github-webhook
-          AUTH: ${{ secrets.WORKER_CALL_SECRET }} # ← create this repo secret
+          AUTH_TOKEN: ${{ secrets.WORKER_CALL_SECRET }} # <-- create this repo secret
         run: |
           curl -X POST "$WORKER_URL" \
-               -H "X-Auth-Token: $AUTH" \
+               -H "X-Auth-Token: $AUTH_TOKEN" \
                -H "Content-Type: application/json" \
                -d '{}'
