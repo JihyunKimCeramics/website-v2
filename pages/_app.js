@@ -57,7 +57,6 @@ export default function App({ Component, pageProps }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      {/* Always wrap in Layout; Layout will early-return empty div if no CMS data */}
       <Layout data={{ data: cmsData }}>
         <Component {...pageProps} />
       </Layout>
