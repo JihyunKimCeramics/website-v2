@@ -130,10 +130,7 @@ export async function getStaticPaths() {
     }
   });
 
-  return {
-    paths,
-    fallback: false,
-  };
+  return { paths: paths.filter(Boolean), fallback: "blocking" };
 }
 
 export async function getStaticProps({ params }) {
@@ -157,10 +154,7 @@ export async function getStaticProps({ params }) {
   }
 
   return {
-    props: {
-      data: { data: { ...globalData, project } },
-      query,
-      variables,
-    },
+    props: { data: { data: { ...globalData, project } }, query, variables },
+    revalidate: 60,
   };
 }

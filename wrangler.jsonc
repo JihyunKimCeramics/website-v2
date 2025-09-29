@@ -1,0 +1,15 @@
+{
+  "main": ".open-next/worker.js",
+  "name": "jihyun-website",
+  "compatibility_date": "2025-03-25",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "routes": [
+    { "pattern": "jihyunkimceramic.com", "custom_domain": true },
+    { "pattern": "www.jihyunkimceramic.com", "custom_domain": true }
+  ]
+}
