@@ -410,8 +410,8 @@ export async function getStaticPaths() {
     });
 
   return {
-    paths,
-    fallback: false,
+    paths: paths.filter(Boolean),
+    fallback: "blocking",
   };
 }
 
@@ -442,5 +442,6 @@ export async function getStaticProps({ params }) {
       query,
       variables,
     },
+    revalidate: 60,
   };
 }
