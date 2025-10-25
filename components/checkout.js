@@ -1,5 +1,31 @@
-export default function checkout(cart) {
-  console.log("checkout");
+export default async function checkout(cart) {
+  try {
+    const res = await fetch("/api/checkout_sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cart }),
+    });
 
-  return;
+    if (!res.ok) {
+      const payload = await res.json().catch(() => ({}));
+      console.error("Checkout API error:", payload);
+      alert(
+        payload?.error?.message ||
+          `Failed to create checkout session (${res.status})`
+      );
+      return;
+    }
+
+    const data = await res.json();
+    if (!data?.url) {
+      console.error("No checkout URL returned:", data);
+      alert("No checkout URL returned from server.");
+      return;
+    }
+
+    window.location.href = data.url;
+  } catch (e) {
+    console.error("Checkout exception:", e);
+    alert(`Sorry, something went wrong starting checkout: ${e.message}`);
+  }
 }
