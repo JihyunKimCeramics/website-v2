@@ -91,7 +91,7 @@ export default function ShopItemPage(props) {
                 )}
                 <div className="flex flex-row justify-center mt-5">
                   <div
-                    className="h-10 px-6 flex flex-col justify-center rounded-full"
+                    className="flex flex-col justify-center rounded-full"
                     style={{
                       backgroundColor: data.data.theme.buttonColour,
                       opacity: isInCart ? 0.5 : 1,
@@ -111,7 +111,7 @@ export default function ShopItemPage(props) {
                     }}
                   >
                     <a
-                      className="text-sm xl:text-base font-semibold"
+                      className="text-sm xl:text-base font-semibold h-10 px-6 flex items-center"
                       href="/basket"
                       onClick={() =>
                         addToCart({

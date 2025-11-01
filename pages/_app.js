@@ -46,10 +46,8 @@ export default function App({ Component, pageProps }) {
         cart,
         addToCart: (item) => setCart(addToCart(item, cart)),
         removeFromCart: (item) => setCart(removeFromCart(item, cart)),
-        checkout: () => {
-          checkout(cart);
-          setCart([]);
-        },
+        checkout: () => checkout(cart),
+        clearCart: () => setCart([]),
       }}
     >
       <Head>

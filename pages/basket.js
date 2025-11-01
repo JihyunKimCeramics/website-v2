@@ -118,7 +118,7 @@ export default function CartPage(props) {
           )}
           <div className="flex flex-row justify-center">
             <div
-              className="h-10 px-6 flex flex-col justify-center rounded-full cursor-pointer"
+              className="flex flex-col justify-center rounded-full cursor-pointer"
               style={{ backgroundColor: data.data.theme.buttonColour }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.backgroundColor =
@@ -130,13 +130,16 @@ export default function CartPage(props) {
               }
             >
               {itemCount === 0 ? (
-                <a className="text-sm xl:text-base font-semibold" href="/shop">
+                <a
+                  className="text-sm xl:text-base font-semibold h-10 px-6 flex items-center"
+                  href="/shop"
+                >
                   Visit shop
                 </a>
               ) : (
                 <div
-                  className="text-sm xl:text-base font-semibold cursor-pointer"
-                  onClick={() => checkout(cart)}
+                  className="h-10 px-6 text-sm xl:text-base font-semibold cursor-pointer flex items-center"
+                  onClick={() => checkout(JSON.parse(JSON.stringify(cart)))}
                 >
                   Checkout
                 </div>
