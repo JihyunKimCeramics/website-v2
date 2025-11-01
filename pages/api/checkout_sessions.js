@@ -139,7 +139,7 @@ export default async function handler(req, res) {
       mode: "payment",
       line_items,
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/cancel`,
+      cancel_url: `${origin}/basket`,
       shipping_address_collection: { allowed_countries: ["GB", "US", "CA"] },
       shipping_options,
       allow_promotion_codes: true,
