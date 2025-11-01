@@ -1,3 +1,5 @@
+export const runtime = "experimental-edge";
+
 import { useTina } from "tinacms/dist/react";
 import { client } from "../tina/__generated__/client";
 import React, { useEffect, useRef } from "react";

@@ -1,36 +1,48 @@
-// pages/api/checkout_sessions.js
+export const runtime = "edge";
+
 import Stripe from "stripe";
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+
+// Make sure STRIPE_SECRET_KEY is available at build time for Edge.
+// Throw early if it's missing so you see a clear error.
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+if (!STRIPE_SECRET_KEY) {
+  throw new Error("Missing STRIPE_SECRET_KEY");
+}
+
+const stripe = new Stripe(STRIPE_SECRET_KEY, {
   apiVersion: "2024-06-20",
+  // Ensure the SDK uses fetch in Edge/Workers
+  // (safe if you're on a version that already defaults to fetch).
+  httpClient: Stripe.createFetchHttpClient?.(),
 });
 
-// Your Shipping Rate IDs (Stripe Dashboard → Shipping rates)
-// Just edit these IDs; the code will use whatever you put here.
+// Your Shipping Rate IDs
 const SHIPPING_RATES = {
   pickup: "shr_1SMT7gB6Xc806YyHfVmncn64",
   uk: "shr_1SMT8EB6Xc806YyHX1WkwMpr",
   international: "shr_1SMT8aB6Xc806YyHxhrLogB2",
-  free: "shr_1SMTC6B6Xc806YyHZQGg9fGy", // must be a 0-amount rate
+  free: "shr_1SMTC6B6Xc806YyHZQGg9fGy",
 };
 
-// Build the site's origin robustly behind proxies (Vercel, Netlify, etc.)
+// Build origin from standard proxy headers (works on Vercel/Netlify/Cloudflare)
 const getOrigin = (req) => {
-  const proto = (req.headers["x-forwarded-proto"] || "http").split(",")[0];
-  const host = req.headers["x-forwarded-host"] || req.headers.host;
+  const headers = req.headers;
+  const proto = (headers.get("x-forwarded-proto") || "https").split(",")[0];
+  const host =
+    headers.get("x-forwarded-host") || headers.get("host") || "localhost:3000";
   return `${proto}://${host}`;
 };
 
 const toAbsoluteUrl = (req, u) => {
   if (!u) return undefined;
-  if (/^https?:\/\//i.test(u)) return u; // already absolute
-  if (u.startsWith("/")) return `${getOrigin(req)}${u}`; // make absolute
-  return undefined; // ignore blobs/data URIs/etc.
+  if (/^https?:\/\//i.test(u)) return u;
+  if (u.startsWith("/")) return `${getOrigin(req)}${u}`;
+  return undefined;
 };
 
 // £300.00 → 30000 (minor units)
 const FREE_THRESHOLD_MINOR = 30000;
 
-// Convert a major-unit price (e.g., 12.34) to minor units (e.g., 1234)
 const toMinor = (val) => {
   const n =
     typeof val === "number" ? val : Number(String(val).replace(/[^\d.]/g, ""));
@@ -38,18 +50,22 @@ const toMinor = (val) => {
   return Math.round(n * 100);
 };
 
-export default async function handler(req, res) {
+export default async function handler(req) {
   if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
-    return res.status(405).end("Method Not Allowed");
+    return new Response("Method Not Allowed", {
+      status: 405,
+      headers: { Allow: "POST" },
+    });
   }
 
   try {
-    const { cart } = req.body || {};
+    // Edge: parse JSON body via the Web API
+    const { cart } = (await req.json()) || {};
     if (!Array.isArray(cart) || cart.length === 0) {
-      return res
-        .status(400)
-        .json({ error: { message: "Cart is empty or invalid" } });
+      return Response.json(
+        { error: { message: "Cart is empty or invalid" } },
+        { status: 400 }
+      );
     }
 
     const DEFAULT_CURRENCY = "gbp";
@@ -88,36 +104,35 @@ export default async function handler(req, res) {
       };
     });
 
-    // Subtotal in minor units
     const subtotalMinor = line_items.reduce(
       (sum, li) => sum + (li.price_data.unit_amount || 0) * (li.quantity || 1),
       0
     );
 
-    // Build shipping_options automatically from SHIPPING_RATES
     const entries = Object.entries(SHIPPING_RATES);
-
-    // Everything except "free"
     const baseRates = entries
       .filter(([key, id]) => key !== "free" && typeof id === "string" && id)
       .map(([, id]) => ({ shipping_rate: id }));
 
-    // Add "free" first if threshold met
     const shipping_options =
       SHIPPING_RATES.free && subtotalMinor >= FREE_THRESHOLD_MINOR
         ? [{ shipping_rate: SHIPPING_RATES.free }, ...baseRates]
         : baseRates;
 
     if (shipping_options.length === 0) {
-      return res.status(400).json({
-        error: {
-          message:
-            "No shipping methods available. Please review your configuration.",
+      return Response.json(
+        {
+          error: {
+            message:
+              "No shipping methods available. Please review your configuration.",
+          },
         },
-      });
+        { status: 400 }
+      );
     }
 
-    const origin = req.headers.origin ?? `http://${req.headers.host}`;
+    const origin = req.headers.get("origin") ?? getOrigin(req);
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items,
@@ -129,8 +144,11 @@ export default async function handler(req, res) {
       // automatic_tax: { enabled: true },
     });
 
-    return res.status(200).json({ id: session.id, url: session.url });
+    return Response.json({ id: session.id, url: session.url });
   } catch (err) {
-    return res.status(500).json({ error: { message: err.message } });
+    return Response.json(
+      { error: { message: err?.message || "Unexpected error" } },
+      { status: 500 }
+    );
   }
 }
