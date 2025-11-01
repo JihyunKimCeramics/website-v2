@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 import Stripe from "stripe";
 
 // Make sure STRIPE_SECRET_KEY is available at build time for Edge.
