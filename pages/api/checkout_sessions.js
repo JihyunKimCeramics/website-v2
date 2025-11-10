@@ -1,3 +1,4 @@
+// pages/api/checkout_sessions.js
 import Stripe from "stripe";
 
 // --- Your shipping rates ---
@@ -35,7 +36,6 @@ function toMinor(val) {
 }
 
 function getOrigin(req) {
-  // Prefer explicit site URL if set
   const base = process.env.NEXT_PUBLIC_SITE_URL;
   if (base) return base.replace(/\/$/, "");
 
@@ -64,14 +64,21 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Next parses JSON when content-type is application/json
     const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+
     const cart = Array.isArray(body?.cart) ? body.cart : [];
     if (cart.length === 0) {
       return res
         .status(400)
         .json({ error: { message: "Cart is empty or invalid" } });
     }
+
+    // ✅ Collect item IDs (prefer explicit cart_ids from client; otherwise derive from cart)
+    const explicitIds = Array.isArray(body?.cart_ids) ? body.cart_ids : [];
+    const derivedIds = cart.map((i) => i?.id).filter(Boolean);
+    const cartIds = Array.from(new Set([...explicitIds, ...derivedIds])).map(
+      String
+    );
 
     const DEFAULT_CURRENCY = "gbp";
 
@@ -90,7 +97,6 @@ export default async function handler(req, res) {
         item?.image?.url ||
         item?.image?.path;
       const imageUrl = toAbsoluteUrl(req, rawImg);
-
       const currency = (item?.currency || DEFAULT_CURRENCY).toLowerCase();
 
       return {
@@ -102,7 +108,11 @@ export default async function handler(req, res) {
               item?.name ? `, ${item.name}` : ""
             }`,
             ...(imageUrl ? { images: [imageUrl] } : {}),
-            metadata: { slug: item?.slug || "" },
+            // ✅ Stamp product metadata with your internal ID & slug (fallback for success page)
+            metadata: {
+              id: item?.id ? String(item.id) : "",
+              slug: item?.slug || "",
+            },
           },
         },
         quantity,
@@ -144,6 +154,11 @@ export default async function handler(req, res) {
       shipping_options,
       allow_promotion_codes: true,
       // automatic_tax: { enabled: true },
+
+      // ✅ Put your IDs on the session so success page can flip D1 deterministically
+      metadata: {
+        in_stock_ids: JSON.stringify(cartIds),
+      },
     });
 
     return res.status(200).json({ id: session.id, url: session.url });

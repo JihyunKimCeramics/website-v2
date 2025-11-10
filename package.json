@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "TINA_PUBLIC_IS_LOCAL=true tinacms dev -c \"next dev\"",
     "build": "tinacms build && next build",
-    "postbuild": "node scripts/post-build-sync.js",
     "start": "next start",
     "lint": "next lint",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
@@ -25,6 +24,7 @@
     "tinacms": "^2.5.2"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.13.16",
     "@opennextjs/cloudflare": "^1.11.1",
     "@tinacms/cli": "^1.7.0",
     "postcss": "^8",
