@@ -101,7 +101,7 @@ export default function ShopItemPage(props) {
                         price: shopItem.price,
                       })
                     }
-                    className="flex flex-col justify-center rounded-full"
+                    className="flex flex-col justify-center rounded-full transition-all duration-300"
                     style={{
                       backgroundColor: data.data.theme.buttonColour,
                       opacity: isInCart ? 0.5 : 1,
@@ -281,7 +281,7 @@ export default function ShopItemPage(props) {
                       price: shopItem.price,
                     })
                   }
-                  className="h-10 px-6 flex flex-col justify-center rounded-full"
+                  className="h-10 px-6 flex flex-col justify-center rounded-full transition-all duration-300"
                   style={{
                     backgroundColor: data.data.theme.buttonColour,
                     opacity: isInCart ? 0.5 : 1,

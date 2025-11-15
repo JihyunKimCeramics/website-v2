@@ -42,7 +42,7 @@ export default function AboutPage(props) {
               {data.data.aboutPage.cv.showCV && (
                 <div className="mx-auto flex flex-col justify-center items-center mt-5">
                   <a
-                    className="h-9 px-4 flex flex-row justify-center rounded-full cursor-pointer gap-2"
+                    className="h-9 px-4 flex flex-row justify-center rounded-full cursor-pointer gap-2 transition-all duration-300"
                     data-tina-field={tinaField(data.data.aboutPage, "cv")}
                     style={{ backgroundColor: data.data.theme.buttonColour }}
                     target="_blank"

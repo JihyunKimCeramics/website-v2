@@ -7,7 +7,7 @@ const NoPageMessage = ({ buttonColour, buttonHoverColour }) => {
       </p>
       <a
         href="/"
-        className="mt-8 h-10 px-6 flex flex-col justify-center rounded-full cursor-pointer"
+        className="mt-8 h-10 px-6 flex flex-col justify-center rounded-full cursor-pointer transition-all duration-300"
         style={{ backgroundColor: buttonColour }}
         onMouseEnter={(e) =>
           (e.currentTarget.style.backgroundColor = buttonHoverColour)

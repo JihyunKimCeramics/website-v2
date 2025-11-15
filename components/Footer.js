@@ -96,7 +96,7 @@ export default function Footer({
                   </div>
                 </div>
                 <div
-                  className="w-9 h-9 rounded-full flex justify-center items-center cursor-pointer shrink-0"
+                  className="w-9 h-9 rounded-full flex justify-center items-center cursor-pointer shrink-0 transition-all duration-300"
                   style={{ backgroundColor: buttonColor }}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.backgroundColor = buttonHoverColor)
@@ -122,7 +122,7 @@ export default function Footer({
         <div className="flex flex-row justify-center gap-4">
           {instaToggle && (
             <a
-              className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
+              className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer transition-all duration-300"
               href={instaLink}
               target="_blank"
               data-tina-field={tinaField(footer, "insta")}
@@ -143,7 +143,7 @@ export default function Footer({
           )}
           {contactToggle && (
             <a
-              className="h-9 px-4 flex flex-col justify-center rounded-full cursor-pointer"
+              className="h-9 px-4 flex flex-col justify-center rounded-full cursor-pointer transition-all duration-300"
               data-tina-field={tinaField(footer, "contact")}
               style={{ backgroundColor: buttonColor }}
               onMouseEnter={(e) =>
@@ -161,7 +161,7 @@ export default function Footer({
           )}
           {faqsToggle && (
             <div
-              className="h-9 px-4 flex flex-col justify-center rounded-full cursor-pointer"
+              className="h-9 px-4 flex flex-col justify-center rounded-full cursor-pointer transition-all duration-300"
               style={{ backgroundColor: buttonColor }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.backgroundColor = buttonHoverColor)

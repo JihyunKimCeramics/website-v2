@@ -221,7 +221,7 @@ export default function CartPage(props) {
                   {visibleCart.map((item, index) => (
                     <div
                       key={index}
-                      className="min-w-9 h-9 rounded-full flex items-center justify-center cursor-pointer"
+                      className="min-w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300"
                       style={{ backgroundColor: theme?.buttonColour }}
                       onMouseEnter={(e) =>
                         (e.currentTarget.style.backgroundColor =
@@ -245,7 +245,7 @@ export default function CartPage(props) {
 
               <div className="flex flex-row justify-center mt-8">
                 <div
-                  className="flex flex-col justify-center rounded-full cursor-pointer"
+                  className="flex flex-col justify-center rounded-full cursor-pointer transition-all duration-300"
                   style={{ backgroundColor: theme?.buttonColour }}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.backgroundColor =
