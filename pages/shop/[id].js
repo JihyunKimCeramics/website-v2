@@ -89,7 +89,18 @@ export default function ShopItemPage(props) {
                   </div>
                 )}
                 <div className="flex flex-row justify-center mt-5">
-                  <div
+                  <a
+                    href="/basket"
+                    onClick={() =>
+                      shopItem &&
+                      addToCart({
+                        id: shopItem.id, // ensure id goes into cart
+                        title: shopItem.title,
+                        name: shopItem.name,
+                        image: shopItem.images?.[0]?.image,
+                        price: shopItem.price,
+                      })
+                    }
                     className="flex flex-col justify-center rounded-full"
                     style={{
                       backgroundColor: data.data.theme.buttonColour,
@@ -109,23 +120,10 @@ export default function ShopItemPage(props) {
                       }
                     }}
                   >
-                    <a
-                      className="text-sm xl:text-base font-semibold h-10 px-6 flex items-center"
-                      href="/basket"
-                      onClick={() =>
-                        shopItem &&
-                        addToCart({
-                          id: shopItem.id, // ensure id goes into cart
-                          title: shopItem.title,
-                          name: shopItem.name,
-                          image: shopItem.images?.[0]?.image,
-                          price: shopItem.price,
-                        })
-                      }
-                    >
+                    <div className="text-sm xl:text-base font-semibold h-10 px-6 flex items-center">
                       {isInCart ? "In Cart" : "Add to cart"}
-                    </a>
-                  </div>
+                    </div>
+                  </a>
                 </div>
 
                 {((shopItems?.[shopItemIndex]?.details &&
@@ -271,7 +269,18 @@ export default function ShopItemPage(props) {
               )}
 
               <div className="flex flex-row justify-start mt-5">
-                <div
+                <a
+                  href="/basket"
+                  onClick={() =>
+                    shopItem &&
+                    addToCart({
+                      id: shopItem.id, // ensure id goes into cart
+                      title: shopItem.title,
+                      name: shopItem.name,
+                      image: shopItem.images?.[0]?.image,
+                      price: shopItem.price,
+                    })
+                  }
                   className="h-10 px-6 flex flex-col justify-center rounded-full"
                   style={{
                     backgroundColor: data.data.theme.buttonColour,
@@ -291,23 +300,10 @@ export default function ShopItemPage(props) {
                     }
                   }}
                 >
-                  <a
-                    className="text-sm xl:text-base font-semibold"
-                    href="/basket"
-                    onClick={() =>
-                      shopItem &&
-                      addToCart({
-                        id: shopItem.id, // ensure id goes into cart
-                        title: shopItem.title,
-                        name: shopItem.name,
-                        image: shopItem.images?.[0]?.image,
-                        price: shopItem.price,
-                      })
-                    }
-                  >
+                  <div className="text-sm xl:text-base font-semibold">
                     {isInCart ? "In Cart" : "Add to cart"}
-                  </a>
-                </div>
+                  </div>
+                </a>
               </div>
 
               {((shopItems?.[shopItemIndex]?.details &&
