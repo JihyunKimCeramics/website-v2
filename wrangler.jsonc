@@ -4,25 +4,27 @@
   "compatibility_date": "2025-03-25",
   "compatibility_flags": ["nodejs_compat"],
 
-  // --- Static assets produced by OpenNext ---
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS",
     "run_worker_first": true
   },
 
-  // --- Custom domains ---
   "routes": [
     { "pattern": "jihyunkimceramic.com", "custom_domain": true },
     { "pattern": "www.jihyunkimceramic.com", "custom_domain": true }
   ],
 
-  // --- D1 bindings (make sure `binding` matches your code: env.shop_items) ---
   "d1_databases": [
     {
-      "binding": "shop_items",           // <-- referenced in code as getRequestContext().env.shop_items
-      "database_name": "shop_items",     // <-- your D1 database name
-      "database_id": "36f4d983-bf16-49ae-8c0d-d7db0c1e1a14" // <-- your D1 database ID
+      "binding": "shop_items",
+      "database_name": "shop_items",
+      "database_id": "36f4d983-bf16-49ae-8c0d-d7db0c1e1a14"
+    },
+    {
+      "binding": "SIGNUPS",  // or "signups" if you chose the default
+      "database_name": "signups",
+      "database_id": "565fe9ba-2bf3-4338-afbe-0e0cdc3d95e4"
     }
   ]
 }

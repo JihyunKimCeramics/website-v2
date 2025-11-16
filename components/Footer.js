@@ -30,14 +30,44 @@ export default function Footer({
   const [email, setEmail] = useState("");
   const [showSignup, setShowSignup] = useState(true);
   const [invalidEmail, setInvalidEmail] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-  const handleClick = () => {
-    if (emailRegex.test(email)) {
-      setInvalidEmail(false);
-      setShowSignup(false);
-    } else {
+  const handleClick = async () => {
+    if (!emailRegex.test(email)) {
       setInvalidEmail(true);
+      setErrorMessage("Please enter a valid email");
+      return;
+    }
+
+    setInvalidEmail(false);
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setShowSignup(false);
+        setEmail("");
+      } else {
+        setInvalidEmail(true);
+        setErrorMessage(data.error || "An error occurred. Please try again.");
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      setInvalidEmail(true);
+      setErrorMessage("Network error. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -85,26 +115,35 @@ export default function Footer({
                     type="email"
                     placeholder={signupPlaceholder}
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setInvalidEmail(false);
+                    }}
+                    disabled={isSubmitting}
                   />
                   <div
                     className={`text-xs text-red-500 transition-all duration-300 overflow-hidden ${
                       invalidEmail ? "h-auto mt-2" : "h-0 pt-0"
                     }`}
                   >
-                    Please enter a valid email
+                    {errorMessage}
                   </div>
                 </div>
                 <div
-                  className="w-9 h-9 rounded-full flex justify-center items-center cursor-pointer shrink-0 transition-all duration-300"
+                  className={`w-9 h-9 rounded-full flex justify-center items-center shrink-0 transition-all duration-300 ${
+                    isSubmitting
+                      ? "opacity-50 cursor-not-allowed"
+                      : "cursor-pointer"
+                  }`}
                   style={{ backgroundColor: buttonColor }}
                   onMouseEnter={(e) =>
+                    !isSubmitting &&
                     (e.currentTarget.style.backgroundColor = buttonHoverColor)
                   }
                   onMouseLeave={(e) =>
                     (e.currentTarget.style.backgroundColor = buttonColor)
                   }
-                  onClick={handleClick}
+                  onClick={!isSubmitting ? handleClick : undefined}
                 >
                   <DynamicSvg
                     src={rightArrow.src}
