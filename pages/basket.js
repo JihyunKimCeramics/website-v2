@@ -25,7 +25,6 @@ export default function CartPage(props) {
 
   // Live inventory gating (Option B: API returns { in_stock_ids: string[] })
   const [inStockIds, setInStockIds] = useState(null); // null = not loaded / failed
-  const [invError, setInvError] = useState(null);
 
   // Minimum reveal delay to avoid flicker
   const [loading, setLoading] = useState(true);
@@ -45,15 +44,11 @@ export default function CartPage(props) {
         );
 
         if (!res || !res.ok) {
-          if (!cancelled)
-            setInvError(res ? `HTTP ${res.status}` : "No response");
-        } else {
           let json = null;
           try {
             json = await res.json();
           } catch (e) {
             console.error("[Basket] /api/inventory JSON parse error:", e);
-            if (!cancelled) setInvError("Bad JSON");
           }
           if (!cancelled && json) {
             const ids = new Set(
@@ -64,7 +59,6 @@ export default function CartPage(props) {
         }
       } catch (err) {
         console.error("[Basket] Inventory fetch unexpected error:", err);
-        if (!cancelled) setInvError("Unknown error");
       } finally {
         const elapsed = Date.now() - started;
         const wait = Math.max(0, MIN_DELAY_MS - elapsed);
@@ -87,11 +81,6 @@ export default function CartPage(props) {
     if (!(inStockIds instanceof Set)) return []; // show nothing until loaded
     return cart.filter((item) => inStockIds.has(String(item.id)));
   }, [cart, inStockIds]);
-
-  const removedCount = useMemo(() => {
-    if (!(inStockIds instanceof Set)) return 0;
-    return cart.length - visibleCart.length;
-  }, [cart.length, visibleCart.length, inStockIds]);
 
   const itemCount = visibleCart.reduce(
     (sum, item) => sum + (item.quantity || 1),
@@ -159,19 +148,6 @@ export default function CartPage(props) {
                   style={{ backgroundColor: theme?.lineColour }}
                   data-tina-field={tinaField(theme, "lineColour")}
                 ></div>
-              )}
-
-              {/* Only show inventory error after reveal */}
-              {!loading && invError && (
-                <p className="text-center text-sm text-amber-600 mt-3">
-                  Live stock unavailable ({invError}); showing no items.
-                </p>
-              )}
-              {!loading && removedCount > 0 && (
-                <p className="text-center text-sm text-amber-600 mt-3">
-                  {removedCount} item{removedCount === 1 ? "" : "s"} removed —
-                  no longer in stock.
-                </p>
               )}
             </div>
           </div>

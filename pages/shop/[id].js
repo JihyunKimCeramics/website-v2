@@ -1,7 +1,7 @@
 import { tinaField, useTina } from "tinacms/dist/react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 import { client } from "../../tina/__generated__/client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Image from "../../components/Image";
 import downArrow from "../../public/images/down_small.svg";
 import { useCart } from "../_app";
@@ -14,6 +14,55 @@ export default function ShopItemPage(props) {
     variables: props.variables,
     data: props.data,
   });
+
+  const [inStockIds, setInStockIds] = useState(null); // null = not loaded / failed
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadInventory() {
+      try {
+        const res = await fetch("/api/inventory", { cache: "no-store" }).catch(
+          (e) => {
+            console.error("[Basket] /api/inventory network error:", e);
+            return null;
+          }
+        );
+
+        if (!res || !res.ok) {
+          let json = null;
+          try {
+            json = await res.json();
+          } catch (e) {
+            console.error("[Basket] /api/inventory JSON parse error:", e);
+          }
+          if (!cancelled && json) {
+            const ids = new Set(
+              (json?.in_stock_ids || []).map((id) => String(id))
+            );
+            setInStockIds(ids);
+          }
+        }
+      } catch (err) {
+        console.error("[Basket] Inventory fetch unexpected error:", err);
+      }
+    }
+
+    const cleanup = loadInventory();
+    return () => {
+      cancelled = true;
+      if (typeof cleanup === "function") cleanup();
+    };
+  }, []);
+
+  // check if item's id is inside inStockIds
+  const isInStock = useMemo(() => {
+    if (!(inStockIds instanceof Set)) return false;
+    const itemId = data?.data?.shopItem?.id;
+    if (!itemId) return false;
+    return inStockIds.has(String(itemId));
+  }, [data, inStockIds]);
+
   const { addToCart, cart } = useCart();
 
   const [shopItem, setShopItem] = useState(null);
@@ -44,8 +93,7 @@ export default function ShopItemPage(props) {
     setFaqOpen(isSame ? !faqOpen : true);
   };
 
-  const pageVisible =
-    data?.data?.shopPage?.showShopPage && shopItems?.[shopItemIndex]?.showItem;
+  const pageVisible = data?.data?.shopPage?.showShopPage;
 
   return (
     <div>
@@ -90,7 +138,7 @@ export default function ShopItemPage(props) {
                 )}
                 <div className="flex flex-row justify-center mt-5">
                   <a
-                    href="/basket"
+                    href={isInStock ? "/basket" : undefined}
                     onClick={() =>
                       shopItem &&
                       addToCart({
@@ -104,24 +152,28 @@ export default function ShopItemPage(props) {
                     className="flex flex-col justify-center rounded-full transition-all duration-300"
                     style={{
                       backgroundColor: data.data.theme.buttonColour,
-                      opacity: isInCart ? 0.5 : 1,
-                      cursor: isInCart ? "default" : "pointer",
+                      opacity: isInCart || !isInStock ? 0.5 : 1,
+                      cursor: isInCart || !isInStock ? "default" : "pointer",
                     }}
                     onMouseEnter={(e) => {
-                      if (!isInCart) {
+                      if (!isInCart && isInStock) {
                         e.currentTarget.style.backgroundColor =
                           data.data.theme.buttonHoverColour;
                       }
                     }}
                     onMouseLeave={(e) => {
-                      if (!isInCart) {
+                      if (!isInCart && isInStock) {
                         e.currentTarget.style.backgroundColor =
                           data.data.theme.buttonColour;
                       }
                     }}
                   >
                     <div className="text-sm xl:text-base font-semibold h-10 px-6 flex items-center">
-                      {isInCart ? "In Cart" : "Add to cart"}
+                      {isInStock
+                        ? isInCart
+                          ? "In Cart"
+                          : "Add to cart"
+                        : "Unavailable"}
                     </div>
                   </a>
                 </div>
@@ -270,7 +322,7 @@ export default function ShopItemPage(props) {
 
               <div className="flex flex-row justify-start mt-5">
                 <a
-                  href="/basket"
+                  href={isInStock ? "/basket" : undefined}
                   onClick={() =>
                     shopItem &&
                     addToCart({
@@ -284,24 +336,28 @@ export default function ShopItemPage(props) {
                   className="h-10 px-6 flex flex-col justify-center rounded-full transition-all duration-300"
                   style={{
                     backgroundColor: data.data.theme.buttonColour,
-                    opacity: isInCart ? 0.5 : 1,
-                    cursor: isInCart ? "default" : "pointer",
+                    opacity: isInCart || !isInStock ? 0.5 : 1,
+                    cursor: isInCart || !isInStock ? "default" : "pointer",
                   }}
                   onMouseEnter={(e) => {
-                    if (!isInCart) {
+                    if (!isInCart && isInStock) {
                       e.currentTarget.style.backgroundColor =
                         data.data.theme.buttonHoverColour;
                     }
                   }}
                   onMouseLeave={(e) => {
-                    if (!isInCart) {
+                    if (!isInCart && isInStock) {
                       e.currentTarget.style.backgroundColor =
                         data.data.theme.buttonColour;
                     }
                   }}
                 >
                   <div className="text-sm xl:text-base font-semibold">
-                    {isInCart ? "In Cart" : "Add to cart"}
+                    {isInStock
+                      ? isInCart
+                        ? "In Cart"
+                        : "Add to cart"
+                      : "Unavailable"}
                   </div>
                 </a>
               </div>

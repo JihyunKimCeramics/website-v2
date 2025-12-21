@@ -1,3 +1,5 @@
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+
 export default async function handler(req, res) {
   // Only allow POST requests
   if (req.method !== "POST") {
@@ -13,23 +15,22 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Invalid email address" });
     }
 
-    // In production (Cloudflare Workers), env bindings are available on process.env
-    // This won't work in local dev, but will work when deployed
-    const SIGNUPS = process.env.SIGNUPS;
+    // ✅ OpenNext way to access bindings
+    let env;
+    try {
+      ({ env } = getCloudflareContext());
+    } catch {
+      env = undefined;
+    }
+    const SIGNUPS = env?.SIGNUPS;
 
+    // Local dev or missing binding
     if (!SIGNUPS) {
-      console.error(
-        "SIGNUPS binding not found - this is expected in local dev"
-      );
-      // Return success in dev mode so you can test the UI
-      if (process.env.NODE_ENV === "development") {
-        console.log("DEV MODE: Would have saved email:", email);
-        return res.status(200).json({
-          success: true,
-          message: "Successfully signed up! (dev mode)",
-        });
-      }
-      return res.status(500).json({ error: "Database not configured" });
+      console.log("DEV MODE: Would have saved email:", email);
+      return res.status(200).json({
+        success: true,
+        message: "Successfully signed up! (dev mode)",
+      });
     }
 
     // Insert into D1

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/router";
 import { useCart } from "../pages/_app";
 import Header from "./Header";
@@ -12,8 +12,61 @@ export default function Layout({ data, children }) {
   }
 
   const router = useRouter();
-  const { cart } = useCart();
-  const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const cart = mounted ? useCart() : { cart: [] };
+
+  const [inStockIds, setInStockIds] = useState(null); // null = not loaded / failed
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadInventory() {
+      try {
+        const res = await fetch("/api/inventory", { cache: "no-store" }).catch(
+          (e) => {
+            console.error("[Basket] /api/inventory network error:", e);
+            return null;
+          }
+        );
+
+        if (!res || !res.ok) {
+          let json = null;
+          try {
+            json = await res.json();
+          } catch (e) {
+            console.error("[Basket] /api/inventory JSON parse error:", e);
+          }
+          if (!cancelled && json) {
+            const ids = new Set(
+              (json?.in_stock_ids || []).map((id) => String(id))
+            );
+            setInStockIds(ids);
+          }
+        }
+      } catch (err) {
+        console.error("[Basket] Inventory fetch unexpected error:", err);
+      }
+    }
+
+    const cleanup = loadInventory();
+    return () => {
+      cancelled = true;
+      if (typeof cleanup === "function") cleanup();
+    };
+  }, []);
+
+  // Only keep items that are currently in stock (once inventory is loaded)
+  const visibleCart = useMemo(() => {
+    if (!(inStockIds instanceof Set)) return []; // show nothing until loaded
+    return cart.filter((item) => inStockIds.has(String(item.id)));
+  }, [cart, inStockIds]);
+
+  const itemCount = visibleCart.reduce(
+    (sum, item) => sum + (item.quantity || 1),
+    0
+  );
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [faqsOpen, setFaqsOpen] = useState(false);

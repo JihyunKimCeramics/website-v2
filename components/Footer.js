@@ -71,6 +71,12 @@ export default function Footer({
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !isSubmitting) {
+      handleClick();
+    }
+  };
+
   return (
     <div className="mt-16 lg:mt-24 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto flex flex-col justify-start gap-6">
       {signupToggle && (
@@ -119,6 +125,7 @@ export default function Footer({
                       setEmail(e.target.value);
                       setInvalidEmail(false);
                     }}
+                    onKeyDown={handleKeyDown}
                     disabled={isSubmitting}
                   />
                   <div

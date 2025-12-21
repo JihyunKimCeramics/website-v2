@@ -921,11 +921,6 @@ export default defineConfig({
                     },
                   },
                   {
-                    type: "boolean",
-                    name: "showItem",
-                    label: "Show Item",
-                  },
-                  {
                     type: "string",
                     name: "title",
                     label: "Title",

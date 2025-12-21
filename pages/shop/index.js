@@ -3,7 +3,7 @@ import { tinaField, useTina } from "tinacms/dist/react";
 import { client } from "../../tina/__generated__/client";
 import Image from "../../components/Image";
 import Link from "next/link";
-import NoPageMessage from "../../components/noPageMessage";
+import { NoPageMessage } from "../../components/noPageMessage";
 import { useEffect, useMemo, useState } from "react";
 
 export default function ShopPage(props) {
@@ -14,13 +14,26 @@ export default function ShopPage(props) {
     data: props?.data,
   });
 
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    const inIframe = window.self !== window.top;
+
+    if (inIframe) {
+      try {
+        const parentUrl = document.referrer;
+        const isTinaAdmin = parentUrl.includes("/admin");
+        setIsEditing(isTinaAdmin);
+      } catch (e) {
+        setIsEditing(false);
+      }
+    }
+  }, []);
+
   const shopPage = tina?.data?.shopPage ?? {};
   const theme = tina?.data?.theme ?? {};
   const items = Array.isArray(shopPage.shopItems) ? shopPage.shopItems : [];
 
-  // Inventory state:
-  //   null  -> not loaded yet or failed (render nothing)
-  //   Set() -> loaded (may be empty; still renders nothing)
   const [inStockIds, setInStockIds] = useState(null);
   const [invError, setInvError] = useState(null);
 
@@ -90,7 +103,7 @@ export default function ShopPage(props) {
   const visibleItems = useMemo(() => {
     return items.filter((item) => {
       if (
-        !item?.showItem ||
+        // !item?.showItem ||
         !item?.name ||
         !item?.title ||
         !Array.isArray(item?.images) ||
@@ -100,8 +113,12 @@ export default function ShopPage(props) {
       }
       // Show nothing until inventory loaded successfully
       if (!(inStockIds instanceof Set)) return false;
-
-      return inStockIds.has(String(item.id));
+      // uncomment to see shop items in dev
+      if (isEditing) {
+        return items;
+      } else {
+        return inStockIds.has(String(item.id));
+      }
     });
   }, [items, inStockIds]);
 
