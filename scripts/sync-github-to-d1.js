@@ -23,7 +23,7 @@ try {
   }
 
   const data = yaml.load(frontmatterMatch[1]);
-  const shopItems = (data.shopPage?.shopItems || []).filter((i) => i.showItem);
+  const shopItems = data.shopPage?.shopItems || [];
 
   console.log(`📦 Found ${shopItems.length} items to sync`);
 
