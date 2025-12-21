@@ -858,11 +858,6 @@ export default defineConfig({
             label: "Shop Page",
             fields: [
               {
-                type: "boolean",
-                name: "showShopPage",
-                label: "Show Shop Page",
-              },
-              {
                 type: "string",
                 name: "title",
                 label: "Title",

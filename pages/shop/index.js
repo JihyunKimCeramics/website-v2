@@ -3,7 +3,7 @@ import { tinaField, useTina } from "tinacms/dist/react";
 import { client } from "../../tina/__generated__/client";
 import Image from "../../components/Image";
 import Link from "next/link";
-import { NoPageMessage } from "../../components/noPageMessage";
+import NoPageMessage from "../../components/noPageMessage";
 import { useEffect, useMemo, useState } from "react";
 
 export default function ShopPage(props) {

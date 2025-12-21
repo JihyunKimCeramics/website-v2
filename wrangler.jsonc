@@ -7,7 +7,7 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS",
-    "run_worker_first": true
+    "run_worker_first": false
   },
 
   "routes": [
@@ -22,7 +22,7 @@
       "database_id": "36f4d983-bf16-49ae-8c0d-d7db0c1e1a14"
     },
     {
-      "binding": "SIGNUPS",  // or "signups" if you chose the default
+      "binding": "SIGNUPS", // or "signups" if you chose the default
       "database_name": "signups",
       "database_id": "565fe9ba-2bf3-4338-afbe-0e0cdc3d95e4"
     }

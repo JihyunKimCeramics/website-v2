@@ -1,3 +1,7 @@
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+
+initOpenNextCloudflareForDev();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // keep your Tina admin rewrite
@@ -5,13 +9,16 @@ const nextConfig = {
     return [{ source: "/admin", destination: "/admin/index.html" }];
   },
 
-  // 👇 ensure Stripe's ESM/CJS files are included in the traced output
-  outputFileTracingIncludes: {
-    "*": [
-      "node_modules/stripe/package.json",
-      "node_modules/stripe/esm/**",
-      "node_modules/stripe/cjs/**",
-    ],
+  // Next 14 expects these under `experimental`
+  // Use '/*' so it applies to all server traces (API routes + SSR pages).
+  experimental: {
+    outputFileTracingIncludes: {
+      "/*": [
+        "node_modules/stripe/package.json",
+        "node_modules/stripe/esm/**",
+        "node_modules/stripe/cjs/**",
+      ],
+    },
   },
 };
 
