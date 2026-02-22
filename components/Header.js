@@ -47,10 +47,13 @@ export default function Header({
               : "cursor-default"
           }`}
           style={{ backgroundColor: bannerColor }}
+          target={enableBannerLink ? "_blank" : "_self"}
         >
           <div className="text-sm lg:text-sm xl:text-base text-center mx-12 sm:mx-20 md:mx-auto md:w-200 lg:w-300 xl:w-400 flex flex-row justify-center gap-2">
             <TinaMarkdown content={bannerText} />
-            <RightArrow className="h-[14px] w-[14px] my-auto transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
+            {enableBannerLink && (
+              <RightArrow className="h-[14px] w-[14px] my-auto transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
+            )}
           </div>
         </a>
       )}

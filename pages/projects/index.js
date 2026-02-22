@@ -3,6 +3,7 @@ import { client } from "../../tina/__generated__/client";
 import Image from "../../components/Image";
 import Link from "next/link";
 import NoPageMessage from "../../components/noPageMessage";
+import collectImage from "../../public/uploads/Works/Salty Fairy Danji 8, 18x18x28cm, Photo by Karin Taylor and Chris Rands Large.jpeg";
 
 function generateSlug(title) {
   if (title != null) {
@@ -56,6 +57,22 @@ export default function ProjectsPage(props) {
                     gap: `${gap}px`,
                   }}
                 >
+                  <Link
+                    href="https://collect.jihyunkimceramic.com/"
+                    className="hover:opacity-85 transition-opacity duration-200 ease-in-out"
+                    target="_blank"
+                  >
+                    <div className="relative cursor-pointer mb-8">
+                      <Image height={5} image={collectImage.src} />
+                      <div className="w-full flex flex-row justify-center">
+                        <div className="pt-3 px-auto w-full flex flex-row justify-center gap-2">
+                          <div className="text-center text-base font-semibold">
+                            Collect Open 2026
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
                   {data.data.projectsPage.projects.map((item, index) => {
                     if (!item.showProject) return null;
                     const slug = item.slug || generateSlug(item.title);

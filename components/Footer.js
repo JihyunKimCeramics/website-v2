@@ -95,7 +95,7 @@ export default function Footer({
             }`}
           >
             <div
-              className="relative rounded-xl sm:w-80 p-3 w-full max-w-80"
+              className="relative rounded-2xl sm:w-80 p-3 w-full max-w-80"
               style={{
                 backgroundColor,
                 boxShadow: "0px 3px 19.5px 3px rgba(0, 0, 0, 0.07",
