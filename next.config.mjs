@@ -4,7 +4,6 @@ initOpenNextCloudflareForDev();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // keep your Tina admin rewrite
   async rewrites() {
     return [{ source: "/admin", destination: "/admin/index.html" }];
   },
@@ -18,8 +17,6 @@ const nextConfig = {
     return config;
   },
 
-  // Next 14 expects these under `experimental`
-  // Use '/*' so it applies to all server traces (API routes + SSR pages).
   experimental: {
     outputFileTracingIncludes: {
       "/*": [
