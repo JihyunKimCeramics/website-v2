@@ -15,9 +15,9 @@ export default function Layout({ data, children }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const cart = mounted ? useCart() : { cart: [] };
+  const cart = mounted ? useCart().cart : [];
 
-  const [inStockIds, setInStockIds] = useState(null); // null = not loaded / failed
+  const [inStockIds, setInStockIds] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -26,17 +26,17 @@ export default function Layout({ data, children }) {
       try {
         const res = await fetch("/api/inventory", { cache: "no-store" }).catch(
           (e) => {
-            console.error("[Basket] /api/inventory network error:", e);
+            console.error("[Layout] /api/inventory network error:", e);
             return null;
           }
         );
 
-        if (!res || !res.ok) {
+        if (res && res.ok) {
           let json = null;
           try {
             json = await res.json();
           } catch (e) {
-            console.error("[Basket] /api/inventory JSON parse error:", e);
+            console.error("[Layout] /api/inventory JSON parse error:", e);
           }
           if (!cancelled && json) {
             const ids = new Set(
@@ -46,7 +46,7 @@ export default function Layout({ data, children }) {
           }
         }
       } catch (err) {
-        console.error("[Basket] Inventory fetch unexpected error:", err);
+        console.error("[Layout] Inventory fetch unexpected error:", err);
       }
     }
 
@@ -57,9 +57,8 @@ export default function Layout({ data, children }) {
     };
   }, []);
 
-  // Only keep items that are currently in stock (once inventory is loaded)
   const visibleCart = useMemo(() => {
-    if (!(inStockIds instanceof Set)) return []; // show nothing until loaded
+    if (!(inStockIds instanceof Set)) return [];
     return cart.filter((item) => inStockIds.has(String(item.id)));
   }, [cart, inStockIds]);
 

@@ -23,6 +23,8 @@ export default function CartPage(props) {
     ? useCart()
     : { cart: [], removeFromCart: () => {}, checkout: () => {} };
 
+  console.log("[Basket] Raw cart from useCart:", cart);
+
   // Live inventory gating (Option B: API returns { in_stock_ids: string[] })
   const [inStockIds, setInStockIds] = useState(null); // null = not loaded / failed
 
@@ -43,10 +45,16 @@ export default function CartPage(props) {
           }
         );
 
-        if (!res || !res.ok) {
+        console.log("[Basket] Inventory response:", {
+          ok: res?.ok,
+          status: res?.status,
+        });
+
+        if (res && res.ok) {
           let json = null;
           try {
             json = await res.json();
+            console.log("[Basket] Inventory JSON:", json);
           } catch (e) {
             console.error("[Basket] /api/inventory JSON parse error:", e);
           }
@@ -54,6 +62,7 @@ export default function CartPage(props) {
             const ids = new Set(
               (json?.in_stock_ids || []).map((id) => String(id))
             );
+            console.log("[Basket] Setting inStockIds:", Array.from(ids));
             setInStockIds(ids);
           }
         }
@@ -78,14 +87,36 @@ export default function CartPage(props) {
 
   // Only keep items that are currently in stock (once inventory is loaded)
   const visibleCart = useMemo(() => {
-    if (!(inStockIds instanceof Set)) return []; // show nothing until loaded
-    return cart.filter((item) => inStockIds.has(String(item.id)));
+    console.log(
+      "[Basket] Computing visibleCart. inStockIds:",
+      inStockIds instanceof Set ? Array.from(inStockIds) : inStockIds
+    );
+    console.log("[Basket] Cart items to filter:", cart);
+
+    if (!(inStockIds instanceof Set)) {
+      console.log("[Basket] inStockIds not loaded yet, returning empty array");
+      return [];
+    }
+
+    const filtered = cart.filter((item) => {
+      const itemId = String(item.id);
+      const isInStock = inStockIds.has(itemId);
+      console.log(
+        `[Basket] Item ${itemId} (${item.title}): inStock=${isInStock}`
+      );
+      return isInStock;
+    });
+
+    console.log("[Basket] Visible cart after filtering:", filtered);
+    return filtered;
   }, [cart, inStockIds]);
 
   const itemCount = visibleCart.reduce(
     (sum, item) => sum + (item.quantity || 1),
     0
   );
+
+  console.log("[Basket] Final itemCount:", itemCount);
 
   if (!mounted) return null;
 

@@ -101,9 +101,21 @@ export default function ShopPage(props) {
   const minWidth = 270;
 
   const visibleItems = useMemo(() => {
+    // If editing, show all valid items regardless of stock
+    if (isEditing) {
+      return items.filter((item) => {
+        return (
+          item?.name &&
+          item?.title &&
+          Array.isArray(item?.images) &&
+          item.images.length > 0
+        );
+      });
+    }
+
+    // Otherwise, filter by stock
     return items.filter((item) => {
       if (
-        // !item?.showItem ||
         !item?.name ||
         !item?.title ||
         !Array.isArray(item?.images) ||
@@ -113,14 +125,9 @@ export default function ShopPage(props) {
       }
       // Show nothing until inventory loaded successfully
       if (!(inStockIds instanceof Set)) return false;
-      // uncomment to see shop items in dev
-      if (isEditing) {
-        return items;
-      } else {
-        return inStockIds.has(String(item.id));
-      }
+      return inStockIds.has(String(item.id));
     });
-  }, [items, inStockIds]);
+  }, [items, inStockIds, isEditing]);
 
   const showShop = Boolean(shopPage?.showShopPage);
 

@@ -24,27 +24,34 @@ export default function ShopItemPage(props) {
       try {
         const res = await fetch("/api/inventory", { cache: "no-store" }).catch(
           (e) => {
-            console.error("[Basket] /api/inventory network error:", e);
+            console.error("[ShopItem] /api/inventory network error:", e);
             return null;
           }
         );
 
-        if (!res || !res.ok) {
+        console.log("[ShopItem] Inventory response:", {
+          ok: res?.ok,
+          status: res?.status,
+        });
+
+        if (res && res.ok) {
           let json = null;
           try {
             json = await res.json();
+            console.log("[ShopItem] Inventory JSON:", json);
           } catch (e) {
-            console.error("[Basket] /api/inventory JSON parse error:", e);
+            console.error("[ShopItem] /api/inventory JSON parse error:", e);
           }
           if (!cancelled && json) {
             const ids = new Set(
               (json?.in_stock_ids || []).map((id) => String(id))
             );
+            console.log("[ShopItem] Setting inStockIds:", Array.from(ids));
             setInStockIds(ids);
           }
         }
       } catch (err) {
-        console.error("[Basket] Inventory fetch unexpected error:", err);
+        console.error("[ShopItem] Inventory fetch unexpected error:", err);
       }
     }
 
@@ -57,10 +64,18 @@ export default function ShopItemPage(props) {
 
   // check if item's id is inside inStockIds
   const isInStock = useMemo(() => {
-    if (!(inStockIds instanceof Set)) return false;
+    if (!(inStockIds instanceof Set)) {
+      console.log("[ShopItem] inStockIds not loaded yet");
+      return false;
+    }
     const itemId = data?.data?.shopItem?.id;
-    if (!itemId) return false;
-    return inStockIds.has(String(itemId));
+    if (!itemId) {
+      console.log("[ShopItem] No item ID");
+      return false;
+    }
+    const inStock = inStockIds.has(String(itemId));
+    console.log(`[ShopItem] Item ${itemId} isInStock:`, inStock);
+    return inStock;
   }, [data, inStockIds]);
 
   const { addToCart, cart } = useCart();
@@ -68,8 +83,15 @@ export default function ShopItemPage(props) {
   const [shopItem, setShopItem] = useState(null);
 
   const isInCart = Boolean(
-    shopItem && cart.some((c) => String(c.id) === String(shopItem.id))
+    data?.data?.shopItem &&
+      cart.some((c) => String(c.id) === String(data.data.shopItem.id))
   );
+
+  console.log("[ShopItem] isInCart check:", {
+    shopItemId: data?.data?.shopItem?.id,
+    cart: cart,
+    isInCart: isInCart,
+  });
 
   useEffect(() => {
     if (data?.data?.shopItem && data.data.shopItem !== shopItem) {
