@@ -1,8 +1,7 @@
 import { useState } from "react";
-import DynamicSvg from "./DynamicSvg";
 import { tinaField } from "tinacms/dist/react";
-import insta from "../public/images/insta.svg";
-import rightArrow from "../public/images/right_arrow.svg";
+import Insta from "../public/images/insta.svg";
+import RightArrow from "../public/images/right_arrow.svg";
 
 export default function Footer({
   fontColor,
@@ -152,11 +151,7 @@ export default function Footer({
                   }
                   onClick={!isSubmitting ? handleClick : undefined}
                 >
-                  <DynamicSvg
-                    src={rightArrow.src}
-                    color={fontColor}
-                    className="mx-auto"
-                  />
+                  <RightArrow className="h-[14px] w-[14px] my-auto" />
                 </div>
               </div>
             </div>
@@ -180,11 +175,7 @@ export default function Footer({
                 (e.currentTarget.style.backgroundColor = buttonColor)
               }
             >
-              <DynamicSvg
-                src={insta.src}
-                color={fontColor}
-                className="mx-auto my-auto"
-              />
+              <Insta className="h-[17px] w-[17px] my-auto" />
             </a>
           )}
           {contactToggle && (

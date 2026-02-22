@@ -155,6 +155,18 @@ export default defineConfig({
                 toolbarOverride: ["bold", "italic"],
               },
               {
+                type: "boolean",
+                name: "bannerLinkEnabled",
+                label: "Enable Banner Link",
+                description: "Enable or disable the banner link.",
+              },
+              {
+                type: "string",
+                name: "bannerLink",
+                label: "Banner Link",
+                description: "The URL for the banner link.",
+              },
+              {
                 type: "string",
                 name: "bannerColour",
                 label: "Banner Colour",

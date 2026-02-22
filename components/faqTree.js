@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { tinaField } from "tinacms/dist/react";
-import DynamicSvg from "../components/DynamicSvg";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
+import DownArrow from "../public/images/down.svg";
 
 const FaqTree = ({
   faqs,
@@ -49,10 +49,8 @@ const FaqTree = ({
               >
                 {faq.question}
               </span>
-              <DynamicSvg
-                src={downArrow.src}
-                color={textColour}
-                className={`transition-transform duration-300 my-auto ${
+              <DownArrow
+                className={`h-3.5 w-3.5 block shrink-0 cursor-pointer my-auto transition-transform duration-300 ${
                   faqIndex === index && faqOpen === true
                     ? "rotate-180"
                     : "rotate-0"

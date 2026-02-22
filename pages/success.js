@@ -3,15 +3,14 @@ import { client } from "../tina/__generated__/client";
 import React, { useEffect, useRef } from "react";
 import { useCart } from "../pages/_app";
 import { tinaField, useTina } from "tinacms/dist/react";
-import open from "../public/images/open.svg";
-import DynamicSvg from "/components/DynamicSvg";
+import Open from "../public/images/open.svg";
 import NoPageMessage from "/components/noPageMessage";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 // ---------- helpers ----------
 const fmtMoney = (amount, currency = "GBP", locale = "en-GB") =>
   new Intl.NumberFormat(locale, { style: "currency", currency }).format(
-    (amount || 0) / 100
+    (amount || 0) / 100,
   );
 
 const regionShort = (iso2) => {
@@ -130,12 +129,12 @@ export async function getServerSideProps(context) {
 
       const lineItems = await stripe.checkout.sessions.listLineItems(
         session_id,
-        { expand: ["data.price.product"] }
+        { expand: ["data.price.product"] },
       );
 
       discountCode =
         s?.discounts?.find(
-          (d) => d?.promotion_code && typeof d.promotion_code === "object"
+          (d) => d?.promotion_code && typeof d.promotion_code === "object",
         )?.promotion_code?.code ?? null;
 
       shippingRate = s?.shipping_cost?.shipping_rate || null;
@@ -183,7 +182,7 @@ export async function getServerSideProps(context) {
             for (const id of purchasedIds) {
               const result = await shop_items
                 .prepare(
-                  "UPDATE shop_items SET state = 'sold' WHERE id = ? AND state = 'in_stock'"
+                  "UPDATE shop_items SET state = 'sold' WHERE id = ? AND state = 'in_stock'",
                 )
                 .bind(String(id))
                 .run();
@@ -269,7 +268,7 @@ export default function Success(props) {
 
               <div className="mx-auto flex flex-col justify-center items-center mt-4">
                 <a
-                  className="h-9 px-4 flex flex-row justify-center rounded-full cursor-pointer gap-2 transition-all duration-300"
+                  className="h-9 px-4 flex flex-row justify-center rounded-full cursor-pointer gap-1.5 transition-all duration-300"
                   style={{ backgroundColor: data.data.theme.buttonColour }}
                   target="_blank"
                   onMouseEnter={(e) =>
@@ -285,11 +284,7 @@ export default function Success(props) {
                   <div className="text-xs xl:text-sm font-medium my-auto">
                     View receipt
                   </div>
-                  <DynamicSvg
-                    src={open.src}
-                    color={data.data.theme.textColour}
-                    className="mx-auto my-auto"
-                  />
+                  <Open className="h-2.5 w-2.5 block shrink-0 cursor-pointer my-auto" />
                 </a>
               </div>
 

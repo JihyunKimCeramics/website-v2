@@ -7,13 +7,13 @@ import NoPageMessage from "../../components/noPageMessage";
 import { useEffect, useMemo, useState } from "react";
 
 export default function ShopPage(props) {
-  // Safe Tina usage: tolerate missing props during local dev
   const { data: tina } = useTina({
     query: props?.query,
     variables: props?.variables,
     data: props?.data,
   });
 
+  const devForceInStock = process.env.NEXT_PUBLIC_DEV_FORCE_IN_STOCK === "true";
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -42,6 +42,13 @@ export default function ShopPage(props) {
   const MIN_DELAY_MS = 400;
 
   useEffect(() => {
+    if (devForceInStock) {
+      setLoading(false);
+      setInvError(null);
+      setInStockIds(null);
+      return;
+    }
+
     let cancelled = false;
 
     async function loadInventory() {
@@ -51,7 +58,7 @@ export default function ShopPage(props) {
           (e) => {
             console.error("[Shop] /api/inventory network error:", e);
             return null; // swallow error; treat as unavailable
-          }
+          },
         );
 
         if (!res || !res.ok) {
@@ -71,7 +78,7 @@ export default function ShopPage(props) {
           if (!cancelled && json) {
             // Option B: API returns only IDs under `in_stock_ids`
             const ids = new Set(
-              (json?.in_stock_ids || []).map((id) => String(id))
+              (json?.in_stock_ids || []).map((id) => String(id)),
             );
             setInStockIds(ids);
           }
@@ -101,33 +108,22 @@ export default function ShopPage(props) {
   const minWidth = 270;
 
   const visibleItems = useMemo(() => {
-    // If editing, show all valid items regardless of stock
-    if (isEditing) {
-      return items.filter((item) => {
-        return (
-          item?.name &&
-          item?.title &&
-          Array.isArray(item?.images) &&
-          item.images.length > 0
-        );
-      });
+    const isValid = (item) =>
+      item?.name &&
+      item?.title &&
+      Array.isArray(item?.images) &&
+      item.images.length > 0;
+
+    if (isEditing || devForceInStock) {
+      return items.filter(isValid);
     }
 
-    // Otherwise, filter by stock
     return items.filter((item) => {
-      if (
-        !item?.name ||
-        !item?.title ||
-        !Array.isArray(item?.images) ||
-        item.images.length === 0
-      ) {
-        return false;
-      }
-      // Show nothing until inventory loaded successfully
+      if (!isValid(item)) return false;
       if (!(inStockIds instanceof Set)) return false;
       return inStockIds.has(String(item.id));
     });
-  }, [items, inStockIds, isEditing]);
+  }, [items, inStockIds, isEditing, devForceInStock]);
 
   const showShop = Boolean(shopPage?.showShopPage);
 

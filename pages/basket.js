@@ -4,9 +4,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { client } from "../tina/__generated__/client";
 import NoPageMessage from "/components/noPageMessage";
 import { useCart } from "../pages/_app";
-import bin from "../public/images/bin.svg";
+import Bin from "../public/images/bin.svg";
 import Image from "/components/Image";
-import DynamicSvg from "/components/DynamicSvg";
 
 export default function CartPage(props) {
   const { data } = useTina({
@@ -42,7 +41,7 @@ export default function CartPage(props) {
           (e) => {
             console.error("[Basket] /api/inventory network error:", e);
             return null;
-          }
+          },
         );
 
         console.log("[Basket] Inventory response:", {
@@ -60,7 +59,7 @@ export default function CartPage(props) {
           }
           if (!cancelled && json) {
             const ids = new Set(
-              (json?.in_stock_ids || []).map((id) => String(id))
+              (json?.in_stock_ids || []).map((id) => String(id)),
             );
             console.log("[Basket] Setting inStockIds:", Array.from(ids));
             setInStockIds(ids);
@@ -89,7 +88,7 @@ export default function CartPage(props) {
   const visibleCart = useMemo(() => {
     console.log(
       "[Basket] Computing visibleCart. inStockIds:",
-      inStockIds instanceof Set ? Array.from(inStockIds) : inStockIds
+      inStockIds instanceof Set ? Array.from(inStockIds) : inStockIds,
     );
     console.log("[Basket] Cart items to filter:", cart);
 
@@ -102,7 +101,7 @@ export default function CartPage(props) {
       const itemId = String(item.id);
       const isInStock = inStockIds.has(itemId);
       console.log(
-        `[Basket] Item ${itemId} (${item.title}): inStock=${isInStock}`
+        `[Basket] Item ${itemId} (${item.title}): inStock=${isInStock}`,
       );
       return isInStock;
     });
@@ -113,7 +112,7 @@ export default function CartPage(props) {
 
   const itemCount = visibleCart.reduce(
     (sum, item) => sum + (item.quantity || 1),
-    0
+    0,
   );
 
   console.log("[Basket] Final itemCount:", itemCount);
@@ -183,16 +182,13 @@ export default function CartPage(props) {
             </div>
           </div>
 
-          {/* While loading: show one skeleton row */}
           {loading ? (
             <SkeletonRow />
           ) : itemCount === 0 ? (
-            // After loading: empty state
             <div className="mt-16 mb-6 lg:mt-24 lg:mb-9 text-xl lg:text-2xl text-center font-thin w-auto mx-16 sm:mx-28 lg:mx-40 xl:mx-64 leading-normal lg:leading-relaxed">
               Your basket is empty!
             </div>
           ) : (
-            // After loading: real items
             <div className="text-center mt-16 mb-16 lg:mt-24 lg:mb-12 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto">
               <div className="flex flex-row w-fit sm:min-w-[24rem] md:min-w-[34rem] lg:min-w-[38rem] 2xl:min-w-[44rem] justify-between gap-10 sm:gap-8 mx-auto">
                 <div className="flex flex-col gap-6 sm:gap-8">
@@ -240,11 +236,7 @@ export default function CartPage(props) {
                       }
                       onClick={() => removeFromCart(item, cart)}
                     >
-                      <DynamicSvg
-                        src={bin.src}
-                        color={theme?.textColour}
-                        className="mx-auto my-auto"
-                      />
+                      <Bin className="h-4 w-4 block shrink-0 cursor-pointer my-auto" />
                     </div>
                   ))}
                 </div>

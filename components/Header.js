@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import DynamicSvg from "./DynamicSvg";
-import { tinaField } from "tinacms/dist/react";
-import menu from "../public/images/menu.svg";
-import shop from "../public/images/shop.svg";
+import Menu from "../public/images/menu.svg";
+import Shop from "../public/images/shop.svg";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
+import RightArrow from "../public/images/right_arrow.svg";
 
 export default function Header({
   mobileMenuOpen,
@@ -19,6 +18,8 @@ export default function Header({
   header,
   showBanner,
   bannerText,
+  enableBannerLink,
+  bannerLink,
   title,
   projectsPageTitle,
   exhibitionsPageTitle,
@@ -38,15 +39,20 @@ export default function Header({
   return (
     <>
       {showBanner && (
-        <div
-          className="w-full flex flex-row justify-center items-center py-3"
+        <a
+          href={enableBannerLink ? bannerLink : "#"}
+          className={`group w-full flex flex-row justify-center items-center py-3 ${
+            enableBannerLink
+              ? "cursor-pointer hover:opacity-85 transition-opacity duration-150"
+              : "cursor-default"
+          }`}
           style={{ backgroundColor: bannerColor }}
-          data-tina-field={tinaField(header, "bannerText")}
         >
-          <div className="text-sm lg:text-sm xl:text-base text-center mx-12 sm:mx-20 md:mx-auto md:w-200 lg:w-300 xl:w-400">
+          <div className="text-sm lg:text-sm xl:text-base text-center mx-12 sm:mx-20 md:mx-auto md:w-200 lg:w-300 xl:w-400 flex flex-row justify-center gap-2">
             <TinaMarkdown content={bannerText} />
+            <RightArrow className="h-[14px] w-[14px] my-auto transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
           </div>
-        </div>
+        </a>
       )}
       <div className="pt-10 xl:pt-14 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto flex flex-row justify-between">
         <a
@@ -57,7 +63,7 @@ export default function Header({
           {title}
         </a>
         <div
-          className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer md:hidden"
+          className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer md:hidden transition-all duration-300"
           style={{ backgroundColor: buttonColor }}
           onMouseEnter={(e) =>
             (e.currentTarget.style.backgroundColor = buttonHoverColor)
@@ -67,13 +73,9 @@ export default function Header({
           }
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
-          <DynamicSvg
-            src={menu.src}
-            color={fontColor}
-            className="mx-auto my-auto"
-          />
+          <Menu className="h-[15px] w-[15px] block shrink-0 cursor-pointer my-auto" />
         </div>
-        <div className="hidden md:flex gap-6 lg:gap-7 xl:gap-8 text-sm lg:text-smmd xl:text-base">
+        <div className="hidden md:flex gap-6 lg:gap-7 xl:gap-8 text-sm lg:text-md xl:text-base">
           {showProjectsPage && (
             <a className="my-auto hover:opacity-70" href="/projects">
               {projectsPageTitle}
@@ -106,11 +108,7 @@ export default function Header({
                   (e.currentTarget.style.backgroundColor = buttonColor)
                 }
               >
-                <DynamicSvg
-                  src={shop.src}
-                  color={fontColor}
-                  className="mx-auto my-auto"
-                />
+                <Shop className="h-[16.5px] w-[16.5px] my-auto" />
               </div>
               {mounted && cartCount > 0 && (
                 <div

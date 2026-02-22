@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import DynamicSvg from "./DynamicSvg";
-import close from "../public/images/close.svg";
-import shop from "../public/images/shop.svg";
+import Close from "../public/images/close.svg";
+import Shop from "../public/images/shop.svg";
 
 export default function MobileMenu({
   mobileMenuOpen,
@@ -41,11 +40,7 @@ export default function MobileMenu({
             className="w-9 h-9 rounded-full flex flex-row justify-center cursor-pointer"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            <DynamicSvg
-              src={close.src}
-              color={fontColor}
-              className="mx-auto my-auto"
-            />
+            <Close className="h-3.5 w-3.5 block shrink-0 cursor-pointer my-auto" />
           </div>
         </div>
       </div>
@@ -64,11 +59,7 @@ export default function MobileMenu({
                 }
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
-                <DynamicSvg
-                  src={shop.src}
-                  color={fontColor}
-                  className="mx-auto my-auto"
-                />
+                <Shop className="h-[17px] w-[17px] block shrink-0 cursor-pointer my-auto" />
               </div>
               {mounted && cartCount > 0 && (
                 <div

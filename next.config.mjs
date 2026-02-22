@@ -9,6 +9,15 @@ const nextConfig = {
     return [{ source: "/admin", destination: "/admin/index.html" }];
   },
 
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: /\.[jt]sx?$/,
+      use: ["@svgr/webpack"],
+    });
+    return config;
+  },
+
   // Next 14 expects these under `experimental`
   // Use '/*' so it applies to all server traces (API routes + SSR pages).
   experimental: {

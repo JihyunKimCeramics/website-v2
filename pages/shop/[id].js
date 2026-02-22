@@ -15,9 +15,12 @@ export default function ShopItemPage(props) {
     data: props.data,
   });
 
+  const devForceInStock = process.env.NEXT_PUBLIC_DEV_FORCE_IN_STOCK === "true";
   const [inStockIds, setInStockIds] = useState(null); // null = not loaded / failed
 
   useEffect(() => {
+    if (devForceInStock) return;
+
     let cancelled = false;
 
     async function loadInventory() {
@@ -26,7 +29,7 @@ export default function ShopItemPage(props) {
           (e) => {
             console.error("[ShopItem] /api/inventory network error:", e);
             return null;
-          }
+          },
         );
 
         console.log("[ShopItem] Inventory response:", {
@@ -44,7 +47,7 @@ export default function ShopItemPage(props) {
           }
           if (!cancelled && json) {
             const ids = new Set(
-              (json?.in_stock_ids || []).map((id) => String(id))
+              (json?.in_stock_ids || []).map((id) => String(id)),
             );
             console.log("[ShopItem] Setting inStockIds:", Array.from(ids));
             setInStockIds(ids);
@@ -60,23 +63,20 @@ export default function ShopItemPage(props) {
       cancelled = true;
       if (typeof cleanup === "function") cleanup();
     };
-  }, []);
+  }, [devForceInStock]);
 
-  // check if item's id is inside inStockIds
   const isInStock = useMemo(() => {
+    if (devForceInStock) return true;
+
     if (!(inStockIds instanceof Set)) {
-      console.log("[ShopItem] inStockIds not loaded yet");
       return false;
     }
+
     const itemId = data?.data?.shopItem?.id;
-    if (!itemId) {
-      console.log("[ShopItem] No item ID");
-      return false;
-    }
-    const inStock = inStockIds.has(String(itemId));
-    console.log(`[ShopItem] Item ${itemId} isInStock:`, inStock);
-    return inStock;
-  }, [data, inStockIds]);
+    if (!itemId) return false;
+
+    return inStockIds.has(String(itemId));
+  }, [data, inStockIds, devForceInStock]);
 
   const { addToCart, cart } = useCart();
 
@@ -84,7 +84,7 @@ export default function ShopItemPage(props) {
 
   const isInCart = Boolean(
     data?.data?.shopItem &&
-      cart.some((c) => String(c.id) === String(data.data.shopItem.id))
+      cart.some((c) => String(c.id) === String(data.data.shopItem.id)),
   );
 
   console.log("[ShopItem] isInCart check:", {
@@ -130,7 +130,7 @@ export default function ShopItemPage(props) {
                     className="text-2xl lg:text-3xl text-center font-normal w-auto mx-8 sm:mx-28 lg:mx-40 xl:mx-64 leading-normal lg:leading-relaxed"
                     data-tina-field={tinaField(
                       shopItems[shopItemIndex],
-                      "title"
+                      "title",
                     )}
                   >
                     {shopItems[shopItemIndex].title}
@@ -141,7 +141,7 @@ export default function ShopItemPage(props) {
                     className="text-center text-lg font-extralight mx-8 sm:mx-28 lg:mx-40 xl:mx-64"
                     data-tina-field={tinaField(
                       shopItems[shopItemIndex],
-                      "name"
+                      "name",
                     )}
                   >
                     {shopItems?.[shopItemIndex]?.name}
@@ -152,7 +152,7 @@ export default function ShopItemPage(props) {
                     className="mt-3 text-center text-lg font-semibold mx-8 sm:mx-28 lg:mx-40 xl:mx-64"
                     data-tina-field={tinaField(
                       shopItems[shopItemIndex],
-                      "price"
+                      "price",
                     )}
                   >
                     £{shopItems?.[shopItemIndex]?.price}
@@ -212,7 +212,7 @@ export default function ShopItemPage(props) {
                           className="text-center text-xs font-extralight mx-8 sm:mx-28 lg:mx-40 xl:mx-64"
                           data-tina-field={tinaField(
                             shopItems[shopItemIndex],
-                            "details"
+                            "details",
                           )}
                         >
                           {shopItems[shopItemIndex].details}
@@ -224,7 +224,7 @@ export default function ShopItemPage(props) {
                         <div
                           data-tina-field={tinaField(
                             shopItems[shopItemIndex],
-                            "description"
+                            "description",
                           )}
                         >
                           <TinaMarkdown
@@ -396,7 +396,7 @@ export default function ShopItemPage(props) {
                         className="text-left text-xs font-extralight"
                         data-tina-field={tinaField(
                           shopItems[shopItemIndex],
-                          "details"
+                          "details",
                         )}
                       >
                         {shopItems[shopItemIndex].details}
@@ -408,7 +408,7 @@ export default function ShopItemPage(props) {
                       <div
                         data-tina-field={tinaField(
                           shopItems[shopItemIndex],
-                          "description"
+                          "description",
                         )}
                       >
                         <TinaMarkdown
@@ -490,7 +490,7 @@ export async function getStaticProps({ params }) {
 
   const shopItem =
     globalData?.shopPage?.shopItems?.find(
-      (p) => String(p?.id) === String(params.id)
+      (p) => String(p?.id) === String(params.id),
     ) ?? null;
 
   if (!shopItem) return { notFound: true };

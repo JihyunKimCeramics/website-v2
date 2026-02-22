@@ -2,8 +2,7 @@ import { tinaField, useTina } from "tinacms/dist/react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 import { client } from "/tina/__generated__/client";
 import React, { useEffect, useState } from "react";
-import download from "../public/images/download.svg";
-import DynamicSvg from "/components/DynamicSvg";
+import Download from "../public/images/download.svg";
 import Image from "/components/Image";
 import NoPageMessage from "/components/noPageMessage";
 
@@ -33,7 +32,7 @@ export default function AboutPage(props) {
                   className="mt-3 text-xl lg:text-2xl text-center italic font-thin w-auto mx-16 sm:mx-28 lg:mx-40 xl:mx-64 leading-normal lg:leading-relaxed"
                   data-tina-field={tinaField(
                     data.data.aboutPage.header,
-                    "header"
+                    "header",
                   )}
                 >
                   {data.data.aboutPage.header.header}
@@ -59,11 +58,7 @@ export default function AboutPage(props) {
                     <div className="text-xs xl:text-sm font-medium my-auto">
                       {data.data.aboutPage.cv.text}
                     </div>
-                    <DynamicSvg
-                      src={download.src}
-                      color={data.data.theme.textColour}
-                      className="mx-auto my-auto"
-                    />
+                    <Download className="h-3 w-3 my-auto" />
                   </a>
                 </div>
               )}
@@ -108,7 +103,7 @@ export default function AboutPage(props) {
                           <div
                             data-tina-field={tinaField(
                               data.data.aboutPage.content[index],
-                              "text"
+                              "text",
                             )}
                             className="text-center text-sm font-light"
                           >

@@ -1,8 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import DynamicSvg from "./DynamicSvg";
-import { TinaMarkdown } from "tinacms/dist/rich-text";
-import close from "../public/images/close.svg";
-import downArrow from "../public/images/down.svg";
+import React, { useRef } from "react";
+import CloseIcon from "../public/images/close.svg";
 import { tinaField } from "tinacms/dist/react";
 import FaqTree from "./faqTree";
 
@@ -39,7 +36,7 @@ export default function Faqs({
                 setFaqsOpen(false);
               }}
             >
-              <DynamicSvg src={close.src} color={fontColor} />
+              <CloseIcon className="h-3.5 w-3.5 my-auto" />
             </div>
           </div>
           <div className="flex flex-row justify-center mx-12 -mt-2 sm:mx-20">
@@ -54,7 +51,6 @@ export default function Faqs({
                 faqs={faqs}
                 backgroundColour={buttonColor}
                 textColour={fontColor}
-                downArrow={downArrow}
                 px="px-4"
                 pt="pt-4"
                 pbOpen="pb-2.5"

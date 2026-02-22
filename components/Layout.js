@@ -28,7 +28,7 @@ export default function Layout({ data, children }) {
           (e) => {
             console.error("[Layout] /api/inventory network error:", e);
             return null;
-          }
+          },
         );
 
         if (res && res.ok) {
@@ -40,7 +40,7 @@ export default function Layout({ data, children }) {
           }
           if (!cancelled && json) {
             const ids = new Set(
-              (json?.in_stock_ids || []).map((id) => String(id))
+              (json?.in_stock_ids || []).map((id) => String(id)),
             );
             setInStockIds(ids);
           }
@@ -64,7 +64,7 @@ export default function Layout({ data, children }) {
 
   const itemCount = visibleCart.reduce(
     (sum, item) => sum + (item.quantity || 1),
-    0
+    0,
   );
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -132,7 +132,7 @@ export default function Layout({ data, children }) {
   useEffect(() => {
     document.documentElement.style.setProperty(
       "--background-color",
-      backgroundColor
+      backgroundColor,
     );
     return () => {
       document.documentElement.style.removeProperty("--background-color");
@@ -159,6 +159,8 @@ export default function Layout({ data, children }) {
           header={data.data.header}
           showBanner={data.data.header.showBanner}
           bannerText={data.data.header.bannerText}
+          enableBannerLink={data.data.header.bannerLinkEnabled}
+          bannerLink={data.data.header.bannerLink}
           title={data.data.header.title}
           projectsPageTitle={data.data.projectsPage.title}
           exhibitionsPageTitle={data.data.exhibitionsPage.title}
