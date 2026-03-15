@@ -143,17 +143,6 @@ export default async function handler(req, res) {
     const origin = getOrigin(req);
     const stripe = getStripe();
 
-    console.log("origin:", origin);
-    console.log(
-      "success_url:",
-      `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-    );
-    console.log("cancel_url:", `${origin}/basket`);
-    console.log(
-      "image URLs:",
-      line_items.map((li) => li.price_data.product_data.images || []),
-    );
-
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items,
