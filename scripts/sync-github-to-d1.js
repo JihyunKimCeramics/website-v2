@@ -12,20 +12,15 @@ function run(cmd, opts = {}) {
 }
 
 try {
-  console.log("🔄 Starting GitHub → D1 sync...");
-
   const content = fs.readFileSync("./content/index.mdx", "utf8");
   const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
 
   if (!frontmatterMatch) {
-    console.log("⚠️  No frontmatter found, skipping sync");
     process.exit(0);
   }
 
   const data = yaml.load(frontmatterMatch[1]);
   const shopItems = data.shopPage?.shopItems || [];
-
-  console.log(`📦 Found ${shopItems.length} items to sync`);
 
   // ——— Upsert current items ———
   for (const item of shopItems) {
@@ -41,27 +36,20 @@ try {
       const result = run(checkCmd);
       const parsed = JSON.parse(result);
       exists = parsed?.[0]?.results?.length > 0;
-    } catch {
-      console.log(`⚠️  Could not check ${item.id}, assuming new`);
-    }
+    } catch {}
 
     if (exists) {
       const updateCmd = `wrangler d1 execute shop-items --remote --command "UPDATE shop_items SET title='${title}', name='${name}', price=${price}, updated_at=CURRENT_TIMESTAMP WHERE id='${id}'"`;
       execSync(updateCmd, { stdio: "inherit" });
-      console.log(`✅ Updated: ${item.title}`);
     } else {
       const insertCmd = `wrangler d1 execute shop-items --remote --command "INSERT INTO shop_items (id, title, name, price, state) VALUES ('${id}', '${title}', '${name}', ${price}, 'no_stock')"`;
       execSync(insertCmd, { stdio: "inherit" });
-      console.log(`✅ Created: ${item.title}`);
     }
   }
 
-  // ——— Remove items that no longer exist in MDX ———
-  console.log("🧹 Reconciling: removing rows not present in MDX…");
-
   // Get all existing ids from D1
   const existingRaw = run(
-    `wrangler d1 execute shop-items --remote --command "SELECT id FROM shop_items" --json`
+    `wrangler d1 execute shop-items --remote --command "SELECT id FROM shop_items" --json`,
   );
   const existingIds =
     JSON.parse(existingRaw)?.[0]?.results?.map((r) => r.id) ?? [];
@@ -70,7 +58,6 @@ try {
   const toDelete = existingIds.filter((id) => !currentIds.has(String(id)));
 
   if (toDelete.length === 0) {
-    console.log("🫧 Nothing to delete — D1 is in sync.");
   } else {
     // Delete in chunks to avoid overly long SQL
     const chunkSize = 200;
@@ -80,10 +67,7 @@ try {
       const deleteCmd = `wrangler d1 execute shop-items --remote --command "DELETE FROM shop_items WHERE id IN (${idList})"`;
       execSync(deleteCmd, { stdio: "inherit" });
     }
-    console.log(`🗑️  Deleted ${toDelete.length} item(s) no longer in MDX`);
   }
-
-  console.log("✅ D1 sync complete!");
 } catch (error) {
   console.error("❌ Sync failed:", error.message);
   process.exit(1);

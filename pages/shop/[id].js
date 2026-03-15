@@ -32,16 +32,10 @@ export default function ShopItemPage(props) {
           },
         );
 
-        console.log("[ShopItem] Inventory response:", {
-          ok: res?.ok,
-          status: res?.status,
-        });
-
         if (res && res.ok) {
           let json = null;
           try {
             json = await res.json();
-            console.log("[ShopItem] Inventory JSON:", json);
           } catch (e) {
             console.error("[ShopItem] /api/inventory JSON parse error:", e);
           }
@@ -49,7 +43,6 @@ export default function ShopItemPage(props) {
             const ids = new Set(
               (json?.in_stock_ids || []).map((id) => String(id)),
             );
-            console.log("[ShopItem] Setting inStockIds:", Array.from(ids));
             setInStockIds(ids);
           }
         }
@@ -86,12 +79,6 @@ export default function ShopItemPage(props) {
     data?.data?.shopItem &&
       cart.some((c) => String(c.id) === String(data.data.shopItem.id)),
   );
-
-  console.log("[ShopItem] isInCart check:", {
-    shopItemId: data?.data?.shopItem?.id,
-    cart: cart,
-    isInCart: isInCart,
-  });
 
   useEffect(() => {
     if (data?.data?.shopItem && data.data.shopItem !== shopItem) {
