@@ -17,14 +17,12 @@ const nextConfig = {
     return config;
   },
 
-  experimental: {
-    outputFileTracingIncludes: {
-      "/*": [
-        "node_modules/stripe/package.json",
-        "node_modules/stripe/esm/**",
-        "node_modules/stripe/cjs/**",
-      ],
-    },
+  outputFileTracingIncludes: {
+    "/*": [
+      "node_modules/stripe/package.json",
+      "node_modules/stripe/esm/**",
+      "node_modules/stripe/cjs/**",
+    ],
   },
 };
 
