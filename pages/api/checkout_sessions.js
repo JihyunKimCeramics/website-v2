@@ -77,7 +77,7 @@ export default async function handler(req, res) {
     const explicitIds = Array.isArray(body?.cart_ids) ? body.cart_ids : [];
     const derivedIds = cart.map((i) => i?.id).filter(Boolean);
     const cartIds = Array.from(new Set([...explicitIds, ...derivedIds])).map(
-      String
+      String,
     );
 
     const DEFAULT_CURRENCY = "gbp";
@@ -86,7 +86,7 @@ export default async function handler(req, res) {
       const quantity = item?.quantity > 0 ? item.quantity : 1;
       if (item?.price == null) {
         throw new Error(
-          `Item '${item?.title || "Unnamed"}' is missing a price`
+          `Item '${item?.title || "Unnamed"}' is missing a price`,
         );
       }
       const unit_amount = toMinor(item.price);
@@ -107,8 +107,6 @@ export default async function handler(req, res) {
             name: `${item?.title || "Item"}${
               item?.name ? `, ${item.name}` : ""
             }`,
-            ...(imageUrl ? { images: [imageUrl] } : {}),
-            // ✅ Stamp product metadata with your internal ID & slug (fallback for success page)
             metadata: {
               id: item?.id ? String(item.id) : "",
               slug: item?.slug || "",
@@ -121,7 +119,7 @@ export default async function handler(req, res) {
 
     const subtotalMinor = line_items.reduce(
       (sum, li) => sum + (li.price_data.unit_amount || 0) * (li.quantity || 1),
-      0
+      0,
     );
 
     const baseRates = Object.entries(SHIPPING_RATES)
@@ -144,6 +142,17 @@ export default async function handler(req, res) {
 
     const origin = getOrigin(req);
     const stripe = getStripe();
+
+    console.log("origin:", origin);
+    console.log(
+      "success_url:",
+      `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+    );
+    console.log("cancel_url:", `${origin}/basket`);
+    console.log(
+      "image URLs:",
+      line_items.map((li) => li.price_data.product_data.images || []),
+    );
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
