@@ -131,20 +131,20 @@ export default function CartPage(props) {
 
   const SkeletonRow = () => (
     <div className="text-center mt-16 mb-16 lg:mt-24 lg:mb-12 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto">
-      <div className="flex flex-row w-fit sm:min-w-[24rem] md:min-w-[34rem] lg:min-w-[38rem] 2xl:min-w-[44rem] justify-between gap-10 sm:gap-8 mx-auto">
+      <div className="flex flex-row w-fit sm:min-w-[24rem] md:min-w-136 lg:min-w-152 2xl:min-w-176 justify-between gap-10 sm:gap-8 mx-auto">
         {/* left column: one item skeleton */}
         <div className="flex flex-col gap-6 sm:gap-8 animate-pulse">
           <div className="flex items-start gap-4 sm:gap-7 text-left">
             <div className="min-w-20 sm:min-w-36">
               <div
-                className="w-20 sm:w-36 aspect-[4/5] rounded"
+                className="w-20 sm:w-36 aspect-4/5 rounded-sm"
                 style={tint(60)}
               />
             </div>
             <div className="flex-1 pt-1">
-              <div className="h-4 w-48 rounded" style={tint(70)} />
-              <div className="h-3 w-40 rounded mt-2" style={tint(60)} />
-              <div className="h-4 w-16 rounded mt-3" style={tint(70)} />
+              <div className="h-4 w-48 rounded-sm" style={tint(70)} />
+              <div className="h-3 w-40 rounded-sm mt-2" style={tint(60)} />
+              <div className="h-4 w-16 rounded-sm mt-3" style={tint(70)} />
             </div>
           </div>
         </div>
@@ -190,7 +190,7 @@ export default function CartPage(props) {
             </div>
           ) : (
             <div className="text-center mt-16 mb-16 lg:mt-24 lg:mb-12 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto">
-              <div className="flex flex-row w-fit sm:min-w-[24rem] md:min-w-[34rem] lg:min-w-[38rem] 2xl:min-w-[44rem] justify-between gap-10 sm:gap-8 mx-auto">
+              <div className="flex flex-row w-fit sm:min-w-[24rem] md:min-w-136 lg:min-w-152 2xl:min-w-176 justify-between gap-10 sm:gap-8 mx-auto">
                 <div className="flex flex-col gap-6 sm:gap-8">
                   {visibleCart.map((item, index) => (
                     <a

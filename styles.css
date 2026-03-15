@@ -1,9 +1,45 @@
-@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap')
+layer(base);
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap')
+layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-button: #f0e3d1;
+  --color-buttonHover: #e2d0b2;
+  --color-background: #f8f2ea;
+
+  --font-sans: Mulish, sans-serif;
+  --font-serif: Montserrat, serif;
+
+  --spacing-200: 45rem;
+  --spacing-300: 55rem;
+  --spacing-400: 70rem;
+
+  --text-smmd: 0.95rem;
+
+  --height-0_08: 0.08rem;
+  --height-0_1: 0.1rem;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 @media screen and (min-width: 640px) {
   .bodyHeight {

@@ -135,18 +135,18 @@ export default function ShopPage(props) {
 
   const SkeletonCard = () => (
     <div className="relative cursor-default mb-8 animate-pulse">
-      <div className="w-full aspect-[4/5] rounded" style={skeletonTint(70)} />
+      <div className="w-full aspect-4/5 rounded-sm" style={skeletonTint(70)} />
       <div className="pt-3 w-full px-12 sm:px-8 md:px-0">
         <div
-          className="h-4 rounded w-2/3 mx-auto sm:mx-0"
+          className="h-4 rounded-sm w-2/3 mx-auto sm:mx-0"
           style={skeletonTint(80)}
         />
         <div
-          className="h-3 rounded w-1/2 mx-auto sm:mx-0 mt-2"
+          className="h-3 rounded-sm w-1/2 mx-auto sm:mx-0 mt-2"
           style={skeletonTint(70)}
         />
         <div
-          className="h-4 rounded w-16 mx-auto sm:mx-0 mt-3"
+          className="h-4 rounded-sm w-16 mx-auto sm:mx-0 mt-3"
           style={skeletonTint(80)}
         />
       </div>

@@ -303,7 +303,7 @@ export default function Success(props) {
 
               <div className="text-center mt-10 lg:mt-12 md:w-200 lg:w-300 xl:w-400 mx-12 sm:mx-20 md:mx-auto">
                 <div
-                  className="flex flex-col w-fit sm:min-w-[24rem] md:min-w-[34rem] lg:min-w-[38rem] 2xl:min-w-[44rem] justify-between gap-5 mx-auto px-7 py-6 rounded-xl"
+                  className="flex flex-col w-fit sm:min-w-[24rem] md:min-w-136 lg:min-w-152 2xl:min-w-176 justify-between gap-5 mx-auto px-7 py-6 rounded-xl"
                   style={{
                     backgroundColor: `color-mix(in srgb, ${data.data.theme.buttonColour} 70%, transparent)`,
                   }}
