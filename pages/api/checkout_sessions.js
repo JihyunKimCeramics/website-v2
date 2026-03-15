@@ -1,5 +1,6 @@
 // pages/api/checkout_sessions.js
 import Stripe from "stripe";
+import { getPostHogClient } from "../../lib/posthog-server";
 
 // --- Your shipping rates ---
 const SHIPPING_RATES = {
@@ -158,6 +159,20 @@ export default async function handler(req, res) {
         in_stock_ids: JSON.stringify(cartIds),
       },
     });
+
+    const distinctId = req.headers["x-posthog-distinct-id"] || "anonymous";
+    const phClient = getPostHogClient();
+    phClient.capture({
+      distinctId,
+      event: "checkout_session_created",
+      properties: {
+        session_id: session.id,
+        item_count: cart.length,
+        subtotal_minor: subtotalMinor,
+        currency: DEFAULT_CURRENCY,
+      },
+    });
+    await phClient.shutdown();
 
     return res.status(200).json({ id: session.id, url: session.url });
   } catch (err) {

@@ -1,8 +1,14 @@
+import posthog from "posthog-js";
+
 export default async function checkout(cart) {
   try {
+    const distinctId = posthog.get_distinct_id() || "anonymous";
     const res = await fetch("/api/checkout_sessions", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-posthog-distinct-id": distinctId,
+      },
       body: JSON.stringify({ cart }),
     });
 

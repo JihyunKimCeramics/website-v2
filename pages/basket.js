@@ -6,6 +6,7 @@ import NoPageMessage from "/components/noPageMessage";
 import { useCart } from "../pages/_app";
 import Bin from "../public/images/bin.svg";
 import Image from "/components/Image";
+import posthog from "posthog-js";
 
 export default function CartPage(props) {
   const { data } = useTina({
@@ -234,7 +235,15 @@ export default function CartPage(props) {
                         (e.currentTarget.style.backgroundColor =
                           theme?.buttonColour)
                       }
-                      onClick={() => removeFromCart(item, cart)}
+                      onClick={() => {
+                        removeFromCart(item, cart);
+                        posthog.capture("remove_from_cart", {
+                          item_id: item?.id,
+                          item_title: item?.title,
+                          item_name: item?.name,
+                          item_price: item?.price,
+                        });
+                      }}
                     >
                       <Bin className="h-4 w-4 block shrink-0 cursor-pointer my-auto" />
                     </div>
@@ -257,9 +266,17 @@ export default function CartPage(props) {
                 >
                   <div
                     className="h-10 px-6 text-sm xl:text-base font-semibold cursor-pointer flex items-center"
-                    onClick={() =>
-                      checkout(JSON.parse(JSON.stringify(visibleCart)))
-                    }
+                    onClick={() => {
+                      posthog.capture("checkout_started", {
+                        item_count: itemCount,
+                        items: visibleCart.map((i) => ({
+                          item_id: i?.id,
+                          item_title: i?.title,
+                          item_price: i?.price,
+                        })),
+                      });
+                      checkout(JSON.parse(JSON.stringify(visibleCart)));
+                    }}
                   >
                     Checkout
                   </div>

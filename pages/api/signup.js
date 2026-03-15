@@ -1,4 +1,5 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { getPostHogClient } from "../../lib/posthog-server";
 
 export default async function handler(req, res) {
   // Only allow POST requests
@@ -47,6 +48,17 @@ export default async function handler(req, res) {
       }
       throw new Error("Database insert failed");
     }
+
+    const distinctId = req.headers["x-posthog-distinct-id"] || "anonymous";
+    const phClient = getPostHogClient();
+    phClient.capture({
+      distinctId,
+      event: "newsletter_signup",
+      properties: {
+        $set: { email },
+      },
+    });
+    await phClient.shutdown();
 
     return res.status(200).json({
       success: true,

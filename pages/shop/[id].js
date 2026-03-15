@@ -1,12 +1,13 @@
 import { tinaField, useTina } from "tinacms/dist/react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 import { client } from "../../tina/__generated__/client";
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import Image from "../../components/Image";
 import downArrow from "../../public/images/down_small.svg";
 import { useCart } from "../_app";
 import FaqTree from "../../components/faqTree";
 import NoPageMessage from "../../components/noPageMessage";
+import posthog from "posthog-js";
 
 export default function ShopItemPage(props) {
   const { data } = useTina({
@@ -74,6 +75,19 @@ export default function ShopItemPage(props) {
   const { addToCart, cart } = useCart();
 
   const [shopItem, setShopItem] = useState(null);
+  const viewedRef = useRef(false);
+
+  useEffect(() => {
+    if (shopItem && !viewedRef.current) {
+      viewedRef.current = true;
+      posthog.capture("shop_item_viewed", {
+        item_id: shopItem.id,
+        item_title: shopItem.title,
+        item_name: shopItem.name,
+        item_price: shopItem.price,
+      });
+    }
+  }, [shopItem]);
 
   const isInCart = Boolean(
     data?.data?.shopItem &&
@@ -148,16 +162,23 @@ export default function ShopItemPage(props) {
                 <div className="flex flex-row justify-center mt-5">
                   <a
                     href={isInStock ? "/basket" : undefined}
-                    onClick={() =>
-                      shopItem &&
-                      addToCart({
-                        id: shopItem.id, // ensure id goes into cart
-                        title: shopItem.title,
-                        name: shopItem.name,
-                        image: shopItem.images?.[0]?.image,
-                        price: shopItem.price,
-                      })
-                    }
+                    onClick={() => {
+                      if (shopItem && !isInCart && isInStock) {
+                        addToCart({
+                          id: shopItem.id,
+                          title: shopItem.title,
+                          name: shopItem.name,
+                          image: shopItem.images?.[0]?.image,
+                          price: shopItem.price,
+                        });
+                        posthog.capture("add_to_cart", {
+                          item_id: shopItem.id,
+                          item_title: shopItem.title,
+                          item_name: shopItem.name,
+                          item_price: shopItem.price,
+                        });
+                      }
+                    }}
                     className="flex flex-col justify-center rounded-full transition-all duration-300"
                     style={{
                       backgroundColor: data.data.theme.buttonColour,
@@ -332,16 +353,23 @@ export default function ShopItemPage(props) {
               <div className="flex flex-row justify-start mt-5">
                 <a
                   href={isInStock ? "/basket" : undefined}
-                  onClick={() =>
-                    shopItem &&
-                    addToCart({
-                      id: shopItem.id, // ensure id goes into cart
-                      title: shopItem.title,
-                      name: shopItem.name,
-                      image: shopItem.images?.[0]?.image,
-                      price: shopItem.price,
-                    })
-                  }
+                  onClick={() => {
+                    if (shopItem && !isInCart && isInStock) {
+                      addToCart({
+                        id: shopItem.id,
+                        title: shopItem.title,
+                        name: shopItem.name,
+                        image: shopItem.images?.[0]?.image,
+                        price: shopItem.price,
+                      });
+                      posthog.capture("add_to_cart", {
+                        item_id: shopItem.id,
+                        item_title: shopItem.title,
+                        item_name: shopItem.name,
+                        item_price: shopItem.price,
+                      });
+                    }
+                  }}
                   className="h-10 px-6 flex flex-col justify-center rounded-full transition-all duration-300"
                   style={{
                     backgroundColor: data.data.theme.buttonColour,

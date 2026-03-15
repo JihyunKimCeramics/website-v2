@@ -6,6 +6,7 @@ import { tinaField, useTina } from "tinacms/dist/react";
 import Open from "../public/images/open.svg";
 import NoPageMessage from "/components/noPageMessage";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import posthog from "posthog-js";
 
 // ---------- helpers ----------
 const fmtMoney = (amount, currency = "GBP", locale = "en-GB") =>
@@ -240,6 +241,13 @@ export default function Success(props) {
     if (isPaid && isComplete) {
       clearCart();
       clearedRef.current = true;
+      posthog.capture("checkout_completed", {
+        order_id: receiptNo,
+        amount_total: session?.amount_total,
+        currency: currency,
+        item_count: session?.line_items?.data?.length,
+        discount_code: discountCode,
+      });
     }
   }, [isPaid, isComplete, clearCart]);
 

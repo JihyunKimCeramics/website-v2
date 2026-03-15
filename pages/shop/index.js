@@ -5,6 +5,7 @@ import Image from "../../components/Image";
 import Link from "next/link";
 import NoPageMessage from "../../components/noPageMessage";
 import { useEffect, useMemo, useState } from "react";
+import posthog from "posthog-js";
 
 export default function ShopPage(props) {
   const { data: tina } = useTina({
@@ -207,6 +208,14 @@ export default function ShopPage(props) {
                       key={item?.id ?? index}
                       href={`/shop/${item?.id}`}
                       className="hover:opacity-85 transition-opacity duration-200 ease-in-out"
+                      onClick={() =>
+                        posthog.capture("shop_item_clicked", {
+                          item_id: item?.id,
+                          item_title: item?.title,
+                          item_name: item?.name,
+                          item_price: item?.price,
+                        })
+                      }
                     >
                       <div className="relative cursor-pointer mb-8">
                         <Image
