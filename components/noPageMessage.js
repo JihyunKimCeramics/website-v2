@@ -1,6 +1,6 @@
 const NoPageMessage = ({ buttonColour, buttonHoverColour }) => {
   return (
-    <div className="mt-16 lg:mt-24 py-5 flex flex-col items-center justify-center md:w-200 lg:w-300 xl:w-400 md:mx-auto mx-16 sm:mx-28 lg:mx-40 xl:mx-64 text-center">
+    <div className="mt-16 lg:mt-24 py-5 flex flex-col items-center justify-center md:w-200 lg:w-300 xl:w-400 md:mx-auto mx-16 sm:mx-28 text-center">
       <h1 className="text-3xl font-semibold">404 - Page Not Found</h1>
       <p className="mt-2 text-base font-light">
         Sorry, the page you are looking for does not exist.
