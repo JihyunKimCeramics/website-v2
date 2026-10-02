@@ -4,14 +4,14 @@ import { getPostHogClient } from "../../lib/posthog-server";
 
 // --- Your shipping rates ---
 const SHIPPING_RATES = {
-  pickup: "shr_1SMT7gB6Xc806YyHfVmncn64",
-  uk: "shr_1SMT8EB6Xc806YyHX1WkwMpr",
-  international: "shr_1SMT8aB6Xc806YyHxhrLogB2",
-  free: "shr_1SMTC6B6Xc806YyHZQGg9fGy",
+  pickup: "shr_1UMF2Z3gfW0JjpQj6I0iEsFd",
+  uk: "shr_1UMF3h3gfW0JjpQj3xFEjYId",
+  international: "shr_1UMF4Y3gfW0JjpQjrAyuDfiT",
+  free: "shr_1UMF5l3gfW0JjpQjeha9buNs",
 };
 
-// £300.00 → 30000 (minor units)
-const FREE_THRESHOLD_MINOR = 30000;
+// £500.00 → 50000 (minor units)
+const FREE_THRESHOLD_MINOR = 50000;
 
 // Reuse a single Stripe instance per Worker
 let _stripe = null;
