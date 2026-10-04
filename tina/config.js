@@ -953,6 +953,19 @@ export default defineConfig({
                   },
                   {
                     type: "string",
+                    name: "buttonLink",
+                    label: "External Button Link",
+                    description: "Optional: Link for the CTA button.",
+                  },
+                  {
+                    type: "string",
+                    name: "buttonText",
+                    label: "Button Text",
+                    description:
+                      "Optional: Text for the CTA button when using a link. Default is 'Add to Basket'.",
+                  },
+                  {
+                    type: "string",
                     name: "details",
                     label: "Details",
                     description: "Item details.",

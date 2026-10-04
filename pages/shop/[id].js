@@ -4,6 +4,7 @@ import { client } from "../../tina/__generated__/client";
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import Image from "../../components/Image";
 import downArrow from "../../public/images/down_small.svg";
+import ExportIcon from "../../public/images/export.svg";
 import { useCart } from "../_app";
 import FaqTree from "../../components/faqTree";
 import NoPageMessage from "../../components/noPageMessage";
@@ -74,6 +75,12 @@ export default function ShopItemPage(props) {
 
   const { addToCart, cart } = useCart();
 
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
   const [shopItem, setShopItem] = useState(null);
   const viewedRef = useRef(false);
 
@@ -89,10 +96,12 @@ export default function ShopItemPage(props) {
     }
   }, [shopItem]);
 
-  const isInCart = Boolean(
-    data?.data?.shopItem &&
-      cart.some((c) => String(c.id) === String(data.data.shopItem.id)),
-  );
+  const isInCart =
+    hasMounted &&
+    Boolean(
+      data?.data?.shopItem &&
+        cart.some((c) => String(c.id) === String(data.data.shopItem.id)),
+    );
 
   useEffect(() => {
     if (data?.data?.shopItem && data.data.shopItem !== shopItem) {
@@ -106,6 +115,11 @@ export default function ShopItemPage(props) {
     : -1;
 
   const gap = data?.data?.shopPage?.imageSpacing || 0;
+
+  const link = shopItems[shopItemIndex]?.buttonLink || false;
+  const buttonText = shopItems[shopItemIndex]?.buttonText || "Add to basket";
+
+  console.log("ShopItemPage link:", link);
 
   const [faqIndex, setFaqIndex] = useState(-1);
   const [faqOpen, setFaqOpen] = useState(false);
@@ -161,7 +175,9 @@ export default function ShopItemPage(props) {
                 )}
                 <div className="flex flex-row justify-center mt-5">
                   <a
-                    href={isInStock ? "/basket" : undefined}
+                    href={!isInStock ? undefined : link ? link : "/cart"}
+                    target={link ? "_blank" : undefined}
+                    rel={link ? "noopener noreferrer" : undefined}
                     onClick={() => {
                       if (shopItem && !isInCart && isInStock) {
                         addToCart({
@@ -182,8 +198,11 @@ export default function ShopItemPage(props) {
                     className="flex flex-col justify-center rounded-full transition-all duration-300"
                     style={{
                       backgroundColor: data.data.theme.buttonColour,
-                      opacity: isInCart || !isInStock ? 0.5 : 1,
-                      cursor: isInCart || !isInStock ? "default" : "pointer",
+                      opacity: !link && (isInCart || !isInStock) ? 0.5 : 1,
+                      cursor:
+                        !link && (isInCart || !isInStock)
+                          ? "default"
+                          : "pointer",
                     }}
                     onMouseEnter={(e) => {
                       if (!isInCart && isInStock) {
@@ -199,11 +218,16 @@ export default function ShopItemPage(props) {
                     }}
                   >
                     <div className="text-sm xl:text-base font-semibold h-10 px-6 flex items-center">
-                      {isInStock
-                        ? isInCart
-                          ? "In Cart"
-                          : "Add to cart"
-                        : "Unavailable"}
+                      {!isInStock
+                        ? "Unavailable"
+                        : link
+                        ? buttonText
+                        : isInCart
+                        ? "In basket"
+                        : "Add to basket"}
+                      {link && (
+                        <ExportIcon className="inline-block w-3 h-3 ml-1.75 mb-0.5" />
+                      )}
                     </div>
                   </a>
                 </div>
@@ -352,7 +376,9 @@ export default function ShopItemPage(props) {
 
               <div className="flex flex-row justify-start mt-5">
                 <a
-                  href={isInStock ? "/basket" : undefined}
+                  href={!isInStock ? undefined : link ? link : "/cart"}
+                  target={link ? "_blank" : undefined}
+                  rel={link ? "noopener noreferrer" : undefined}
                   onClick={() => {
                     if (shopItem && !isInCart && isInStock) {
                       addToCart({
@@ -373,8 +399,9 @@ export default function ShopItemPage(props) {
                   className="h-10 px-6 flex flex-col justify-center rounded-full transition-all duration-300"
                   style={{
                     backgroundColor: data.data.theme.buttonColour,
-                    opacity: isInCart || !isInStock ? 0.5 : 1,
-                    cursor: isInCart || !isInStock ? "default" : "pointer",
+                    opacity: !link && (isInCart || !isInStock) ? 0.5 : 1,
+                    cursor:
+                      !link && (isInCart || !isInStock) ? "default" : "pointer",
                   }}
                   onMouseEnter={(e) => {
                     if (!isInCart && isInStock) {
@@ -390,11 +417,16 @@ export default function ShopItemPage(props) {
                   }}
                 >
                   <div className="text-sm xl:text-base font-semibold">
-                    {isInStock
-                      ? isInCart
-                        ? "In Cart"
-                        : "Add to cart"
-                      : "Unavailable"}
+                    {!isInStock
+                      ? "Unavailable"
+                      : link
+                      ? buttonText
+                      : isInCart
+                      ? "In basket"
+                      : "Add to basket"}
+                    {link && (
+                      <ExportIcon className="inline-block w-3 h-3 ml-1.75 mb-0.5" />
+                    )}
                   </div>
                 </a>
               </div>
