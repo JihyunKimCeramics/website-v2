@@ -108,6 +108,9 @@ export default async function handler(req, res) {
             name: `${item?.title || "Item"}${
               item?.name ? `, ${item.name}` : ""
             }`,
+
+            ...(imageUrl ? { images: [imageUrl] } : {}),
+
             metadata: {
               id: item?.id ? String(item.id) : "",
               slug: item?.slug || "",

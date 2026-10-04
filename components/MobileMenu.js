@@ -63,7 +63,7 @@ export default function MobileMenu({
               </div>
               {mounted && cartCount > 0 && (
                 <div
-                  className="absolute -top-2 right-4.5 w-5 h-5 rounded-full flex flex-row justify-center items-center"
+                  className="absolute -top-2 right-13.5 w-5 h-5 rounded-full flex flex-row justify-center items-center"
                   style={{ backgroundColor: fontColor, color: buttonColor }}
                 >
                   <div className="text-xs font-semibold">{cartCount}</div>
