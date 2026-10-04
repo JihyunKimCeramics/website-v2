@@ -85,11 +85,13 @@ export default async function handler(req, res) {
 
     const line_items = cart.map((item) => {
       const quantity = item?.quantity > 0 ? item.quantity : 1;
+
       if (item?.price == null) {
         throw new Error(
           `Item '${item?.title || "Unnamed"}' is missing a price`,
         );
       }
+
       const unit_amount = toMinor(item.price);
 
       const rawImg =
@@ -97,8 +99,22 @@ export default async function handler(req, res) {
         item?.image?.src ||
         item?.image?.url ||
         item?.image?.path;
+
       const imageUrl = toAbsoluteUrl(req, rawImg);
+
       const currency = (item?.currency || DEFAULT_CURRENCY).toLowerCase();
+
+      console.log("Checkout item:", {
+        id: item?.id,
+        title: item?.title,
+        rawPrice: item?.price,
+        unit_amount,
+        quantity,
+        currency,
+        rawImg,
+        imageUrl,
+        slug: item?.slug,
+      });
 
       return {
         price_data: {
@@ -147,6 +163,28 @@ export default async function handler(req, res) {
     const origin = getOrigin(req);
     const stripe = getStripe();
 
+    console.log("=== CHECKOUT DEBUG ===");
+
+    console.log("Raw cart:", JSON.stringify(cart, null, 2));
+
+    console.log("Line items:", JSON.stringify(line_items, null, 2));
+
+    console.log("Subtotal minor:", subtotalMinor);
+    console.log("Subtotal GBP:", subtotalMinor / 100);
+
+    console.log("Shipping options:", JSON.stringify(shipping_options, null, 2));
+
+    console.log("Origin:", origin);
+    console.log(
+      "Success URL:",
+      `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+    );
+    console.log("Cancel URL:", `${origin}/basket`);
+
+    console.log("Cart IDs:", cartIds);
+
+    console.log("=== END CHECKOUT DEBUG ===");
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items,
@@ -179,9 +217,30 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ id: session.id, url: session.url });
   } catch (err) {
-    console.error("checkout_sessions error:", err);
-    return res
-      .status(500)
-      .json({ error: { message: err?.message || "Unexpected error" } });
+    console.error("=== STRIPE CHECKOUT ERROR ===");
+
+    console.error("Message:", err?.message);
+    console.error("Type:", err?.type);
+    console.error("Code:", err?.code);
+    console.error("Param:", err?.param);
+    console.error("Status code:", err?.statusCode);
+    console.error("Request ID:", err?.requestId);
+
+    console.error(
+      "Raw Stripe error:",
+      JSON.stringify(err?.raw || err, null, 2),
+    );
+
+    console.error("=== END STRIPE CHECKOUT ERROR ===");
+
+    return res.status(500).json({
+      error: {
+        message: err?.message || "Unexpected error",
+        type: err?.type,
+        code: err?.code,
+        param: err?.param,
+        request_id: err?.requestId,
+      },
+    });
   }
 }
