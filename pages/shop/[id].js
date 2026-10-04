@@ -198,11 +198,8 @@ export default function ShopItemPage(props) {
                     className="flex flex-col justify-center rounded-full transition-all duration-300"
                     style={{
                       backgroundColor: data.data.theme.buttonColour,
-                      opacity: !link && (isInCart || !isInStock) ? 0.5 : 1,
-                      cursor:
-                        !link && (isInCart || !isInStock)
-                          ? "default"
-                          : "pointer",
+                      opacity: isInCart || !isInStock ? 0.5 : 1,
+                      cursor: isInCart || !isInStock ? "default" : "pointer",
                     }}
                     onMouseEnter={(e) => {
                       if (!isInCart && isInStock) {
@@ -225,7 +222,7 @@ export default function ShopItemPage(props) {
                         : isInCart
                         ? "In basket"
                         : "Add to basket"}
-                      {link && (
+                      {link && isInStock && (
                         <ExportIcon className="inline-block w-3 h-3 ml-1.75 mb-0.5" />
                       )}
                     </div>
@@ -399,9 +396,8 @@ export default function ShopItemPage(props) {
                   className="h-10 px-6 flex flex-col justify-center rounded-full transition-all duration-300"
                   style={{
                     backgroundColor: data.data.theme.buttonColour,
-                    opacity: !link && (isInCart || !isInStock) ? 0.5 : 1,
-                    cursor:
-                      !link && (isInCart || !isInStock) ? "default" : "pointer",
+                    opacity: isInCart || !isInStock ? 0.5 : 1,
+                    cursor: isInCart || !isInStock ? "default" : "pointer",
                   }}
                   onMouseEnter={(e) => {
                     if (!isInCart && isInStock) {
@@ -424,7 +420,7 @@ export default function ShopItemPage(props) {
                       : isInCart
                       ? "In basket"
                       : "Add to basket"}
-                    {link && (
+                    {link && isInStock && (
                       <ExportIcon className="inline-block w-3 h-3 ml-1.75 mb-0.5" />
                     )}
                   </div>
