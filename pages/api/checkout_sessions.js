@@ -52,10 +52,26 @@ function getOrigin(req) {
 }
 
 function toAbsoluteUrl(req, u) {
-  if (!u) return undefined;
-  if (/^https?:\/\//i.test(u)) return u;
-  if (u.startsWith("/")) return `${getOrigin(req)}${u}`;
-  return undefined;
+  if (!u || typeof u !== "string") return undefined;
+
+  const value = u.trim();
+
+  try {
+    const url = new URL(value, getOrigin(req));
+
+    if (url.protocol !== "http:" && url.protocol !== "https:") {
+      return undefined;
+    }
+
+    return url.toString();
+  } catch (err) {
+    console.warn("Invalid product image URL:", {
+      raw: u,
+      error: err?.message,
+    });
+
+    return undefined;
+  }
 }
 
 export default async function handler(req, res) {
